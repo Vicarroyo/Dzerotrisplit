@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de Carrera</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .results-container {
+            background: #e0e5ec;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 9px 9px 16px #bebebe, -9px -9px 16px #ffffff;
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        .results-container h2 {
+            color: #444444;
+            margin-bottom: 15px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .results-container p {
+            font-size: 16px;
+            margin: 10px 0;
+            color: #666666;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+            background: #f0f5fc;
+            box-shadow: 4px 4px 8px #bebebe, -4px -4px 8px #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        table th, table td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #dcdcdc;
+        }
+
+        table th {
+            background-color: #4caf50;
+            color: white;
+            font-weight: 600;
+        }
+
+        table tr:hover {
+            background-color: #f9fafc;
+            transition: background-color 0.3s ease;
+        }
+
+        table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #4caf50;
+            color: white;
+            font-weight: bold;
+            border-radius: 10px;
+            text-decoration: none;
+            box-shadow: 4px 4px 8px #bebebe, -4px -4px 8px #ffffff;
+            transition: all 0.3s ease-in-out;
+        }
+
+        a:hover {
+            background: #76ff7a;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Resultados de Carrera</h1>
+        <div class="results-container">
+            <h2>Información General</h2>
+            <p><strong>Ritmo Promedio:</strong> {{ pace }}</p>
+            <p><strong>Umbral Anaeróbico:</strong> {{ anaerobic_threshold }}</p>
+            <p><strong>Nivel de UA:</strong> {{ ua_category }}</p>
+
+            <h2>Tiempos Estimados</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Distancia (km)</th>
+                        <th>Tiempo Estimado</th>
+                        <th>Ritmo por km</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for distance, data in estimated_times.items() %}
+                    <tr>
+                        <td>{{ distance }}</td>
+                        <td>{{ data.time }}</td>
+                        <td>{{ data.pace }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <h2>Zonas de Ritmo</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Zona</th>
+                        <th>Rango (min/km)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for zone, range in zones.items() %}
+                    <tr>
+                        <td>{{ zone }}</td>
+                        <td>{{ range[0] }} - {{ range[1] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <a href="/running">Calcular otra vez</a>
+        </div>
+    </div>
+</body>
+</html>

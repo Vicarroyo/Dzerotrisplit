@@ -1,0 +1,108 @@
+/* Configuración base */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #e0e5ec;
+    color: #333333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+}
+
+/* Títulos */
+h1, h2 {
+    color: #444444;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* Texto */
+p {
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #666666;
+    line-height: 1.5;
+}
+
+/* Contenedor principal */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* Opciones y botones */
+.options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.option-card {
+    text-decoration: none;
+    background: #e0e5ec;
+    padding: 20px 30px;
+    border-radius: 20px;
+    color: #333333;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 9px 9px 16px #bebebe, -9px -9px 16px #ffffff;
+    transition: all 0.3s ease-in-out;
+}
+
+.option-card:hover {
+    transform: translateY(-5px);
+    box-shadow: inset 5px 5px 10px #bebebe, inset -5px -5px 10px #ffffff;
+}
+
+/* Tablas neumórficas */
+table {
+    width: 100%;
+    max-width: 1000px;
+    margin: 20px auto;
+    border-collapse: collapse;
+    border-radius: 15px;
+    background: #e0e5ec;
+    box-shadow: 5px 5px 15px #bebebe, -5px -5px 15px #ffffff;
+    overflow: hidden;
+}
+
+table th, table td {
+    padding: 15px 20px;
+    text-align: center;
+    border-bottom: 1px solid #dcdcdc;
+    color: #444444;
+}
+
+table th {
+    background-color: #f0f5fc;
+    color: #333333;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+table tr:hover {
+    background-color: #f9fafc;
+    transition: background-color 0.3s ease;
+}
+
+/* Enlaces */
+a {
+    color: #444444;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #8888ff;
+}

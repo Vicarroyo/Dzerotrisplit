@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datos para Ciclismo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Configuración básica */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f0f5fc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        h1 {
+            font-weight: 600;
+            text-align: center;
+            color: #444444;
+            margin-bottom: 20px;
+        }
+
+        .form-container {
+            background: #e0e5ec;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 9px 9px 16px #bebebe, -9px -9px 16px #ffffff;
+            width: 100%;
+        }
+
+        .form-container label {
+            font-weight: 600;
+            color: #444444;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .form-container input[type="number"],
+        .form-container select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 10px;
+            background: #f0f5fc;
+            box-shadow: inset 4px 4px 8px #bebebe, inset -4px -4px 8px #ffffff;
+            font-size: 16px;
+            color: #444444;
+            text-align: center; /* Centra el texto dentro de los campos */
+            outline: none;
+            appearance: none; /* Elimina el diseño por defecto */
+        }
+
+        .form-container input[type="submit"] {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 15px;
+            background: #4caf50;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .form-container input[type="submit"]:hover {
+            background: #76ff7a;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #4caf50;
+            color: white;
+            font-weight: bold;
+            border-radius: 10px;
+            text-decoration: none;
+            box-shadow: 4px 4px 8px #bebebe, -4px -4px 8px #ffffff;
+            transition: all 0.3s ease-in-out;
+        }
+
+        a:hover {
+            background: #76ff7a;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Datos para Ciclismo</h1>
+        <div class="form-container">
+            <form method="POST">
+                <label for="gender">Género:</label>
+                <select id="gender" name="gender" required>
+                    <option value="male">Masculino</option>
+                    <option value="female">Femenino</option>
+                </select>
+
+                <label for="weight">Peso (kg):</label>
+                <input type="number" id="weight" name="weight" step="0.1" required>
+
+                <label for="power">Vatios medios:</label>
+                <input type="number" id="power" name="power" step="1" required>
+
+                <label for="test_time">Duración del test (min):</label>
+                <select id="test_time" name="test_time" required>
+                    <option value="10">10 minutos</option>
+                    <option value="20">20 minutos</option>
+                    <option value="30">30 minutos</option>
+                </select>
+
+                <input type="submit" value="Calcular">
+            </form>
+            <a href="/">Volver al inicio</a>
+        </div>
+    </div>
+</body>
+</html>
