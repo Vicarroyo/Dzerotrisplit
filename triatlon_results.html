@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados del Triatlón</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f0f5fc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            text-align: center;
+        }
+        h1, h2 {
+            color: #4caf50;
+            font-weight: 600;
+        }
+        p {
+            font-size: 1rem;
+            color: #444444;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #4caf50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Resultados de Triatlón</h1>
+        
+        <!-- Natación -->
+        <h2>Natación</h2>
+        <p><strong>CSS (Velocidad crítica de nado):</strong> {{ css }}</p>
+        <p><strong>Categoría:</strong> {{ css_category }}</p>
+        <p><strong>Tiempo estimado:</strong> {{ event_time.time }} <span class="highlight">(Evento: {{ event|capitalize }})</span></p>
+        <p><strong>Ritmo estimado:</strong> {{ event_time.pace_per_100m }} por 100m <span class="highlight">(Evento: {{ event|capitalize }})</span></p>
+
+        <!-- Ciclismo -->
+        <h2>Ciclismo</h2>
+        <p><strong>FTP:</strong> {{ ftp }} W</p>
+        <p><strong>FTP/kg:</strong> {{ ftp_kg }} W/kg</p>
+        <p><strong>Categoría:</strong> {{ ftp_category }}</p>
+        <p><strong>Vatios estimados:</strong> {{ event_watts }} W <span class="highlight">(Evento: {{ event|capitalize }})</span></p>
+
+        <!-- Carrera -->
+        <h2>Carrera</h2>
+        <p><strong>Ritmo promedio:</strong> {{ running_data.pace }}</p>
+        <p><strong>Umbral anaeróbico:</strong> {{ running_data.anaerobic_threshold }}</p>
+        <p><strong>Categoría:</strong> {{ running_data.ua_category }}</p>
+        <p><strong>Tiempos Estimados:</strong> {{ event_running_times.event_time }} <span class="highlight">(Evento: {{ event|capitalize }})</span></p>
+        <p><strong>Ritmo Estimado:</strong> {{ event_running_times.event_pace }} <span class="highlight">(Evento: {{ event|capitalize }})</span></p>
+    </div>
+</body>
+</html>
