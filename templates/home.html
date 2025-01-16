@@ -7,6 +7,35 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css">
     <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f0f5fc;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #333333;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: gray;
+            margin-top: -10px;
+            margin-bottom: 20px;
+        }
+
         .options-center {
             display: flex;
             flex-direction: column;
@@ -15,50 +44,80 @@
             gap: 15px;
         }
 
-        .options-bottom {
-            display: flex;
-            justify-content: center;
-            margin-top: 50px;
-            gap: 10px;
-        }
-
         .option-card {
             text-decoration: none;
-            background: linear-gradient(135deg, #4caf50, #3a3a3a);
+            background: linear-gradient(135deg, #ffffff, #f5f5f5);
             padding: 15px 25px;
             border-radius: 10px;
-            color: white;
+            color: #333333;
             font-size: 18px;
             font-weight: bold;
             text-align: center;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease-in-out;
-            width: 200px; /* Ajusta el ancho uniforme */
-            height: 50px; /* Ajusta el alto uniforme */
+            width: 200px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .option-card:hover {
-            background: linear-gradient(135deg, #76ff7a, #4caf50);
+            background: linear-gradient(135deg, #e0e0e0, #ffffff);
             transform: translateY(-5px);
             box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.5);
         }
 
-        .option-card-small {
-            padding: 10px 20px;
+        .option-card.gold {
+            background: linear-gradient(135deg, #FFD700, #FFC107);
+            color: white;
+        }
+
+        .option-card.gold:hover {
+            background: linear-gradient(135deg, #FFC107, #FFD700);
+        }
+
+        .options-bottom {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 50px;
+        }
+
+        .ghost-button {
+            text-decoration: none;
+            color: #333333;
             font-size: 16px;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: 2px solid #333333;
+            border-radius: 25px;
+            background: none;
+            transition: all 0.3s ease-in-out;
+            display: inline-block;
         }
 
-        h1 {
-            font-size: 2rem;
+        .ghost-button:hover {
+            background: #333333;
+            color: white;
         }
 
-        .subtitle {
-            font-size: 1rem;
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.8rem;
             color: gray;
-            margin-top: -10px;
+        }
+
+        footer a {
+            text-decoration: none;
+            color: #333333;
+            font-weight: bold;
+            transition: color 0.3s ease-in-out;
+        }
+
+        footer a:hover {
+            color: #4caf50;
         }
     </style>
 </head>
@@ -73,14 +132,20 @@
             <a href="/swimming" class="option-card">Natación</a>
             <a href="/cycling" class="option-card">Ciclismo</a>
             <a href="/running" class="option-card">Carrera</a>
-            <a href="/triatlon_input" class="option-card">Triatlón</a>
+            <a href="/triatlon_input" class="option-card gold">Triatlón</a>
         </div>
 
-        <!-- Botones inferiores más pequeños y juntos -->
+        <!-- Botones inferiores -->
         <div class="options-bottom">
-            <a href="/about" class="option-card option-card-small">Acerca de</a>
-            <a href="/plans" class="option-card option-card-small">Planes</a>
+            <a href="https://dzerotri.com/victor-arroyo-dzero" class="ghost-button">Sobre Nosotros</a>
+            <a href="/plans" class="ghost-button">Planes de Entrenamiento</a>
+            <a href="/instructions" class="ghost-button">Instrucciones DzeroTriSplit</a>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 DzeroTriSplit. Todos los derechos reservados. <a href="/privacy">Política de Privacidad</a></p>
+    </footer>
 </body>
 </html>
