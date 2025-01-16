@@ -166,7 +166,7 @@ def triatlon_results():
     # Procesar datos de ciclismo
     ftp, ftp_kg = calculate_ftp(gender, weight, power, test_time)
     ftp_category = classify_ftp(ftp_kg, gender)
-    event_watts = calculate_event_watts(ftp, event)
+    watts_range = calculate_event_watts(ftp, event)
 
     # Procesar datos de carrera
     run_time = f"{run_hours:02}:{run_minutes:02}:{run_seconds:02}"
@@ -197,11 +197,12 @@ def triatlon_results():
         ftp=round(ftp, 2),
         ftp_kg=round(ftp_kg, 2),
         ftp_category=ftp_category,
-        event_watts=event_watts,
+        watts_range=watts_range,
         running_data=running_data,
         event_running_times=event_running_times,
         event=event
     )
+
 
 
 
