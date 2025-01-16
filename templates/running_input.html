@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CALCULADORA PARA CARRERA</title>
+    <title>Calculadora Carrera</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         body {
@@ -14,7 +14,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
         }
 
         .container {
@@ -27,9 +27,19 @@
         }
 
         h1 {
-            font-weight: 600;
+            font-size: 3rem; /* Título principal más grande */
+            font-weight: 700;
             text-align: center;
             color: #444444;
+            margin-bottom: 0; /* Sin espacio entre título y subtítulo */
+        }
+
+        h2 {
+            font-size: 2rem; /* Subtítulo más grande */
+            font-weight: 600;
+            text-align: center;
+            color: #4caf50; /* Verde */
+            margin-top: 5px; /* Espacio reducido con el título */
             margin-bottom: 20px;
         }
 
@@ -91,7 +101,7 @@
         }
 
         input[type="submit"] {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Poppins', sans-serif; /* Fuente Poppins aplicada */
             width: 100%;
             padding: 15px;
             border: none;
@@ -127,7 +137,8 @@
 </head>
 <body>
     <div class="container">
-        <h1>CALCULADORA PARA CARRERA</h1>
+        <h1>Calculadora</h1>
+        <h2>Carrera</h2>
         <div class="form-container">
             <form method="POST">
                 <label for="distance">Distancia (km):</label>
@@ -180,3 +191,4 @@
     </div>
 </body>
 </html>
+
