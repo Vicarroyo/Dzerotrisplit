@@ -150,7 +150,7 @@
         <!-- Natación -->
         <div class="results-container">
             <h2>Natación</h2>
-            <p><strong>CSS (Velocidad crítica de nado):</strong> {{ css }}</p>
+            <p><strong>Velocidad crítica de nado (Test):</strong> {{ css }}</p>
             <p><strong>Categoría:</strong> {{ css_category }}</p>
             <p><strong>Tiempo estimado:</strong> {{ event_time.time }} <span class="highlight">(Evento: {{ event|capitalize }})</span></p>
             <p><strong>Ritmo estimado:</strong> {{ event_time.pace_per_100m }} por 100m <span class="highlight">(Evento: {{ event|capitalize }})</span></p>
@@ -159,8 +159,8 @@
         <!-- Ciclismo -->
         <div class="results-container">
             <h2>Ciclismo</h2>
-            <p><strong>FTP:</strong> {{ ftp|int }} W</p>
-            <p><strong>FTP/kg:</strong> {{ ftp_kg|round(1) }} W/kg</p>
+            <p><strong>FTP (Test):</strong> {{ ftp|int }} W</p>
+            <p><strong>FTP/kg (Test):</strong> {{ ftp_kg|round(1) }} W/kg</p>
             <p><strong>Categoría:</strong> {{ ftp_category }}</p>
             <p><strong>Vatios estimados:</strong> {{ watts_range[0]|int }} W - {{ watts_range[1]|int }} W <span class="highlight">(Evento: {{ event|capitalize }})</span></p>
         </div>
@@ -168,8 +168,8 @@
         <!-- Carrera -->
         <div class="results-container">
             <h2>Carrera</h2>
-            <p><strong>Ritmo promedio:</strong> {{ running_data.pace }}</p>
-            <p><strong>Umbral anaeróbico:</strong> {{ running_data.anaerobic_threshold }}</p>
+            <p><strong>Ritmo promedio (Test):</strong> {{ running_data.pace }}</p>
+            <p><strong>Umbral anaeróbico (Test):</strong> {{ running_data.anaerobic_threshold }}</p>
             <p><strong>Categoría:</strong> {{ running_data.ua_category }}</p>
             <p><strong>Tiempos Estimados:</strong> {{ event_running_times.event_time }} <span class="highlight">(Evento: {{ event|capitalize }})</span></p>
             <p><strong>Ritmo Estimado:</strong> {{ event_running_times.event_pace }} <span class="highlight">(Evento: {{ event|capitalize }})</span></p>
