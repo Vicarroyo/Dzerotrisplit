@@ -211,6 +211,10 @@ def triatlon_input():
         return triatlon_results()
     return render_template('triatlon_input.html')
 
+@app.route('/instructions')
+def instructions():
+    return render_template('instructions.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
