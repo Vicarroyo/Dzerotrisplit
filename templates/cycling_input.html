@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -18,33 +18,40 @@
         }
 
         .container {
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             width: 100%;
-            text-align: center;
+            max-width: 500px;
         }
 
         h1 {
             font-size: 3rem; /* Título principal más grande */
             font-weight: 700;
-            color: #444444;
             text-align: center;
-            margin-bottom: 5px;
-            text-transform: uppercase;
+            color: #444444;
+            margin-bottom: 0; /* Sin espacio entre título y subtítulo */
         }
 
         h2 {
-            font-size: 2rem; /* Tamaño del subtítulo */
+            font-size: 2rem; /* Subtítulo más grande */
             font-weight: 600;
+            text-align: center;
             color: #4caf50; /* Verde */
-            margin-top: -10px;
+            margin-top: 5px; /* Espacio reducido con el título */
             margin-bottom: 20px;
         }
 
-        label {
+        .form-container {
+            background: #e0e5ec;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 9px 9px 16px #bebebe, -9px -9px 16px #ffffff;
+            width: 100%;
+        }
+
+        .form-container label {
             font-weight: 600;
             color: #444444;
             display: block;
@@ -52,7 +59,22 @@
             text-align: center;
         }
 
-        input[type="number"], select {
+        .form-container select {
+            font-family: 'Poppins', sans-serif;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 10px;
+            background: #f0f5fc;
+            box-shadow: inset 4px 4px 8px #bebebe, inset -4px -4px 8px #ffffff;
+            font-size: 16px;
+            color: #444444;
+            text-align: center;
+            outline: none;
+        }
+
+        input[type="number"] {
             font-family: 'Poppins', sans-serif;
             width: 100%;
             padding: 10px;
@@ -87,24 +109,18 @@
         }
 
         a {
+            font-family: 'Poppins', sans-serif;
             display: block;
             text-align: center;
             margin-top: 20px;
             font-size: 16px;
             color: #4caf50;
             text-decoration: none;
+            transition: color 0.3s ease;
         }
 
         a:hover {
             color: #76ff7a;
-        }
-
-        .section {
-            margin-bottom: 30px;
-        }
-
-        .section label {
-            font-size: 1.2rem; /* Aumentar tamaño de los subtítulos */
         }
     </style>
 </head>
@@ -112,18 +128,14 @@
     <div class="container">
         <h1>Calculadora</h1>
         <h2>Ciclismo</h2>
-        <form method="POST">
-            <!-- Género -->
-            <div class="section">
+        <div class="form-container">
+            <form method="POST">
                 <label for="gender">Género:</label>
                 <select id="gender" name="gender" required>
-                    <option value="male">Masculino</option>
-                    <option value="female">Femenino</option>
+                    <option value="male">Hombre</option>
+                    <option value="female">Mujer</option>
                 </select>
-            </div>
 
-            <!-- Ciclismo -->
-            <div class="section">
                 <label for="weight">Peso (kg):</label>
                 <input type="number" id="weight" name="weight" min="30" max="200" step="0.1" required>
 
@@ -136,12 +148,11 @@
                     <option value="20">20 minutos</option>
                     <option value="30">30 minutos</option>
                 </select>
-            </div>
 
-            <!-- Botón Calcular -->
-            <input type="submit" value="Calcular">
-        </form>
-        <a href="/">Volver al inicio</a>
+                <input type="submit" value="Calcular">
+            </form>
+            <a href="/">Volver al inicio</a>
+        </div>
     </div>
 </body>
 </html>
