@@ -19,7 +19,7 @@
 
         .container {
             width: 100%;
-            max-width: 500px; /* Ancho reducido */
+            max-width: 500px;
         }
 
         h1 {
@@ -33,7 +33,7 @@
             font-weight: 600;
             color: #444444;
             display: block;
-            text-align: center; /* Texto centrado */
+            text-align: center;
             margin-bottom: 10px;
         }
 
@@ -45,8 +45,8 @@
         }
 
         .form-container select {
-            font-family: 'Poppins', sans-serif; /* Fuente Poppins */
-            width: 100%;
+            font-family: 'Poppins', sans-serif;
+            width: 100%; /* Centra el selector ocupando todo el ancho */
             padding: 10px;
             margin-bottom: 20px;
             border: none;
@@ -58,22 +58,23 @@
             color: #444444;
             text-align: center;
             outline: none;
-            appearance: none;
         }
 
         .time-select {
             display: flex;
-            gap: 10px;
-            justify-content: center; /* Asegura el centrado de los selectores */
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
         }
 
-        .time-select select {
-            width: 30%;
-            font-family: 'Poppins', sans-serif; /* Fuente Poppins */
+        .time-select div {
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         input[type="submit"] {
-            font-family: 'Poppins', sans-serif; /* Fuente Poppins */
+            font-family: 'Poppins', sans-serif;
             width: 100%;
             padding: 15px;
             border: none;
@@ -92,13 +93,13 @@
         }
 
         a {
-            font-family: 'Poppins', sans-serif; /* Fuente Poppins */
+            font-family: 'Poppins', sans-serif;
             display: block;
             text-align: center;
             margin-top: 20px;
             padding: 10px;
             font-weight: 600;
-            color: #4caf50; /* Solo las letras en verde */
+            color: #4caf50;
             text-decoration: none;
         }
 
@@ -125,23 +126,32 @@
                     <option value="5000">5000 m</option>
                 </select>
 
-                <label for="time">Tiempo (hh:mm:ss):</label>
+                <label for="time">Tiempo:</label>
                 <div class="time-select">
-                    <select id="hours" name="hours" required>
-                        {% for h in range(0, 24) %}
-                        <option value="{{ h }}">{{ h }}</option>
-                        {% endfor %}
-                    </select>
-                    <select id="minutes" name="minutes" required>
-                        {% for m in range(0, 60) %}
-                        <option value="{{ m }}">{{ m }}</option>
-                        {% endfor %}
-                    </select>
-                    <select id="seconds" name="seconds" required>
-                        {% for s in range(0, 60) %}
-                        <option value="{{ s }}">{{ s }}</option>
-                        {% endfor %}
-                    </select>
+                    <div>
+                        <select id="hours" name="hours" required>
+                            {% for h in range(0, 24) %}
+                            <option value="{{ h }}">{{ h }}</option>
+                            {% endfor %}
+                        </select>
+                        <span>hh</span>
+                    </div>
+                    <div>
+                        <select id="minutes" name="minutes" required>
+                            {% for m in range(0, 60) %}
+                            <option value="{{ m }}">{{ m }}</option>
+                            {% endfor %}
+                        </select>
+                        <span>mm</span>
+                    </div>
+                    <div>
+                        <select id="seconds" name="seconds" required>
+                            {% for s in range(0, 60) %}
+                            <option value="{{ s }}">{{ s }}</option>
+                            {% endfor %}
+                        </select>
+                        <span>ss</span>
+                    </div>
                 </div>
 
                 <input type="submit" value="Calcular">
