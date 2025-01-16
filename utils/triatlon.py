@@ -77,10 +77,10 @@ def calculate_event_watts(ftp, event):
     los porcentajes correspondientes según la distancia seleccionada.
     """
     event_adjustments = {
-        'sprint': (1.00, 1.00),     # 100% del FTP
-        'olympic': (0.95, 1.00),    # 95-100% del FTP
-        'half': (0.90, 0.95),       # 90-95% del FTP
-        'full': (0.80, 0.85)        # 80-85% del FTP
+        'sprint': (0.95, 1.00),     # 100% del FTP
+        'olympic': (0.90, 0.95),    # 95-100% del FTP
+        'half': (0.85, 0.90),       # 90-95% del FTP
+        'full': (0.75, 0.80)        # 80-85% del FTP
     }
     min_factor, max_factor = event_adjustments[event]
     min_watts = ftp * min_factor
@@ -204,8 +204,8 @@ def calculate_event_running_times(event, anaerobic_threshold_pace):
     adjustment_factors = {
         "sprint": 1.00,  # 100%
         "olympic": 1.05,  # 105%
-        "half": 1.10,  # 110%
-        "full": 1.15,  # 115%
+        "half": 1.15,  # 110%
+        "full": 1.25,  # 115%
     }
 
     # Validación de datos
