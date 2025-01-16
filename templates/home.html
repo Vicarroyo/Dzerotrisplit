@@ -5,35 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DzeroTriSplit - Inicio</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/style.css">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
             background: #f0f5fc;
             margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             min-height: 100vh;
         }
 
         .container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
-            padding: 20px;
+            max-width: 600px;
+            width: 100%;
         }
 
         h1 {
-            font-size: 2.5rem;
-            color: #333333;
-            margin-bottom: 5px;
+            font-size: 2rem;
+            font-weight: 600;
+            color: #444444;
         }
 
         .subtitle {
             font-size: 1rem;
             color: gray;
             margin-top: -10px;
-            margin-bottom: 20px;
         }
 
         .options-center {
@@ -46,78 +50,73 @@
 
         .option-card {
             text-decoration: none;
-            background: linear-gradient(135deg, #ffffff, #f5f5f5);
+            background: linear-gradient(135deg, #4caf50, #3a3a3a);
             padding: 15px 25px;
             border-radius: 10px;
-            color: #333333;
+            color: white;
             font-size: 18px;
             font-weight: bold;
             text-align: center;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease-in-out;
             width: 200px;
-            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
+        .option-card.triatlon {
+            background: linear-gradient(135deg, gold, #f9d71c);
+        }
+
         .option-card:hover {
-            background: linear-gradient(135deg, #e0e0e0, #ffffff);
             transform: translateY(-5px);
             box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.5);
         }
 
-        .option-card.gold {
-            background: linear-gradient(135deg, #FFD700, #FFC107);
-            color: white;
-        }
-
-        .option-card.gold:hover {
-            background: linear-gradient(135deg, #FFC107, #FFD700);
-        }
-
-        .options-bottom {
+        .ghost-buttons {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-top: 50px;
+            align-items: center;
+            gap: 15px;
+            margin-top: 30px;
         }
 
         .ghost-button {
             text-decoration: none;
-            color: #333333;
-            font-size: 16px;
+            border: 2px solid #4caf50;
+            padding: 15px 25px;
+            border-radius: 10px;
+            color: #4caf50;
+            font-size: 18px;
             font-weight: bold;
-            padding: 10px 20px;
-            border: 2px solid #333333;
-            border-radius: 25px;
-            background: none;
+            text-align: center;
+            background: transparent;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease-in-out;
-            display: inline-block;
+            width: 200px;
         }
 
         .ghost-button:hover {
-            background: #333333;
+            background: #4caf50;
             color: white;
+            box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.3);
         }
 
         footer {
+            margin-top: 50px;
             text-align: center;
-            margin-top: 30px;
-            font-size: 0.8rem;
             color: gray;
+            font-size: 0.9rem;
         }
 
         footer a {
+            color: #4caf50;
             text-decoration: none;
-            color: #333333;
-            font-weight: bold;
-            transition: color 0.3s ease-in-out;
         }
 
         footer a:hover {
-            color: #4caf50;
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -127,23 +126,20 @@
         <p class="subtitle">por Víctor Arroyo</p>
         <p>Elige una opción:</p>
 
-        <!-- Botones principales centrados -->
         <div class="options-center">
             <a href="/swimming" class="option-card">Natación</a>
             <a href="/cycling" class="option-card">Ciclismo</a>
             <a href="/running" class="option-card">Carrera</a>
-            <a href="/triatlon_input" class="option-card gold">Triatlón</a>
+            <a href="/triatlon_input" class="option-card triatlon">Triatlón</a>
         </div>
 
-        <!-- Botones inferiores -->
-        <div class="options-bottom">
+        <div class="ghost-buttons">
             <a href="https://dzerotri.com/victor-arroyo-dzero" class="ghost-button">Sobre Nosotros</a>
             <a href="/plans" class="ghost-button">Planes de Entrenamiento</a>
             <a href="/instructions" class="ghost-button">Instrucciones DzeroTriSplit</a>
         </div>
     </div>
 
-    <!-- Footer -->
     <footer>
         <p>&copy; 2025 DzeroTriSplit. Todos los derechos reservados. <a href="/privacy">Política de Privacidad</a></p>
     </footer>
