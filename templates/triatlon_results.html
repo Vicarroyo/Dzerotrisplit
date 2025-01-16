@@ -94,10 +94,11 @@
 
         <!-- Ciclismo -->
         <h2>Ciclismo</h2>
-        <p><strong>FTP:</strong> {{ ftp }} W</p>
-        <p><strong>FTP/kg:</strong> {{ ftp_kg }} W/kg</p>
+        <p><strong>FTP:</strong> {{ ftp|int }} W</p>
+        <p><strong>FTP/kg:</strong> {{ ftp_kg|round(1) }} W/kg</p>
         <p><strong>Categoría:</strong> {{ ftp_category }}</p>
-        <p><strong>Vatios estimados:</strong> {{ event_watts }} W <span class="highlight">(Evento: {{ event|capitalize }})</span></p>
+        <p><strong>Vatios estimados:</strong> {{ watts_range[0]|int }} W - {{ watts_range[1]|int }} W <span class="highlight">(Evento: {{ event|capitalize }})</span></p>
+
 
         <!-- Carrera -->
         <h2>Carrera</h2>
