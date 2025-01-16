@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CALCULADORA TRIATLÓN</title>
+    <title>Calculadora Triatlón</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         body {
@@ -28,12 +28,18 @@
         }
 
         h1 {
-            font-size: 2rem;
-            font-weight: 600;
+            font-size: 3rem; /* Aumentado el tamaño del título principal */
+            font-weight: 700;
             color: #444444;
-            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        h2 {
+            font-size: 1.8rem; /* Tamaño aumentado para los subtítulos */
+            font-weight: 600;
+            color: #4caf50;
+            margin-top: -10px;
             margin-bottom: 20px;
-            text-transform: uppercase;
         }
 
         label {
@@ -66,26 +72,15 @@
             justify-content: center;
             margin-bottom: 20px;
         }
-        
+
         .time-select div {
             display: flex;
             align-items: center;
             gap: 5px;
         }
 
-        select.time-field {
-            width: 60px;
-            padding: 10px;
-            border: none;
-            border-radius: 10px;
-            background: #f0f5fc;
-            box-shadow: inset 4px 4px 8px #bebebe, inset -4px -4px 8px #ffffff;
-            font-size: 16px;
-            color: #444444;
-            text-align: center;
-        }
-
         input[type="submit"] {
+            font-family: 'Poppins', sans-serif; /* Estilizado con Poppins */
             width: 100%;
             padding: 15px;
             border: none;
@@ -103,18 +98,6 @@
             box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
         }
 
-        .section {
-            margin-bottom: 30px;
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #4caf50;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
         a {
             display: block;
             text-align: center;
@@ -127,11 +110,23 @@
         a:hover {
             color: #76ff7a;
         }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.8rem; /* Tamaño aumentado */
+            font-weight: 600;
+            color: #4caf50;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>CALCULADORA TRIATLÓN</h1>
+        <h1>Calculadora</h1>
+        <h2>Triatlón</h2>
         <form method="POST">
             <!-- Evento y Género -->
             <div class="section">
@@ -168,7 +163,7 @@
                 <label for="swim-time">Tiempo:</label>
                 <div class="time-select">
                     <div>
-                        <select id="swim-hours" name="swim_hours" class="time-field" required>
+                        <select id="swim-hours" name="swim_hours" required>
                             {% for h in range(0, 24) %}
                             <option value="{{ h }}">{{ h }}</option>
                             {% endfor %}
@@ -176,7 +171,7 @@
                         <span>hh</span>
                     </div>
                     <div>
-                        <select id="swim-minutes" name="swim_minutes" class="time-field" required>
+                        <select id="swim-minutes" name="swim_minutes" required>
                             {% for m in range(0, 60) %}
                             <option value="{{ m }}">{{ m }}</option>
                             {% endfor %}
@@ -184,7 +179,7 @@
                         <span>mm</span>
                     </div>
                     <div>
-                        <select id="swim-seconds" name="swim_seconds" class="time-field" required>
+                        <select id="swim-seconds" name="swim_seconds" required>
                             {% for s in range(0, 60) %}
                             <option value="{{ s }}">{{ s }}</option>
                             {% endfor %}
@@ -226,7 +221,7 @@
                 <label for="run-time">Tiempo:</label>
                 <div class="time-select">
                     <div>
-                        <select id="run-hours" name="run_hours" class="time-field" required>
+                        <select id="run-hours" name="run_hours" required>
                             {% for h in range(0, 24) %}
                             <option value="{{ h }}">{{ h }}</option>
                             {% endfor %}
@@ -234,7 +229,7 @@
                         <span>hh</span>
                     </div>
                     <div>
-                        <select id="run-minutes" name="run_minutes" class="time-field" required>
+                        <select id="run-minutes" name="run_minutes" required>
                             {% for m in range(0, 60) %}
                             <option value="{{ m }}">{{ m }}</option>
                             {% endfor %}
@@ -242,7 +237,7 @@
                         <span>mm</span>
                     </div>
                     <div>
-                        <select id="run-seconds" name="run_seconds" class="time-field" required>
+                        <select id="run-seconds" name="run_seconds" required>
                             {% for s in range(0, 60) %}
                             <option value="{{ s }}">{{ s }}</option>
                             {% endfor %}
@@ -259,3 +254,4 @@
     </div>
 </body>
 </html>
+
