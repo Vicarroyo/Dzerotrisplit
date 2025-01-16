@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -18,31 +18,40 @@
         }
 
         .container {
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             width: 100%;
-            text-align: center;
+            max-width: 600px;
         }
 
         h1 {
-            font-size: 3rem; /* Aumentado el tamaño del título principal */
+            font-size: 3rem; /* Título principal más grande */
             font-weight: 700;
+            text-align: center;
             color: #444444;
-            margin-bottom: 5px;
+            margin-bottom: 0; /* Sin espacio entre título y subtítulo */
         }
 
         h2 {
-            font-size: 1.8rem; /* Tamaño aumentado para los subtítulos */
+            font-size: 2rem; /* Subtítulo más grande */
             font-weight: 600;
-            color: #4caf50;
-            margin-top: -10px;
+            text-align: center;
+            color: #4caf50; /* Verde */
+            margin-top: 5px; /* Espacio reducido con el título */
             margin-bottom: 20px;
         }
 
-        label {
+        .form-container {
+            background: #e0e5ec;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 9px 9px 16px #bebebe, -9px -9px 16px #ffffff;
+            width: 100%;
+        }
+
+        .form-container label {
             font-weight: 600;
             color: #444444;
             display: block;
@@ -50,7 +59,7 @@
             text-align: center;
         }
 
-        select, input[type="text"], input[type="number"] {
+        .form-container select, input[type="number"] {
             font-family: 'Poppins', sans-serif;
             width: 100%;
             padding: 10px;
@@ -61,16 +70,15 @@
             box-shadow: inset 4px 4px 8px #bebebe, inset -4px -4px 8px #ffffff;
             font-size: 16px;
             color: #444444;
-            outline: none;
-            appearance: none;
             text-align: center;
+            outline: none;
         }
 
         .time-select {
             display: flex;
-            gap: 10px;
             justify-content: center;
-            margin-bottom: 20px;
+            align-items: center;
+            gap: 10px;
         }
 
         .time-select div {
@@ -79,8 +87,21 @@
             gap: 5px;
         }
 
+        .time-select select {
+            width: 60px;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            background: #f0f5fc;
+            box-shadow: inset 4px 4px 8px #bebebe, inset -4px -4px 8px #ffffff;
+            font-size: 16px;
+            color: #444444;
+            text-align: center;
+            outline: none;
+        }
+
         input[type="submit"] {
-            font-family: 'Poppins', sans-serif; /* Estilizado con Poppins */
+            font-family: 'Poppins', sans-serif; /* Fuente Poppins aplicada */
             width: 100%;
             padding: 15px;
             border: none;
@@ -99,27 +120,18 @@
         }
 
         a {
+            font-family: 'Poppins', sans-serif;
             display: block;
             text-align: center;
             margin-top: 20px;
             font-size: 16px;
             color: #4caf50;
             text-decoration: none;
+            transition: color 0.3s ease;
         }
 
         a:hover {
             color: #76ff7a;
-        }
-
-        .section {
-            margin-bottom: 30px;
-        }
-
-        .section-title {
-            font-size: 1.8rem; /* Tamaño aumentado */
-            font-weight: 600;
-            color: #4caf50;
-            margin-bottom: 15px;
         }
     </style>
 </head>
@@ -127,9 +139,9 @@
     <div class="container">
         <h1>Calculadora</h1>
         <h2>Triatlón</h2>
-        <form method="POST">
-            <!-- Evento y Género -->
-            <div class="section">
+        <div class="form-container">
+            <form method="POST">
+                <!-- Evento y Género -->
                 <label for="event">Distancia Objetivo del Evento:</label>
                 <select id="event" name="event" required>
                     <option value="sprint">Sprint</option>
@@ -143,11 +155,9 @@
                     <option value="male">Masculino</option>
                     <option value="female">Femenino</option>
                 </select>
-            </div>
 
-            <!-- Natación -->
-            <div class="section">
-                <h2 class="section-title">Natación</h2>
+                <!-- Natación -->
+                <h2>Natación</h2>
                 <label for="swim-distance">Distancia (m):</label>
                 <select id="swim-distance" name="swim_distance" required>
                     <option value="50">50</option>
@@ -187,16 +197,14 @@
                         <span>ss</span>
                     </div>
                 </div>
-            </div>
 
-            <!-- Ciclismo -->
-            <div class="section">
-                <h2 class="section-title">Ciclismo</h2>
+                <!-- Ciclismo -->
+                <h2>Ciclismo</h2>
                 <label for="weight">Peso (kg):</label>
-                <input type="number" id="weight" name="weight" step="0.1" min="30" max="200" required>
+                <input type="number" id="weight" name="weight" min="30" max="200" step="0.1" required>
 
                 <label for="power">Vatios Medios:</label>
-                <input type="number" id="power" name="power" step="1" min="50" max="1000" required>
+                <input type="number" id="power" name="power" min="50" max="1000" step="1" required>
 
                 <label for="test-time">Duración del Test (min):</label>
                 <select id="test-time" name="test_time" required>
@@ -204,11 +212,9 @@
                     <option value="20">20 minutos</option>
                     <option value="30">30 minutos</option>
                 </select>
-            </div>
 
-            <!-- Carrera -->
-            <div class="section">
-                <h2 class="section-title">Carrera</h2>
+                <!-- Carrera -->
+                <h2>Carrera</h2>
                 <label for="run-distance">Distancia (km):</label>
                 <select id="run-distance" name="run_distance" required>
                     <option value="5">5</option>
@@ -245,13 +251,11 @@
                         <span>ss</span>
                     </div>
                 </div>
-            </div>
 
-            <!-- Botón Calcular -->
-            <input type="submit" value="Calcular">
-        </form>
-        <a href="/">Volver al inicio</a>
+                <input type="submit" value="Calcular">
+            </form>
+            <a href="/">Volver al inicio</a>
+        </div>
     </div>
 </body>
 </html>
-
