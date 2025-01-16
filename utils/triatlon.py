@@ -73,18 +73,19 @@ def classify_ftp(ftp_kg, gender):
 
 def calculate_event_watts(ftp, event):
     """
-    Calcula los vatios estimados para el evento objetivo basados en el FTP y
-    el porcentaje correspondiente según la distancia seleccionada.
+    Calcula el rango de vatios estimados para el evento objetivo basados en el FTP y
+    los porcentajes correspondientes según la distancia seleccionada.
     """
     event_adjustments = {
-        'sprint': 1.00,    # 100% del FTP
-        'olympic': 0.95,   # 95-100% del FTP
-        'half': 0.90,      # 90-95% del FTP
-        'full': 0.80       # 80-85% del FTP
+        'sprint': (1.00, 1.00),     # 100% del FTP
+        'olympic': (0.95, 1.00),    # 95-100% del FTP
+        'half': (0.90, 0.95),       # 90-95% del FTP
+        'full': (0.80, 0.85)        # 80-85% del FTP
     }
-    adjustment_factor = event_adjustments[event]
-    event_watts = ftp * adjustment_factor
-    return round(event_watts, 2)
+    min_factor, max_factor = event_adjustments[event]
+    min_watts = ftp * min_factor
+    max_watts = ftp * max_factor
+    return (round(min_watts, 2), round(max_watts, 2))
 
 
 # Función para convertir segundos a formato legible min/km
