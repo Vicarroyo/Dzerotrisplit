@@ -46,7 +46,7 @@
             font-weight: bold;
             color: #4caf50;
         }
-        a, button {
+        .button-primary {
             display: inline-block;
             margin-top: 20px;
             padding: 10px 20px;
@@ -59,13 +59,24 @@
             box-shadow: 4px 4px 8px #bebebe, -4px -4px 8px #ffffff;
             transition: all 0.3s ease-in-out;
             cursor: pointer;
+            font-family: 'Poppins', sans-serif;
         }
-        a:hover, button:hover {
+        .button-primary:hover {
             background: #76ff7a;
             box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
         }
-        button {
+        .link-secondary {
             font-family: 'Poppins', sans-serif;
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 16px;
+            color: #4caf50;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .link-secondary:hover {
+            color: #76ff7a;
         }
     </style>
 </head>
@@ -96,9 +107,9 @@
         <p><strong>Tiempos Estimados:</strong> {{ event_running_times.event_time }} <span class="highlight">(Evento: {{ event|capitalize }})</span></p>
         <p><strong>Ritmo Estimado:</strong> {{ event_running_times.event_pace }} <span class="highlight">(Evento: {{ event|capitalize }})</span></p>
 
-        <!-- Enlaces y Botón -->
-        <a href="/triatlon_input">Calcular otra vez</a>
-        <button onclick="alert('Botón funcionalidad personalizada')">CONTINUAR</button>
+        <!-- Botones Centrados -->
+        <a href="https://dzerotri.com/consulta-sobre-nuestros-programas-de-entrenamiento-de-triatlon" class="button-primary">ENTRENAR AHORA</a>
+        <a href="/triatlon_input" class="link-secondary">Calcular otra vez</a>
     </div>
 </body>
 </html>
