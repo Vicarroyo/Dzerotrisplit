@@ -91,6 +91,24 @@
             <p><strong>Umbral Anaeróbico:</strong> {{ anaerobic_threshold }}</p>
             <p><strong>Nivel de UA:</strong> {{ ua_category }}</p>
 
+            <h2>Zonas de Ritmo</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Zona</th>
+                        <th>Rango (min/km)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for zone, range in zones.items() %}
+                    <tr>
+                        <td>{{ zone }}</td>
+                        <td>{{ range[0] }} - {{ range[1] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
             <h2>Tiempos Estimados</h2>
             <table>
                 <thead>
@@ -106,24 +124,6 @@
                         <td>{{ distance }}</td>
                         <td>{{ data.time }}</td>
                         <td>{{ data.pace }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-
-            <h2>Zonas de Ritmo</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Zona</th>
-                        <th>Rango (min/km)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for zone, range in zones.items() %}
-                    <tr>
-                        <td>{{ zone }}</td>
-                        <td>{{ range[0] }} - {{ range[1] }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
