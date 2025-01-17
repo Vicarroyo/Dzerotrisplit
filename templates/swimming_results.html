@@ -62,23 +62,18 @@
             border-bottom: none;
         }
 
-        a {
+        .back-link {
             display: block;
             text-align: center;
             margin-top: 20px;
-            padding: 10px 20px;
-            background: #4caf50;
-            color: white;
+            font-size: 16px;
             font-weight: bold;
-            border-radius: 10px;
+            color: #4caf50;
             text-decoration: none;
-            box-shadow: 4px 4px 8px #bebebe, -4px -4px 8px #ffffff;
-            transition: all 0.3s ease-in-out;
         }
 
-        a:hover {
-            background: #76ff7a;
-            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+        .back-link:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -89,27 +84,6 @@
             <!-- Velocidad Crítica de Nado -->
             <h2>Velocidad Crítica de Nado (CSS): {{ css }} por 100m</h2>
             <h3>Categoría: {{ css_category }}</h3>
-
-            <!-- Tabla de zonas de entrenamiento -->
-            <h2>Zonas de Entrenamiento</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Zona</th>
-                        <th>Rango (min)</th>
-                        <th>Rango (max)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for zone, (min_time, max_time) in zones.items() %}
-                    <tr>
-                        <td>{{ zone }}</td>
-                        <td>{{ min_time }}</td>
-                        <td>{{ max_time }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
 
             <!-- Tabla de estimaciones -->
             <h2>Estimaciones de Distancia</h2>
@@ -132,7 +106,29 @@
                 </tbody>
             </table>
 
-            <a href="/swimming">Calcular otra vez</a>
+            <!-- Tabla de zonas de entrenamiento -->
+            <h2>Zonas de Entrenamiento</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Zona</th>
+                        <th>Rango (min)</th>
+                        <th>Rango (max)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for zone, (min_time, max_time) in zones.items() %}
+                    <tr>
+                        <td>{{ zone }}</td>
+                        <td>{{ min_time }}</td>
+                        <td>{{ max_time }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Volver a calcular -->
+            <a href="/swimming" class="back-link">Volver a calcular</a>
         </div>
     </div>
 </body>
