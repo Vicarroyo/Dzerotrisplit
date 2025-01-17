@@ -75,6 +75,26 @@
         a:hover {
             text-decoration: underline;
         }
+
+        .button-primary {
+            display: inline-block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background: #4caf50;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            text-decoration: none;
+            box-shadow: 4px 4px 8px #bebebe, -4px -4px 8px #ffffff;
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        .button-primary:hover {
+            background: #76ff7a;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -125,8 +145,14 @@
                 </tbody>
             </table>
 
+            <!-- BOTÓN CONTINUAR AÑADIDO -->
+            <a href="https://dzerotri.com/consulta-sobre-nuestros-programas-de-entrenamiento-de-triatlon" class="button-primary">
+                CONTINUAR
+            </a>
+
             <a href="/running">Volver a calcular</a>
         </div>
     </div>
 </body>
 </html>
+
