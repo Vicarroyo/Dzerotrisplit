@@ -86,10 +86,10 @@ def calculate_tri_speeds(
     """
     # Definimos los rangos de intensidades típicas para cada distancia
     tri_dist_intensities = {
-        "Sprint ":  (0.95, 1.00),
-        "Olímpico ": (0.85, 0.95),
-        "Half ":     (0.75, 0.85),
-        "Full ":     (0.65, 0.75),
+        "Sprint (20kms)":  (0.9, 1.00),
+        "Olímpico (40kms)": (0.8, 0.9),
+        "Half (90kms)":     (0.7, 0.8),
+        "Full (180kms)":     (0.6, 0.7),
     }
 
     results = {}
