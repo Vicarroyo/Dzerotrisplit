@@ -45,7 +45,7 @@ def plans():
 @app.route('/running', methods=['GET', 'POST'])
 def running():
     if request.method == 'POST':
-        distance = float(request.form['distance'])
+        distance = float(request.form['distance'])  # Obtener distancia del formulario
         gender = request.form['gender']
         hours = int(request.form['hours'])
         minutes = int(request.form['minutes'])
@@ -61,9 +61,10 @@ def running():
             # Procesar los datos de carrera
             results = process_running_data(distance, time, gender)
 
-            # Renderizar los resultados
+            # Renderizar los resultados y pasar la distancia al template
             return render_template(
                 'running_results.html',
+                selected_distance=distance,  # Pasar la distancia seleccionada al template
                 pace=results["pace"],
                 anaerobic_threshold=results["anaerobic_threshold"],
                 ua_category=results["ua_category"],
@@ -74,6 +75,7 @@ def running():
             return f"Error: {e}"
 
     return render_template('running_input.html')
+
 
 
 # Página para natación
