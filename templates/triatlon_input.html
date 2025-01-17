@@ -224,7 +224,19 @@
                   required 
                 />
 
-                <!-- Duración del Test (ENCIMA de Vatios Medios) -->
+                <!-- Peso de la bici DEBAJO de peso y ANTES de duración del test -->
+                <label for="bike_weight">Peso de la bici (kg):</label>
+                <input
+                  type="number"
+                  id="bike_weight"
+                  name="bike_weight"
+                  min="0"
+                  max="30"
+                  step="0.1"
+                  required
+                />
+
+                <!-- Duración del Test -->
                 <label for="test-time">Duración del Test (min):</label>
                 <select id="test-time" name="test_time" required>
                     <option value="10">10 minutos</option>
@@ -241,17 +253,6 @@
                   max="1000" 
                   step="1" 
                   required 
-                />
-
-                <label for="bike_weight">Peso de la bici (kg):</label>
-                <input
-                  type="number"
-                  id="bike_weight"
-                  name="bike_weight"
-                  min="0"
-                  max="30"
-                  step="0.1"
-                  required
                 />
         
                 <label for="cda">CdA:</label>
