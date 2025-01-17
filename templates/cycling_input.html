@@ -132,6 +132,18 @@
 
                 <label for="power">Vatios Normalizados (NP):</label>
                 <input type="number" id="power" name="power" min="50" max="1000" step="1" required>
+                <label for="bike_weight">Peso de la bici (kg):</label>
+                <input type="number" id="bike_weight" name="bike_weight" min="0" max="30" step="0.1" required>
+                
+                <label for="cda">CdA:</label>
+                <select id="cda" name="cda" required>
+                    <option value="0.2">(posición élite)</option>
+                    <option value="0.225">(posición avanzada)</option>
+                    <option value="0.25">(posición estándar)</option>
+                    <option value="0.275">(posición poco aerodinámica)</option>
+                    <option value="0.3">(sin posición aerodinámica)</option>
+                </select>
+                
 
                 <input type="submit" value="Calcular">
             </form>
@@ -140,3 +152,4 @@
     </div>
 </body>
 </html>
+
