@@ -134,7 +134,7 @@ def cycling():
         bike_weight = float(request.form['bike_weight']) # Peso bici
         power = float(request.form['power'])            # Vatios NP
         test_time = int(request.form['test_time'])
-        cda = float(request.form['cda'])                # CdA
+        cda_value = float(request.form['cda'])          # CdA (numérico)
 
         try:
             # 1) Cálculo de FTP y FTP relativo
@@ -145,30 +145,35 @@ def cycling():
             # Masa total
             mass_total = weight + bike_weight
 
-            # 2) Velocidad (al 100% FTP) con factor de corrección alpha = 0.95, por ej.
+            # 2) Factor de corrección (ejemplo)
             alpha = 0.95
+
+            # 3) Velocidad (al 100% FTP)
             velocidad_kmh_100 = calculate_corrected_speed(
                 ftp=ftp,
                 mass_total=mass_total,
-                cda=cda,
+                cda=cda_value,
                 intensity=1.0,      # 100% FTP
                 rho=1.225,
                 alpha=alpha
             )
             velocidad_kmh_100 = round(velocidad_kmh_100, 2)
 
-            # 3) Velocidades para diferentes distancias (según %FTP)
+            # 4) Velocidades para diferentes distancias (según %FTP)
             tri_speeds = calculate_tri_speeds(
                 ftp=ftp,
                 mass_total=mass_total,
-                cda=cda,
+                cda=cda_value,
                 rho=1.225,
                 alpha=alpha
             )
-            # Redondear
             for dist_name, (vmin, vmax) in tri_speeds.items():
-                tri_speeds[dist_name] = (round(vmin,2), round(vmax,2))
+                tri_speeds[dist_name] = (round(vmin, 2), round(vmax, 2))
 
+            # 5) Recuperamos la etiqueta asociada al valor de CdA
+            cda_label = CDA_MAP.get(cda_value, "desconocido")
+
+            # 6) Renderizamos pasando también el cda_value y cda_label
             return render_template(
                 'cycling_results.html',
                 ftp=round(ftp, 2),
@@ -176,12 +181,15 @@ def cycling():
                 category=category,
                 zones=zones,
                 velocidad_kmh=velocidad_kmh_100,
-                tri_speeds=tri_speeds  # PASAMOS TAMBIÉN LAS VELOCIDADES DE TRIATLÓN
+                tri_speeds=tri_speeds,
+                cda_value=cda_value,
+                cda_label=cda_label
             )
         except ValueError as e:
             return f"Error: {e}"
 
     return render_template('cycling_input.html')
+
 
 
 @app.route('/triatlon_results', methods=['POST'])
