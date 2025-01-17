@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <!-- Aseguramos vista para dispositivos móviles -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resultados de Triatlón</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
@@ -150,33 +151,99 @@
         <!-- Natación -->
         <div class="results-container">
             <h2>Natación</h2>
-            <p><strong>Velocidad crítica de nado (Test):</strong> {{ css }}</p>
-            <p><strong>Categoría:</strong> {{ css_category }}</p>
-            <p><strong>Tiempo estimado:</strong> {{ event_time.time }} <span class="highlight">(Evento: {{ event|capitalize }})</span></p>
-            <p><strong>Ritmo estimado:</strong> {{ event_time.pace_per_100m }} por 100m <span class="highlight">(Evento: {{ event|capitalize }})</span></p>
+            <p>
+                <strong>Velocidad crítica de nado (Test):</strong> {{ css }}
+            </p>
+            <p>
+                <strong>Categoría:</strong> {{ css_category }}
+            </p>
+            <p>
+                <strong>Tiempo estimado:</strong> {{ event_time.time }}
+                <span class="highlight">(Evento: {{ event|capitalize }})</span>
+            </p>
+            <p>
+                <strong>Ritmo estimado:</strong> {{ event_time.pace_per_100m }} por 100m
+                <span class="highlight">(Evento: {{ event|capitalize }})</span>
+            </p>
         </div>
 
         <!-- Ciclismo -->
         <div class="results-container">
             <h2>Ciclismo</h2>
-            <p><strong>FTP (Test):</strong> {{ ftp|int }} W</p>
-            <p><strong>FTP/kg (Test):</strong> {{ ftp_kg|round(1) }} W/kg</p>
-            <p><strong>Categoría:</strong> {{ ftp_category }}</p>
-            <p><strong>Vatios estimados:</strong> {{ watts_range[0]|int }} W - {{ watts_range[1]|int }} W <span class="highlight">(Evento: {{ event|capitalize }})</span></p>
+            <p>
+                <strong>FTP (Test):</strong> {{ ftp|int }} W
+            </p>
+            <p>
+                <strong>FTP/kg (Test):</strong> {{ ftp_kg|round(1) }} W/kg
+            </p>
+            <p>
+                <strong>Categoría:</strong> {{ ftp_category }}
+            </p>
+            <p>
+                <strong>Vatios estimados:</strong> 
+                {{ watts_range[0]|int }} W - {{ watts_range[1]|int }} W
+                <span class="highlight">(Evento: {{ event|capitalize }})</span>
+            </p>
+
+            <!-- BLOQUE AÑADIDO: Velocidad al 100% FTP + Tabla con tri_speeds_data -->
+            <p>Velocidad estimada al FTP: {{ velocidad_ciclismo_100 }} km/h</p>
+
+            <h2>Velocidades y rango de tiempos segun distancia objetivo:</h2>
+            <table>
+                <thead>
+                  <tr>
+                    <th>Distancia</th>
+                    <th>Vel. Mín (km/h)</th>
+                    <th>Vel. Máx (km/h)</th>
+                    <th>Tiempo Mín (hh:mm:ss)</th>
+                    <th>Tiempo Máx (hh:mm:ss)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Fila que muestra SOLO la distancia elegida -->
+                  <tr>
+                    <!-- Nombre de la distancia, usando event|capitalize para mostrar 'Sprint', 'Olympic', 'Half', 'Full' -->
+                    <td>{{ event|capitalize }}</td>
+              
+                    <!-- Aquí van los datos que sacas del diccionario tri_speeds_data -->
+                    <td>{{ tri_speeds_data[event].v_min }}</td>
+                    <td>{{ tri_speeds_data[event].v_max }}</td>
+                    <td>{{ tri_speeds_data[event].time_min_hhmmss }}</td>
+                    <td>{{ tri_speeds_data[event].time_max_hhmmss }}</td>
+                  </tr>
+                </tbody>
+              </table>
         </div>
 
         <!-- Carrera -->
         <div class="results-container">
             <h2>Carrera</h2>
-            <p><strong>Ritmo promedio (Test):</strong> {{ running_data.pace }}</p>
-            <p><strong>Umbral anaeróbico:</strong> {{ running_data.anaerobic_threshold }}</p>
-            <p><strong>Categoría:</strong> {{ running_data.ua_category }}</p>
-            <p><strong>Tiempos Estimados:</strong> {{ event_running_times.event_time }} <span class="highlight">(Evento: {{ event|capitalize }})</span></p>
-            <p><strong>Ritmo Estimado:</strong> {{ event_running_times.event_pace }} <span class="highlight">(Evento: {{ event|capitalize }})</span></p>
+            <p>
+                <strong>Ritmo promedio (Test):</strong> {{ running_data.pace }}
+            </p>
+            <p>
+                <strong>Umbral anaeróbico (Test):</strong>
+                {{ running_data.anaerobic_threshold }}
+            </p>
+            <p>
+                <strong>Categoría:</strong> {{ running_data.ua_category }}
+            </p>
+            <p>
+                <strong>Tiempos Estimados:</strong> 
+                {{ event_running_times.event_time }}
+                <span class="highlight">(Evento: {{ event|capitalize }})</span>
+            </p>
+            <p>
+                <strong>Ritmo Estimado:</strong> 
+                {{ event_running_times.event_pace }}
+                <span class="highlight">(Evento: {{ event|capitalize }})</span>
+            </p>
         </div>
 
         <!-- Botones Centrados -->
-        <a href="https://dzerotri.com/consulta-sobre-nuestros-programas-de-entrenamiento-de-triatlon" class="button-primary">CONTINUAR</a>
+        <a href="https://dzerotri.com/consulta-sobre-nuestros-programas-de-entrenamiento-de-triatlon" class="button-primary">
+            CONTINUAR
+        </a>
         <a href="/triatlon_input" class="link-secondary">Calcular otra vez</a>
     </div>
 </body>
