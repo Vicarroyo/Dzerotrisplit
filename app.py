@@ -125,19 +125,29 @@ def swimming():
 
 
 
-# Página para ciclismo
+from flask import render_template, request
+
+# Diccionario para mapear valor CdA a etiqueta
+CDA_MAP = {
+    0.2:   "posición élite",
+    0.225: "posición avanzada",
+    0.25:  "posición estándar",
+    0.275: "posición poco aerodinámica",
+    0.3:   "sin posición aerodinámica"
+}
+
 @app.route('/cycling', methods=['GET', 'POST'])
 def cycling():
     if request.method == 'POST':
         gender = request.form['gender']
-        weight = float(request.form['weight'])          # Peso ciclista
-        bike_weight = float(request.form['bike_weight']) # Peso bici
-        power = float(request.form['power'])            # Vatios NP
+        weight = float(request.form['weight'])           # Peso del ciclista
+        bike_weight = float(request.form['bike_weight']) # Peso de la bici
+        power = float(request.form['power'])             # Vatios NP
         test_time = int(request.form['test_time'])
-        cda_value = float(request.form['cda'])          # CdA (numérico)
+        cda_value = float(request.form['cda'])           # CdA numérico
 
         try:
-            # 1) Cálculo de FTP y FTP relativo
+            # 1) Calcular FTP y FTP relativo
             ftp, ftp_kg = calculate_ftp(gender, weight, power, test_time)
             category = classify_ftp(ftp_kg, gender)
             zones = calculate_ftp_zones(ftp)
@@ -145,15 +155,15 @@ def cycling():
             # Masa total
             mass_total = weight + bike_weight
 
-            # 2) Factor de corrección (ejemplo)
+            # 2) Factor de corrección (ejemplo: 0.95)
             alpha = 0.95
 
-            # 3) Velocidad (al 100% FTP)
+            # 3) Velocidad (al 100% de FTP)
             velocidad_kmh_100 = calculate_corrected_speed(
                 ftp=ftp,
                 mass_total=mass_total,
                 cda=cda_value,
-                intensity=1.0,      # 100% FTP
+                intensity=1.0,    # 100% FTP
                 rho=1.225,
                 alpha=alpha
             )
@@ -167,28 +177,34 @@ def cycling():
                 rho=1.225,
                 alpha=alpha
             )
-            for dist_name, (vmin, vmax) in tri_speeds.items():
-                tri_speeds[dist_name] = (round(vmin, 2), round(vmax, 2))
 
-            # 5) Recuperamos la etiqueta asociada al valor de CdA
+            # Redondeamos v_min, v_max, time_min, time_max
+            for dist_name, info in tri_speeds.items():
+                info["v_min"] = round(info["v_min"], 2)
+                info["v_max"] = round(info["v_max"], 2)
+                info["time_min"] = round(info["time_min"], 1)
+                info["time_max"] = round(info["time_max"], 1)
+
+            # 5) Obtener etiqueta CdA
             cda_label = CDA_MAP.get(cda_value, "desconocido")
 
-            # 6) Renderizamos pasando también el cda_value y cda_label
+            # 6) Renderizar la plantilla con todos los datos
             return render_template(
                 'cycling_results.html',
                 ftp=round(ftp, 2),
                 ftp_kg=round(ftp_kg, 2),
                 category=category,
                 zones=zones,
-                velocidad_kmh=velocidad_kmh_100,
-                tri_speeds=tri_speeds,
-                cda_value=cda_value,
-                cda_label=cda_label
+                velocidad_kmh=velocidad_kmh_100,  # Vel. al 100% FTP
+                tri_speeds=tri_speeds,            # Info de distancias
+                cda_label=cda_label               # CdA descriptivo
             )
         except ValueError as e:
             return f"Error: {e}"
 
+    # Si GET, mostrar el formulario de entrada
     return render_template('cycling_input.html')
+
 
 
 
