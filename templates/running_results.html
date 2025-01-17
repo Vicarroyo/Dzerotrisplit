@@ -66,19 +66,14 @@
             display: block;
             text-align: center;
             margin-top: 20px;
-            padding: 10px 20px;
-            background: #4caf50;
-            color: white;
+            font-size: 16px;
             font-weight: bold;
-            border-radius: 10px;
+            color: #4caf50;
             text-decoration: none;
-            box-shadow: 4px 4px 8px #bebebe, -4px -4px 8px #ffffff;
-            transition: all 0.3s ease-in-out;
         }
 
         a:hover {
-            background: #76ff7a;
-            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -87,27 +82,10 @@
         <h1>Resultados de Carrera</h1>
         <div class="results-container">
             <h2>Información General</h2>
+            <p><strong>Distancia del Test:</strong> {{ selected_distance }} km</p>
             <p><strong>Ritmo Promedio:</strong> {{ pace }}</p>
             <p><strong>Umbral Anaeróbico:</strong> {{ anaerobic_threshold }}</p>
             <p><strong>Nivel de UA:</strong> {{ ua_category }}</p>
-
-            <h2>Zonas de Ritmo</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Zona</th>
-                        <th>Rango (min/km)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for zone, range in zones.items() %}
-                    <tr>
-                        <td>{{ zone }}</td>
-                        <td>{{ range[0] }} - {{ range[1] }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
 
             <h2>Tiempos Estimados</h2>
             <table>
@@ -129,7 +107,25 @@
                 </tbody>
             </table>
 
-            <a href="/running">Calcular otra vez</a>
+            <h2>Zonas de Ritmo</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Zona</th>
+                        <th>Rango (min/km)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for zone, range in zones.items() %}
+                    <tr>
+                        <td>{{ zone }}</td>
+                        <td>{{ range[0] }} - {{ range[1] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <a href="/running">Volver a calcular</a>
         </div>
     </div>
 </body>
