@@ -11,31 +11,28 @@
     <link rel="stylesheet" href="/static/style.css">
 
     <style>
-        /* El body centrado y con fondo */
+        /* Estilo base */
         body {
             margin: 0;
             padding: 0;
             background: #f0f5fc;
             font-family: 'Poppins', sans-serif;
-            text-align: center; /* centra texto por defecto */
+            text-align: center;
         }
 
-        /* Contenedor principal */
         .container {
             width: 100%;
-            max-width: 500px; /* límite de ancho para móviles */
-            margin: 0 auto;   /* centrar el contenedor */
+            max-width: 500px;
+            margin: 0 auto;
             padding: 20px;
         }
 
-        /* Título */
         h1 {
             font-size: 1.8rem;
             margin-bottom: 10px;
             color: #444444;
         }
 
-        /* Contenedor de resultados */
         .results-container {
             background: #e0e5ec;
             padding: 20px;
@@ -45,26 +42,21 @@
             text-align: center;
         }
 
-        /* Subtítulos */
-        .results-container h2 {
+        h2 {
             color: #444444;
             margin-bottom: 15px;
             font-weight: 600;
-            text-align: center;
         }
 
-        /* Párrafos */
-        .results-container p {
+        p {
             font-size: 16px;
             margin: 10px 0;
             color: #666666;
-            text-align: center;
         }
 
-        /* Tablas */
         table {
-            width: 100%;              /* que ocupe todo el contenedor */
-            margin: 20px auto;        /* margen vertical */
+            width: 100%;
+            margin: 20px auto;
             border-collapse: collapse;
             background: #f0f5fc;
             box-shadow: 4px 4px 8px #bebebe, -4px -4px 8px #ffffff;
@@ -94,8 +86,8 @@
             border-bottom: none;
         }
 
-        /* Enlaces (botón) */
-        a {
+        /* Botón CONTINUAR */
+        .button-primary {
             display: inline-block;
             text-align: center;
             margin-top: 20px;
@@ -109,16 +101,27 @@
             transition: all 0.3s ease-in-out;
         }
 
-        a:hover {
+        .button-primary:hover {
             background: #76ff7a;
             box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
         }
 
-        /* Ajustes responsive (opcional) */
+        /* Botón VOLVER (sin fondo) */
+        .button-secondary {
+            display: inline-block;
+            margin-top: 10px;
+            color: #4caf50;
+            font-size: 16px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .button-secondary:hover {
+            color: #76ff7a;
+        }
+
         @media (max-width: 480px) {
-            .results-container p {
-                font-size: 14px;
-            }
             h1 {
                 font-size: 1.5rem;
             }
@@ -187,7 +190,14 @@
                 </tbody>
             </table>
 
-            <a href="/">Volver al inicio</a>
+            <!-- Botón Continuar -->
+            <a href="https://dzerotri.com/consulta-sobre-nuestros-programas-de-entrenamiento-de-triatlon" class="button-primary">
+                CONTINUAR
+            </a>
+
+            <!-- Botón Volver a calcular -->
+            <a href="/cycling" class="back-link">Volver a calcular</a>
+            </a>
         </div>
     </div>
 </body>
