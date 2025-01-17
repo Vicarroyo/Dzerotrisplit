@@ -1,155 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora Ciclismo</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: #f0f5fc;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            text-align: center;
-        }
+  <meta charset="UTF-8" />
+  <!-- Vista para móviles -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora Ciclismo</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    /* Reinicio básico de box-sizing */
+    * {
+      box-sizing: border-box;
+    }
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            max-width: 400px;
-            padding: 20px;
-        }
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #f0f5fc;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+    }
 
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #444444;
-            margin-bottom: 10px;
-        }
+    .container {
+      width: 100%;
+      max-width: 400px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
 
-        h2 {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: #4caf50;
-            margin-bottom: 20px;
-        }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #444444;
+      margin-bottom: 10px;
+    }
 
-        .form-container {
-            background: #e0e5ec;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 6px 6px 12px #bebebe, -6px -6px 12px #ffffff;
-            width: 100%;
-        }
+    h2 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #4caf50;
+      margin-bottom: 20px;
+    }
 
-        .form-container label {
-            font-weight: 600;
-            color: #444444;
-            margin-bottom: 10px;
-            display: block;
-        }
+    .form-container {
+      background: #e0e5ec;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 6px 6px 12px #bebebe, -6px -6px 12px #ffffff;
+      width: 100%;
+    }
 
-        .form-container select,
-        input[type="number"] {
-            font-family: 'Poppins', sans-serif;
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: none;
-            border-radius: 10px;
-            background: #f0f5fc;
-            box-shadow: inset 4px 4px 8px #bebebe, inset -4px -4px 8px #ffffff;
-            font-size: 1rem;
-            color: #444444;
-            text-align: center;
-            outline: none;
-        }
+    .form-container label {
+      font-weight: 600;
+      color: #444444;
+      margin-bottom: 10px;
+      display: block;
+      text-align: left;
+    }
 
-        input[type="submit"] {
-            font-family: 'Poppins', sans-serif;
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 15px;
-            background: #4caf50;
-            color: white;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease-in-out;
-        }
+    /* Campos de datos con el mismo ancho (100%) */
+    .form-container select,
+    .form-container input[type="number"],
+    .form-container input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 10px;
+      background: #f0f5fc;
+      box-shadow: inset 4px 4px 8px #bebebe, inset -4px -4px 8px #ffffff;
+      font-size: 1rem;
+      color: #444444;
+      text-align: center;
+      outline: none;
+    }
 
-        input[type="submit"]:hover {
-            background: #76ff7a;
-            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
-        }
+    /* Botón enviar también al 100% */
+    input[type="submit"] {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 15px;
+      background: #4caf50;
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+    }
 
-        a {
-            font-family: 'Poppins', sans-serif;
-            display: block;
-            text-align: center;
-            margin-top: 15px;
-            font-size: 1rem;
-            color: #4caf50;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
+    input[type="submit"]:hover {
+      background: #76ff7a;
+      box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+    }
 
-        a:hover {
-            color: #76ff7a;
-        }
-    </style>
+    a {
+      font-family: "Poppins", sans-serif;
+      display: block;
+      text-align: center;
+      margin-top: 15px;
+      font-size: 1rem;
+      color: #4caf50;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: #76ff7a;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Calculadora</h1>
-        <h2>Ciclismo</h2>
-        <div class="form-container">
-            <form method="POST">
-                <label for="gender">Género:</label>
-                <select id="gender" name="gender" required>
-                    <option value="male">Hombre</option>
-                    <option value="female">Mujer</option>
-                </select>
+  <div class="container">
+    <h1>Calculadora</h1>
+    <h2>Ciclismo</h2>
+    <div class="form-container">
+      <form method="POST">
+        <label for="gender">Género:</label>
+        <select id="gender" name="gender" required>
+          <option value="male">Hombre</option>
+          <option value="female">Mujer</option>
+        </select>
 
-                <label for="weight">Peso (kg):</label>
-                <input type="number" id="weight" name="weight" min="30" max="200" step="0.1" required>
+        <label for="weight">Peso (kg):</label>
+        <input
+          type="number"
+          id="weight"
+          name="weight"
+          min="30"
+          max="200"
+          step="0.1"
+          required
+        />
 
-                <label for="test-time">Duración del Test (min):</label>
-                <select id="test-time" name="test_time" required>
-                    <option value="10">10 minutos</option>
-                    <option value="20">20 minutos</option>
-                    <option value="30">30 minutos</option>
-                </select>
+        <label for="test-time">Duración del Test (min):</label>
+        <select id="test-time" name="test_time" required>
+          <option value="10">10 minutos</option>
+          <option value="20">20 minutos</option>
+          <option value="30">30 minutos</option>
+        </select>
 
-                <label for="power">Vatios Normalizados (NP):</label>
-                <input type="number" id="power" name="power" min="50" max="1000" step="1" required>
-                <label for="bike_weight">Peso de la bici (kg):</label>
-                <input type="number" id="bike_weight" name="bike_weight" min="0" max="30" step="0.1" required>
-                
-                <label for="cda">CdA:</label>
-                <select id="cda" name="cda" required>
-                    <option value="0.2">(posición élite)</option>
-                    <option value="0.225">(posición avanzada)</option>
-                    <option value="0.25">(posición estándar)</option>
-                    <option value="0.275">(posición poco aerodinámica)</option>
-                    <option value="0.3">(sin posición aerodinámica)</option>
-                </select>
-                
+        <label for="power">Vatios Normalizados (NP):</label>
+        <input
+          type="number"
+          id="power"
+          name="power"
+          min="50"
+          max="1000"
+          step="1"
+          required
+        />
 
-                <input type="submit" value="Calcular">
-            </form>
-            <a href="/">Volver al inicio</a>
-        </div>
+        <label for="bike_weight">Peso de la bici (kg):</label>
+        <input
+          type="number"
+          id="bike_weight"
+          name="bike_weight"
+          min="0"
+          max="30"
+          step="0.1"
+          required
+        />
+
+        <label for="cda">CdA:</label>
+        <select id="cda" name="cda" required>
+          <option value="0.2">(posición élite)</option>
+          <option value="0.225">(posición avanzada)</option>
+          <option value="0.25">(posición estándar)</option>
+          <option value="0.275">(posición poco aerodinámica)</option>
+          <option value="0.3">(sin posición aerodinámica)</option>
+        </select>
+
+        <input type="submit" value="Calcular" />
+      </form>
+      <a href="/">Volver al inicio</a>
     </div>
+  </div>
 </body>
 </html>
 
