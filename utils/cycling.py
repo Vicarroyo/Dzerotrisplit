@@ -71,47 +71,63 @@ def calculate_corrected_speed(
 
     return v_kmh_corrected
 
-
-def calculate_tri_speeds(
-    ftp, mass_total, cda, rho=1.225, alpha=0.95
-):
+def hours_to_hms_str(hours):
     """
-    Devuelve un diccionario con la velocidad mínima y máxima estimada (km/h)
-    para cada distancia de triatlón, según % típicos de FTP:
-
-    - Sprint (95-100%)
-    - Olímpico (90-95%)
-    - Half IM (80-85%)
-    - Full IM (70-75%)
+    Convierte un número de horas en string formato hh:mm:ss
     """
-    # Definimos los rangos de intensidades típicas para cada distancia
-    tri_dist_intensities = {
-        "Sprint (20kms)":  (0.9, 1.00),
-        "Olímpico (40kms)": (0.8, 0.9),
-        "Half (90kms)":     (0.7, 0.8),
-        "Full (180kms)":     (0.6, 0.7),
+    total_seg = int(hours * 3600)  # total de segundos
+    hh = total_seg // 3600
+    mm = (total_seg % 3600) // 60
+    ss = total_seg % 60
+    # Formato con dos dígitos para horas, minutos y segundos:
+    return f"{hh:02d}:{mm:02d}:{ss:02d}"
+
+
+
+def calculate_tri_speeds(ftp, mass_total, cda, rho=1.225, alpha=0.95):
+    tri_data = {
+        "Sprint ": {
+            "int_range": (0.9, 1.00),
+            "distance_km": 20
+        },
+        "Olímpico ": {
+            "int_range": (0.80, 0.9),
+            "distance_km": 40
+        },
+        "Half ": {
+            "int_range": (0.70, 0.8),
+            "distance_km": 90
+        },
+        "Full ": {
+            "int_range": (0.60, 0.7),
+            "distance_km": 180
+        }
     }
 
     results = {}
-    for dist_name, (int_min, int_max) in tri_dist_intensities.items():
-        # Calculamos velocidad a int_min y a int_max
-        v_min = calculate_corrected_speed(
-            ftp=ftp,
-            mass_total=mass_total,
-            cda=cda,
-            intensity=int_min,
-            rho=rho,
-            alpha=alpha
-        )
-        v_max = calculate_corrected_speed(
-            ftp=ftp,
-            mass_total=mass_total,
-            cda=cda,
-            intensity=int_max,
-            rho=rho,
-            alpha=alpha
-        )
-        # Guardamos en el diccionario
-        results[dist_name] = (v_min, v_max)
-    return results
+    for dist_name, data in tri_data.items():
+        int_min, int_max = data["int_range"]
+        distance = data["distance_km"]
 
+        v_min = calculate_corrected_speed(ftp, mass_total, cda, int_min, rho, alpha)
+        v_max = calculate_corrected_speed(ftp, mass_total, cda, int_max, rho, alpha)
+
+        time_min_h = distance / v_max
+        time_max_h = distance / v_min
+
+        time_min_min = time_min_h * 60
+        time_max_min = time_max_h * 60
+
+        # Aquí usamos la función hours_to_hms_str
+        time_min_hhmmss = hours_to_hms_str(time_min_h)
+        time_max_hhmmss = hours_to_hms_str(time_max_h)
+
+        results[dist_name] = {
+            "v_min": v_min,
+            "v_max": v_max,
+            "time_min": time_min_min,      # en minutos
+            "time_max": time_max_min,      # en minutos
+            "time_min_hhmmss": time_min_hhmmss,
+            "time_max_hhmmss": time_max_hhmmss
+        }
+    return results
