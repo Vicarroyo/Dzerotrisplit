@@ -24,9 +24,94 @@ def calculate_ftp_zones(ftp):
         "Z1 (Recuperación activa)": (0, ftp * 0.55),
         "Z2 (Resistencia)": (ftp * 0.55, ftp * 0.75),
         "Z3 (Tempo)": (ftp * 0.76, ftp * 0.90),
-        "Z4 (Umbral)": (ftp * 0.91, ftp * 1.05),
+        "Z4 (Umbral anaeróbico)": (ftp * 0.91, ftp * 1.05),
         "Z5 (VO2 máx)": (ftp * 1.06, ftp * 1.20),
         "Z6 (Capacidad anaeróbica)": (ftp * 1.21, ftp * 1.50),
         "Z7 (Potencia neuromuscular)": (ftp * 1.51, None),
     }
     return {k: (round(v[0], 2), round(v[1], 2) if v[1] else None) for k, v in zones.items()}
+
+def calculate_speed(ftp_kg, cyclist_weight, bike_weight, cda, rho=1.225):
+    """
+    Calcula la velocidad en km/h en llano (aerodinámica pura) a partir de:
+      - ftp_kg: FTP relativo (W/kg)
+      - cyclist_weight: peso del ciclista (kg)
+      - bike_weight: peso de la bici (kg)
+      - cda: coeficiente CdA
+      - rho: densidad del aire (1.225 kg/m^3 por defecto)
+    """
+    total_mass = cyclist_weight + bike_weight
+    p_total = ftp_kg * total_mass  # W
+    v_ms = ((2.0 * p_total) / (rho * cda)) ** (1.0/3.0)  # en m/s
+    v_kmh = 3.6 * v_ms
+    return v_kmh
+
+def calculate_corrected_speed(
+    ftp,         # FTP absoluto (W)
+    mass_total,  # ciclista + bici (kg)
+    cda,         # CdA
+    intensity=1.0,     # fracción del FTP (por ej. 0.95 para 95%)
+    rho=1.225,         # densidad del aire
+    alpha=0.95         # factor de corrección empírico (<1)
+):
+    """
+    Calcula la velocidad en km/h para un % dado de FTP, asumiendo llano,
+    sin viento, y aplicando un factor de corrección alpha para rodadura/pérdidas.
+    """
+    # 1) Potencia efectiva según el % de FTP
+    p_eff = ftp * intensity  # W
+
+    # 2) Vel. teórica (fórmula aerodinámica pura)
+    #    P = 1/2 * rho * CdA * v^3  =>  v = (2 * P / (rho * CdA))^(1/3)
+    v_ms = ((2.0 * p_eff) / (rho * cda)) ** (1.0 / 3.0)
+    v_kmh_theoretical = v_ms * 3.6
+
+    # 3) Aplicar factor de corrección
+    v_kmh_corrected = v_kmh_theoretical * alpha
+
+    return v_kmh_corrected
+
+
+def calculate_tri_speeds(
+    ftp, mass_total, cda, rho=1.225, alpha=0.95
+):
+    """
+    Devuelve un diccionario con la velocidad mínima y máxima estimada (km/h)
+    para cada distancia de triatlón, según % típicos de FTP:
+
+    - Sprint (95-100%)
+    - Olímpico (90-95%)
+    - Half IM (80-85%)
+    - Full IM (70-75%)
+    """
+    # Definimos los rangos de intensidades típicas para cada distancia
+    tri_dist_intensities = {
+        "Sprint ":  (0.95, 1.00),
+        "Olímpico ": (0.85, 0.95),
+        "Half ":     (0.75, 0.85),
+        "Full ":     (0.65, 0.75),
+    }
+
+    results = {}
+    for dist_name, (int_min, int_max) in tri_dist_intensities.items():
+        # Calculamos velocidad a int_min y a int_max
+        v_min = calculate_corrected_speed(
+            ftp=ftp,
+            mass_total=mass_total,
+            cda=cda,
+            intensity=int_min,
+            rho=rho,
+            alpha=alpha
+        )
+        v_max = calculate_corrected_speed(
+            ftp=ftp,
+            mass_total=mass_total,
+            cda=cda,
+            intensity=int_max,
+            rho=rho,
+            alpha=alpha
+        )
+        # Guardamos en el diccionario
+        results[dist_name] = (v_min, v_max)
+    return results
+
