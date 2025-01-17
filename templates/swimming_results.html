@@ -71,6 +71,27 @@
             border-bottom: none;
         }
 
+        .button-primary {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background: #4caf50;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            text-decoration: none;
+            box-shadow: 4px 4px 8px #bebebe, -4px -4px 8px #ffffff;
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .button-primary:hover {
+            background: #76ff7a;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+        }
+
         .back-link {
             display: block;
             margin-top: 20px;
@@ -138,8 +159,14 @@
             </tbody>
         </table>
 
+        <!-- Botón CONTINUAR centrado -->
+        <a href="https://dzerotri.com/consulta-sobre-nuestros-programas-de-entrenamiento-de-triatlon" class="button-primary">
+            CONTINUAR
+        </a>
+
         <!-- Volver a calcular -->
         <a href="/swimming" class="back-link">Volver a calcular</a>
     </div>
 </body>
 </html>
+
