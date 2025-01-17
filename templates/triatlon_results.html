@@ -179,40 +179,38 @@
             <p>
                 <strong>Categoría:</strong> {{ ftp_category }}
             </p>
-            <p>
-                <strong>Vatios estimados:</strong> 
-                {{ watts_range[0]|int }} W - {{ watts_range[1]|int }} W
-                <span class="highlight">(Evento: {{ event|capitalize }})</span>
-            </p>
+            
+            <p>Velocidad Estimada FTP, llano y sin viento (Test): {{ velocidad_ciclismo_100 }} km/h</p>
+            
 
-            <!-- BLOQUE AÑADIDO: Velocidad al 100% FTP + Tabla con tri_speeds_data -->
-            <p>Velocidad estimada al FTP: {{ velocidad_ciclismo_100 }} km/h</p>
+            <h2>Velocidades y rango de tiempos según distancia objetivo:</h2>
+<p>CdA seleccionado: <strong>{{ cda_label }}</strong></p>
+<p>
+    <strong>Vatios estimados:</strong> 
+    {{ watts_range[0]|int }} W - {{ watts_range[1]|int }} W
+    <span class="highlight">(Evento: {{ event|capitalize }})</span>
+</p>
+<table>
+    <thead>
+      <tr>
+        <th>Distancia</th>
+        <th>Vel. Mín (km/h)</th>
+        <th>Vel. Máx (km/h)</th>
+        <th>Tiempo Mín (hh:mm:ss)</th>
+        <th>Tiempo Máx (hh:mm:ss)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ event|capitalize }}</td>
+        <td>{{ tri_speeds_data[event].v_min }}</td>
+        <td>{{ tri_speeds_data[event].v_max }}</td>
+        <td>{{ tri_speeds_data[event].time_min_hhmmss }}</td>
+        <td>{{ tri_speeds_data[event].time_max_hhmmss }}</td>
+      </tr>
+    </tbody>
+</table>
 
-            <h2>Velocidades y rango de tiempos segun distancia objetivo:</h2>
-            <table>
-                <thead>
-                  <tr>
-                    <th>Distancia</th>
-                    <th>Vel. Mín (km/h)</th>
-                    <th>Vel. Máx (km/h)</th>
-                    <th>Tiempo Mín (hh:mm:ss)</th>
-                    <th>Tiempo Máx (hh:mm:ss)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <!-- Fila que muestra SOLO la distancia elegida -->
-                  <tr>
-                    <!-- Nombre de la distancia, usando event|capitalize para mostrar 'Sprint', 'Olympic', 'Half', 'Full' -->
-                    <td>{{ event|capitalize }}</td>
-              
-                    <!-- Aquí van los datos que sacas del diccionario tri_speeds_data -->
-                    <td>{{ tri_speeds_data[event].v_min }}</td>
-                    <td>{{ tri_speeds_data[event].v_max }}</td>
-                    <td>{{ tri_speeds_data[event].time_min_hhmmss }}</td>
-                    <td>{{ tri_speeds_data[event].time_max_hhmmss }}</td>
-                  </tr>
-                </tbody>
-              </table>
         </div>
 
         <!-- Carrera -->
@@ -248,3 +246,4 @@
     </div>
 </body>
 </html>
+
