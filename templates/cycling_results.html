@@ -138,11 +138,13 @@
     <div class="container">
         <h1>Resultados - Ciclismo</h1>
         <div class="results-container">
-            <p><strong>FTP:</strong> {{ ftp|int }} W</p>
-            <p><strong>FTP Relativo:</strong> {{ ftp_kg|round(1) }} W/kg</p>
+            <p><strong>FTP (Test):</strong> {{ ftp|int }} W</p>
+            <p><strong>FTP Relativo (Test):</strong> {{ ftp_kg|round(1) }} W/kg</p>
             <p><strong>Categoría:</strong> {{ category }}</p>
-            <p><strong>Velocidad Estimada (llano y sin viento):</strong> {{ velocidad_kmh }} km/h</p>
+            <p><strong>Velocidad Estimada FTP, llano y sin viento:</strong> {{ velocidad_kmh }} km/h</p>
 
+            
+    
             <h2>Velocidades estimadas para diferentes distancias</h2>
             <p>CdA seleccionado: <strong>{{ cda_label }}</strong></p>
 
