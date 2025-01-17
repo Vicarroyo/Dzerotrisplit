@@ -8,7 +8,7 @@ from utils.running import (
     process_running_data
 )
 from utils.swimming import estimate_swim_times, calculate_zones
-from utils.cycling import calculate_ftp, classify_ftp, calculate_ftp_zones
+from utils.cycling import calculate_ftp, classify_ftp, calculate_ftp_zones, calculate_corrected_speed, calculate_tri_speeds
 from utils.triatlon import (
     estimate_swim_times,
     calculate_ftp,
@@ -130,21 +130,53 @@ def swimming():
 def cycling():
     if request.method == 'POST':
         gender = request.form['gender']
-        weight = float(request.form['weight'])
-        power = float(request.form['power'])
+        weight = float(request.form['weight'])          # Peso ciclista
+        bike_weight = float(request.form['bike_weight']) # Peso bici
+        power = float(request.form['power'])            # Vatios NP
         test_time = int(request.form['test_time'])
+        cda = float(request.form['cda'])                # CdA
 
         try:
+            # 1) Cálculo de FTP y FTP relativo
             ftp, ftp_kg = calculate_ftp(gender, weight, power, test_time)
             category = classify_ftp(ftp_kg, gender)
             zones = calculate_ftp_zones(ftp)
+
+            # Masa total
+            mass_total = weight + bike_weight
+
+            # 2) Velocidad (al 100% FTP) con factor de corrección alpha = 0.95, por ej.
+            alpha = 0.95
+            velocidad_kmh_100 = calculate_corrected_speed(
+                ftp=ftp,
+                mass_total=mass_total,
+                cda=cda,
+                intensity=1.0,      # 100% FTP
+                rho=1.225,
+                alpha=alpha
+            )
+            velocidad_kmh_100 = round(velocidad_kmh_100, 2)
+
+            # 3) Velocidades para diferentes distancias (según %FTP)
+            tri_speeds = calculate_tri_speeds(
+                ftp=ftp,
+                mass_total=mass_total,
+                cda=cda,
+                rho=1.225,
+                alpha=alpha
+            )
+            # Redondear
+            for dist_name, (vmin, vmax) in tri_speeds.items():
+                tri_speeds[dist_name] = (round(vmin,2), round(vmax,2))
 
             return render_template(
                 'cycling_results.html',
                 ftp=round(ftp, 2),
                 ftp_kg=round(ftp_kg, 2),
                 category=category,
-                zones=zones
+                zones=zones,
+                velocidad_kmh=velocidad_kmh_100,
+                tri_speeds=tri_speeds  # PASAMOS TAMBIÉN LAS VELOCIDADES DE TRIATLÓN
             )
         except ValueError as e:
             return f"Error: {e}"
