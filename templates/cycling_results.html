@@ -93,26 +93,31 @@
 
             <h2>Velocidades estimadas para diferentes distancias</h2>
             <p>CdA seleccionado: <strong>{{ cda_label }}</strong></p>
-            
-            <h2>Velocidades estimadas para diferentes distancias</h2>
+
             <table>
                 <thead>
                     <tr>
                         <th>Distancia</th>
                         <th>Vel. Mín (km/h)</th>
                         <th>Vel. Máx (km/h)</th>
+                        <th>Tiempo Mín (hh:mm:ss)</th>
+                        <th>Tiempo Máx (hh:mm:ss)</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for dist_name, speeds in tri_speeds.items() %}
+                    {% for dist_name, info in tri_speeds.items() %}
                     <tr>
                         <td>{{ dist_name }}</td>
-                        <td>{{ speeds[0] }}</td>
-                        <td>{{ speeds[1] }}</td>
+                        <td>{{ info.v_min }}</td>
+                        <td>{{ info.v_max }}</td>
+                        <td>{{ info.time_min_hhmmss }}</td>
+                        <td>{{ info.time_max_hhmmss }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
+            
+                        
          
             <h2>Zonas de Entrenamiento</h2>
             <table>
