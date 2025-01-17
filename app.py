@@ -79,7 +79,7 @@ def running():
 
 
 # Página para natación
-@app.route('/swimming', methods=['GET', 'POST'])
+@app.route('/swimming', methods=['GET', 'POST']) 
 def swimming():
     if request.method == 'POST':
         # Obtener los datos del formulario
@@ -100,9 +100,18 @@ def swimming():
         )  # Convertir CSS a segundos
         zones = calculate_zones(css_seconds)
 
+        # Calcular ritmo promedio (pace) en segundos por 100m
+        total_seconds = (hours * 3600) + (minutes * 60) + seconds
+        pace_seconds = (total_seconds / distance) * 100  # Tiempo por 100m
+        pace_minutes = int(pace_seconds // 60)
+        pace_remainder_seconds = int(pace_seconds % 60)
+        pace = f"{pace_minutes:02}:{pace_remainder_seconds:02}"  # Formato mm:ss
+
         # Renderizar resultados
         return render_template(
             'swimming_results.html',
+            selected_distance=distance,
+            pace=pace,
             estimates=estimates,
             css=css,
             css_category=css_category,
@@ -111,6 +120,8 @@ def swimming():
 
     # Renderizar el formulario si es un GET
     return render_template('swimming_input.html')
+
+
 
 
 
