@@ -1,29 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <!-- Aseguramos vista responsive en móviles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Calculadora Triatlón</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Fuente Poppins -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
     <style>
+        /* CONTENEDOR GENERAL */
         body {
             font-family: 'Poppins', sans-serif;
             background: #f0f5fc;
             margin: 0;
             padding: 0;
-            display: flex;
+            display: flex;             /* centro vertical/horizontal */
             align-items: center;
             justify-content: center;
             min-height: 100vh;
         }
 
         .container {
+            width: 90%;
+            max-width: 400px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 90%;
-            max-width: 400px;
         }
 
         h1 {
@@ -42,6 +48,7 @@
             margin-bottom: 20px;
         }
 
+        /* CONTENEDOR DEL FORMULARIO */
         .form-container {
             background: #e0e5ec;
             padding: 20px;
@@ -58,6 +65,7 @@
             display: block;
         }
 
+        /* CAMPOS DE DATOS (MISMO ANCHO) */
         .form-container select, 
         .form-container input[type="number"] {
             font-family: 'Poppins', sans-serif;
@@ -67,7 +75,8 @@
             border: none;
             border-radius: 10px;
             background: #f0f5fc;
-            box-shadow: inset 4px 4px 8px #bebebe, inset -4px -4px 8px #ffffff;
+            box-shadow: inset 4px 4px 8px #bebebe,
+                        inset -4px -4px 8px #ffffff;
             font-size: 14px;
             color: #444444;
             outline: none;
@@ -88,18 +97,20 @@
         }
 
         .time-select select {
-            width: 50px;
+            width: 50px; /* ancho fijo para horas, min, seg */
             padding: 8px;
             border: none;
             border-radius: 10px;
             background: #f0f5fc;
-            box-shadow: inset 4px 4px 8px #bebebe, inset -4px -4px 8px #ffffff;
+            box-shadow: inset 4px 4px 8px #bebebe,
+                        inset -4px -4px 8px #ffffff;
             font-size: 14px;
             color: #444444;
             outline: none;
             text-align: center;
         }
 
+        /* BOTÓN CALCULAR */
         input[type="submit"] {
             font-family: 'Poppins', sans-serif;
             width: 100%;
@@ -137,8 +148,10 @@
 </head>
 <body>
     <div class="container">
+        <!-- TITULARES -->
         <h1>Calculadora</h1>
         <h2>Triatlón</h2>
+
         <div class="form-container">
             <form method="POST">
                 <!-- Evento y Género -->
@@ -201,16 +214,53 @@
                 <!-- Ciclismo -->
                 <h2>Ciclismo</h2>
                 <label for="weight">Peso (kg):</label>
-                <input type="number" id="weight" name="weight" min="30" max="200" step="0.1" required>
+                <input 
+                  type="number" 
+                  id="weight" 
+                  name="weight" 
+                  min="30" 
+                  max="200" 
+                  step="0.1" 
+                  required 
+                />
 
-                <label for="power">Vatios Medios:</label>
-                <input type="number" id="power" name="power" min="50" max="1000" step="1" required>
-
+                <!-- Duración del Test (ENCIMA de Vatios Medios) -->
                 <label for="test-time">Duración del Test (min):</label>
                 <select id="test-time" name="test_time" required>
                     <option value="10">10 minutos</option>
                     <option value="20">20 minutos</option>
                     <option value="30">30 minutos</option>
+                </select>
+
+                <label for="power">Vatios Normalizados (NP):</label>
+                <input 
+                  type="number" 
+                  id="power" 
+                  name="power" 
+                  min="50" 
+                  max="1000" 
+                  step="1" 
+                  required 
+                />
+
+                <label for="bike_weight">Peso de la bici (kg):</label>
+                <input
+                  type="number"
+                  id="bike_weight"
+                  name="bike_weight"
+                  min="0"
+                  max="30"
+                  step="0.1"
+                  required
+                />
+        
+                <label for="cda">CdA:</label>
+                <select id="cda" name="cda" required>
+                  <option value="0.2">(posición élite)</option>
+                  <option value="0.225">(posición avanzada)</option>
+                  <option value="0.25">(posición estándar)</option>
+                  <option value="0.275">(posición poco aerodinámica)</option>
+                  <option value="0.3">(sin posición aerodinámica)</option>
                 </select>
 
                 <!-- Carrera -->
@@ -252,7 +302,7 @@
                     </div>
                 </div>
 
-                <input type="submit" value="Calcular">
+                <input type="submit" value="Calcular" />
             </form>
             <a href="/">Volver al inicio</a>
         </div>
