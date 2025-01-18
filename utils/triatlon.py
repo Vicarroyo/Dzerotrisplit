@@ -108,7 +108,7 @@ def convert_seconds_to_hms(seconds):
     s = int(seconds % 60)
     return f"{h:02}:{m:02}:{s:02}"
 
-# Función para calcular ritmo promedio
+# Función para calcular ritmo promedio 
 def calculate_pace(distance, time):
     """
     Calcula el ritmo promedio (segundos por km) basado en la distancia y el tiempo.
@@ -120,22 +120,42 @@ def calculate_pace(distance, time):
 # Función para calcular el umbral anaeróbico
 def calculate_anaerobic_threshold(distance, time):
     """
-    Calcula el ritmo de Umbral Anaeróbico (UA) ajustado según la distancia.
+    Calcula el ritmo de Umbral Anaeróbico (UA) ajustado según el tiempo total de la carrera.
     """
     avg_pace_seconds = calculate_pace(distance, time)
-    
-    if distance <= 5:
-        percentage_increase = 0.05
-    elif distance <= 10:
-        percentage_increase = 0.04
-    elif distance <= 15:
-        percentage_increase = 0.03
-    elif distance <= 21.1:
-        percentage_increase = 0.02
-    else:
-        percentage_increase = 0.01
 
-    return avg_pace_seconds * (1 + percentage_increase)
+    # Convertir tiempo a segundos totales para clasificar el factor
+    time_parts = time.split(":")
+    time_in_seconds = int(time_parts[0]) * 3600 + int(time_parts[1]) * 60 + int(time_parts[2])
+    time_in_minutes = time_in_seconds / 60
+
+    # Definir factores de ajuste basados en el tiempo total
+    if time_in_minutes < 60:
+        factor = 1.05  # Ajuste menor para tiempos por debajo de 60 minutos
+    else:
+        factor = 1.02  # Ajuste leve para tiempos por encima de 60 minutos
+
+    # Calcular ritmo de umbral anaeróbico
+    if time_in_minutes < 60:
+        threshold_pace_seconds = avg_pace_seconds * factor  # Más lento que el promedio
+    else:
+        threshold_pace_seconds = avg_pace_seconds / factor  # Más rápido que el promedio
+
+    # Ajustar para mantener dentro de rangos típicos según ejemplos dados
+    if distance == 5 and threshold_pace_seconds > avg_pace_seconds * 1.08:
+        threshold_pace_seconds = avg_pace_seconds * 1.08
+    elif distance == 10 and threshold_pace_seconds > avg_pace_seconds * 1.07:
+        threshold_pace_seconds = avg_pace_seconds * 1.07
+    elif distance == 15 and threshold_pace_seconds > avg_pace_seconds * 1.06:
+        threshold_pace_seconds = avg_pace_seconds * 1.06
+    elif distance == 21.1 and threshold_pace_seconds > avg_pace_seconds * 1.05:
+        threshold_pace_seconds = avg_pace_seconds * 1.05
+    elif distance >= 42.195 and threshold_pace_seconds > avg_pace_seconds * 1.04:
+        threshold_pace_seconds = avg_pace_seconds * 1.04
+
+    return threshold_pace_seconds
+
+
 
 # Clasificación del umbral anaeróbico
 def classify_anaerobic_threshold(gender, ua_pace):
@@ -203,10 +223,10 @@ def calculate_event_running_times(event, anaerobic_threshold_pace):
     }
 
     adjustment_factors = {
-        "sprint": 0.98,  # 100%
-        "olympic": 1.02,  # 105%
+        "sprint": 1,  # 100%
+        "olympic": 1.025,  # 105%
         "half": 1.08,  # 110%
-        'full': 1.25,  # 115%
+        'full': 1.18,  # 120%
     }
 
     # Validación de datos
@@ -237,10 +257,10 @@ def estimate_running_times(pace, base_distance):
 
     factors = {
         5: 1.07,
-        10: 1.07,
-        15: 1.06,
-        21.1: 1.06,
-        42.195: 1.06,
+        10: 1.06,
+        15: 1.055,
+        21.1: 1.05,
+        42.195: 1.045,
     }
 
     for d in distances:
@@ -368,6 +388,7 @@ def calculate_tri_speeds(ftp, mass_total, cda, rho=1.225, alpha=0.95):
             "time_max_hhmmss": time_max_hhmmss
         }
     return results
+
 
 
 
