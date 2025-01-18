@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- Aseguramos vista para dispositivos móviles -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resultados de Triatlón</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
@@ -17,7 +16,6 @@
             justify-content: center;
             min-height: 100vh;
         }
-
         .container {
             background: #ffffff;
             padding: 30px;
@@ -26,35 +24,29 @@
             max-width: 800px;
             text-align: center;
         }
-
         h1 {
             color: #4caf50;
             font-weight: 600;
         }
-
         .objective {
             font-size: 1.2rem;
             font-weight: bold;
             color: #444444;
             margin-top: 10px;
         }
-
         h2 {
             color: #4caf50;
             font-weight: 600;
             margin-bottom: 10px;
         }
-
         p {
             font-size: 1rem;
             color: #444444;
         }
-
         .highlight {
             font-weight: bold;
             color: #4caf50;
         }
-
         .button-primary {
             display: inline-block;
             margin-top: 20px;
@@ -70,12 +62,10 @@
             cursor: pointer;
             font-family: 'Poppins', sans-serif;
         }
-
         .button-primary:hover {
             background: #76ff7a;
             box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
         }
-
         .link-secondary {
             font-family: 'Poppins', sans-serif;
             display: block;
@@ -86,11 +76,9 @@
             text-decoration: none;
             transition: color 0.3s ease;
         }
-
         .link-secondary:hover {
             color: #76ff7a;
         }
-
         .results-container {
             background: #e0e5ec;
             padding: 30px;
@@ -98,19 +86,6 @@
             box-shadow: 9px 9px 16px #bebebe, -9px -9px 16px #ffffff;
             margin-top: 20px;
         }
-
-        .results-container h2 {
-            color: #444444;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-
-        .results-container p {
-            font-size: 16px;
-            margin: 10px 0;
-            color: #666666;
-        }
-
         table {
             width: 100%;
             margin: 20px 0;
@@ -120,24 +95,16 @@
             border-radius: 10px;
             overflow: hidden;
         }
-
         table th, table td {
             padding: 15px;
             text-align: center;
             border-bottom: 1px solid #dcdcdc;
         }
-
         table th {
             background-color: #4caf50;
             color: white;
             font-weight: 600;
         }
-
-        table tr:hover {
-            background-color: #f9fafc;
-            transition: background-color 0.3s ease;
-        }
-
         table tbody tr:last-child td {
             border-bottom: none;
         }
@@ -147,23 +114,19 @@
     <div class="container">
         <h1>Resultados de Triatlón</h1>
         <p class="objective">OBJETIVO: {{ event|capitalize }}</p>
+        <strong>Tiempo total estimado:</strong> {{ total_time_avg }}
 
         <!-- Natación -->
         <div class="results-container">
             <h2>Natación</h2>
             <p>
-                <strong>Velocidad crítica de nado (Test):</strong> {{ css }}
+                <strong>Velocidad crítica de nado:</strong> {{ css }}
             </p>
             <p>
                 <strong>Categoría:</strong> {{ css_category }}
             </p>
             <p>
-                <strong>Tiempo estimado:</strong> {{ event_time.time }}
-                <span class="highlight">(Evento: {{ event|capitalize }})</span>
-            </p>
-            <p>
-                <strong>Ritmo estimado:</strong> {{ event_time.pace_per_100m }} por 100m
-                <span class="highlight">(Evento: {{ event|capitalize }})</span>
+                <strong>Tiempo estimado:</strong> {{ event_time_swim }}
             </p>
         </div>
 
@@ -174,74 +137,44 @@
                 <strong>FTP (Test):</strong> {{ ftp|int }} W
             </p>
             <p>
-                <strong>FTP/kg (Test):</strong> {{ ftp_kg|round(1) }} W/kg
+                <strong>FTP/kg:</strong> {{ ftp_kg|round(1) }} W/kg
             </p>
             <p>
                 <strong>Categoría:</strong> {{ ftp_category }}
             </p>
-            
-            <p>Velocidad Estimada FTP, llano y sin viento (Test): {{ velocidad_ciclismo_100 }} km/h</p>
-            
-
-            <h2>Velocidades y rango de tiempos según distancia objetivo:</h2>
-<p>CdA seleccionado: <strong>{{ cda_label }}</strong></p>
-<p>
-    <strong>Vatios estimados:</strong> 
-    {{ watts_range[0]|int }} W - {{ watts_range[1]|int }} W
-    <span class="highlight">(Evento: {{ event|capitalize }})</span>
-</p>
-<table>
-    <thead>
-      <tr>
-        <th>Distancia</th>
-        <th>Vel. Mín (km/h)</th>
-        <th>Vel. Máx (km/h)</th>
-        <th>Tiempo Mín (hh:mm:ss)</th>
-        <th>Tiempo Máx (hh:mm:ss)</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>{{ event|capitalize }}</td>
-        <td>{{ tri_speeds_data[event].v_min }}</td>
-        <td>{{ tri_speeds_data[event].v_max }}</td>
-        <td>{{ tri_speeds_data[event].time_min_hhmmss }}</td>
-        <td>{{ tri_speeds_data[event].time_max_hhmmss }}</td>
-      </tr>
-    </tbody>
-</table>
-
+            <table>
+                <thead>
+                    <tr>
+                        <th>Distancia</th>
+                        <th>Vel. Mín (km/h)</th>
+                        <th>Vel. Máx (km/h)</th>
+                        <th>Tiempo Mín (hh:mm:ss)</th>
+                        <th>Tiempo Máx (hh:mm:ss)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ event|capitalize }}</td>
+                        <td>{{ tri_speeds_data[event].v_min | round(2) }}</td>
+                        <td>{{ tri_speeds_data[event].v_max | round(2) }}</td>
+                        <td>{{ tri_speeds_data[event].time_min_hhmmss }}</td>
+                        <td>{{ tri_speeds_data[event].time_max_hhmmss }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
         <!-- Carrera -->
         <div class="results-container">
             <h2>Carrera</h2>
             <p>
-                <strong>Ritmo promedio (Test):</strong> {{ running_data.pace }}
+                <strong>Ritmo promedio:</strong> {{ running_data.pace }}
             </p>
             <p>
-                <strong>Umbral anaeróbico (Test):</strong>
-                {{ running_data.anaerobic_threshold }}
-            </p>
-            <p>
-                <strong>Categoría:</strong> {{ running_data.ua_category }}
-            </p>
-            <p>
-                <strong>Tiempos Estimados:</strong> 
-                {{ event_running_times.event_time }}
-                <span class="highlight">(Evento: {{ event|capitalize }})</span>
-            </p>
-            <p>
-                <strong>Ritmo Estimado:</strong> 
-                {{ event_running_times.event_pace }}
-                <span class="highlight">(Evento: {{ event|capitalize }})</span>
+                <strong>Tiempo estimado:</strong> {{ event_running_times.event_time }}
             </p>
         </div>
 
-        <!-- Botones Centrados -->
-        <a href="https://dzerotri.com/consulta-sobre-nuestros-programas-de-entrenamiento-de-triatlon" class="button-primary">
-            CONTINUAR
-        </a>
         <a href="/triatlon_input" class="link-secondary">Calcular otra vez</a>
     </div>
 </body>
