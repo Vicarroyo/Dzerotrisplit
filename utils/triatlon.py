@@ -203,9 +203,9 @@ def calculate_event_running_times(event, anaerobic_threshold_pace):
     }
 
     adjustment_factors = {
-        "sprint": 1.00,  # 100%
-        "olympic": 1.05,  # 105%
-        "half": 1.15,  # 110%
+        "sprint": 0.98,  # 100%
+        "olympic": 1.02,  # 105%
+        "half": 1.08,  # 110%
         'full': 1.25,  # 115%
     }
 
@@ -294,6 +294,16 @@ def calculate_corrected_speed(
 
     return v_kmh_corrected
 
+# Definir la función para convertir segundos a hh:mm:ss
+def convert_seconds_to_hms(seconds):
+    """
+    Convierte segundos a formato hh:mm:ss.
+    """
+    h = int(seconds // 3600)
+    m = int((seconds % 3600) // 60)
+    s = int(seconds % 60)
+    return f"{h:02}:{m:02}:{s:02}"
+
 def hours_to_hms_str(hours):
     """
     Convierte un número de horas en string formato hh:mm:ss
@@ -305,7 +315,11 @@ def hours_to_hms_str(hours):
     # Formato con dos dígitos para horas, minutos y segundos:
     return f"{hh:02d}:{mm:02d}:{ss:02d}"
 
-
+def calculate_adjusted_time(base_time, adjustments):
+    adjusted_time = base_time
+    for adjustment in adjustments.values():
+        adjusted_time *= 1 + (adjustment / 100)
+    return adjusted_time
 
 def calculate_tri_speeds(ftp, mass_total, cda, rho=1.225, alpha=0.95):
     tri_data = {
@@ -354,4 +368,7 @@ def calculate_tri_speeds(ftp, mass_total, cda, rho=1.225, alpha=0.95):
             "time_max_hhmmss": time_max_hhmmss
         }
     return results
+
+
+
 
