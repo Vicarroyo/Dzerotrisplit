@@ -114,7 +114,7 @@
     <div class="container">
         <h1>Resultados de Triatlón</h1>
         <p class="objective">OBJETIVO: {{ event|capitalize }}</p>
-        <strong>Tiempo total estimado:</strong> {{ total_time_avg }}
+        <strong>Tiempo total estimado (sin transiciones):</strong> {{ total_time_avg }}
 
         <!-- Natación -->
         <div class="results-container">
@@ -131,6 +131,7 @@
             </p>
             <p>
                 <strong>Ritmo estimado:</strong> {{ estimated_times[event_distance].pace_per_100m }} por 100m
+                <span class="highlight">(Evento: {{ event|capitalize }})</span>
             </p>
         </div>
 
