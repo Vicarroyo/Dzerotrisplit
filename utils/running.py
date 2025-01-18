@@ -1,47 +1,63 @@
 import math
 
+# Función para calcular ritmo promedio 
+def calculate_pace(distance, time):
+    """
+    Calcula el ritmo promedio (segundos por km) basado en la distancia y el tiempo.
+    """
+    time_parts = time.split(":")
+    time_in_seconds = int(time_parts[0]) * 3600 + int(time_parts[1]) * 60 + int(time_parts[2])
+    return time_in_seconds / distance
+
+# Función para convertir segundos a hh:mm:ss
+def convert_seconds_to_hms(seconds):
+    """
+    Convierte segundos a formato hh:mm:ss.
+    """
+    hours = int(seconds // 3600)
+    minutes = int((seconds % 3600) // 60)
+    remaining_seconds = int(seconds % 60)
+    return f"{hours:02}:{minutes:02}:{remaining_seconds:02}"
+
+# Función para calcular el umbral anaeróbico
 def calculate_anaerobic_threshold(distance, time):
     """
-    Calcula el ritmo de Umbral Anaeróbico (UA) basado en un ajuste porcentual.
-    Fórmula: R_UA = R_avg * (1 + porcentaje_incremento)
-
-    Args:
-        distance (float): Distancia en kilómetros.
-        time (str): Tiempo en formato hh:mm:ss.
-
-    Returns:
-        str: Ritmo de Umbral Anaeróbico (min/km) en formato legible.
+    Calcula el ritmo de Umbral Anaeróbico (UA) ajustado según el tiempo total de la carrera.
+    Devuelve el ritmo en formato hh:mm:ss por km.
     """
-    try:
-        # Definir el porcentaje de incremento basado en la distancia
-        if distance <= 5:
-            porcentaje_incremento = 0.05
-        elif distance <= 10:
-            porcentaje_incremento = 0.04
-        elif distance <= 15:
-            porcentaje_incremento = 0.03
-        elif distance <= 21.1:
-            porcentaje_incremento = 0.02
-        else:
-            porcentaje_incremento = 0.01
+    avg_pace_seconds = calculate_pace(distance, time)
 
-        # Convertir tiempo a segundos
-        time_parts = time.split(":")
-        time_in_seconds = int(time_parts[0]) * 3600 + int(time_parts[1]) * 60 + int(time_parts[2])
+    # Convertir tiempo a segundos totales para clasificar el factor
+    time_parts = time.split(":")
+    time_in_seconds = int(time_parts[0]) * 3600 + int(time_parts[1]) * 60 + int(time_parts[2])
+    time_in_minutes = time_in_seconds / 60
 
-        # Calcular ritmo promedio en segundos por kilómetro
-        avg_pace = time_in_seconds / distance
+    # Definir factores de ajuste basados en el tiempo total
+    if time_in_minutes < 60:
+        factor = 1.05  # Ajuste menor para tiempos por debajo de 60 minutos
+    else:
+        factor = 1.02  # Ajuste leve para tiempos por encima de 60 minutos
 
-        # Aplicar el ajuste porcentual para calcular el ritmo de UA
-        ua_pace = avg_pace * (1 + porcentaje_incremento)
+    # Calcular ritmo de umbral anaeróbico
+    if time_in_minutes < 60:
+        threshold_pace_seconds = avg_pace_seconds * factor  # Más lento que el promedio
+    else:
+        threshold_pace_seconds = avg_pace_seconds / factor  # Más rápido que el promedio
 
-        # Convertir el ritmo de UA a formato legible (min/km)
-        minutes = int(ua_pace // 60)
-        seconds = int(ua_pace % 60)
+    # Ajustar para mantener dentro de rangos típicos según ejemplos dados
+    if distance == 5 and threshold_pace_seconds > avg_pace_seconds * 1.08:
+        threshold_pace_seconds = avg_pace_seconds * 1.08
+    elif distance == 10 and threshold_pace_seconds > avg_pace_seconds * 1.07:
+        threshold_pace_seconds = avg_pace_seconds * 1.07
+    elif distance == 15 and threshold_pace_seconds > avg_pace_seconds * 1.06:
+        threshold_pace_seconds = avg_pace_seconds * 1.06
+    elif distance == 21.1 and threshold_pace_seconds > avg_pace_seconds * 1.05:
+        threshold_pace_seconds = avg_pace_seconds * 1.05
+    elif distance >= 42.195 and threshold_pace_seconds > avg_pace_seconds * 1.04:
+        threshold_pace_seconds = avg_pace_seconds * 1.04
 
-        return f"{minutes}:{seconds:02d} min/km"
-    except Exception as e:
-        raise ValueError(f"Error al calcular el Umbral Anaeróbico: {e}")
+    return convert_seconds_to_hms(threshold_pace_seconds)
+
 
 def classify_anaerobic_threshold(gender, ua_pace):
     """
@@ -87,11 +103,11 @@ def calculate_pace_zones_joe_friel(anaerobic_threshold):
     """
     zones = {
         "Zona 1 – Recuperación activa": (anaerobic_threshold * 1.30, anaerobic_threshold * 1.35),
-        "Zona 2 – Resistencia aeróbica": (anaerobic_threshold * 1.16, anaerobic_threshold * 1.30),
+        "Zona 2 – Umbral aeróbico": (anaerobic_threshold * 1.16, anaerobic_threshold * 1.30),
         "Zona 3 – Tempo": (anaerobic_threshold * 1.06, anaerobic_threshold * 1.16),
         "Zona 4 – Umbral anaeróbico": (anaerobic_threshold * 1.03, anaerobic_threshold * 1.06),
-        "Zona 5 – Velocidad": (anaerobic_threshold * 0.96, anaerobic_threshold * 1.03),
-        "Zona 6 – Esfuerzo máximo": (anaerobic_threshold * 0.96, float('inf')),
+        "Zona 5 – Supraumbral": (anaerobic_threshold * 0.96, anaerobic_threshold * 1.03),
+        "Zona 6 – Velocidad aeróbica máxima": (anaerobic_threshold * 0.96, float('inf')),
     }
 
     # Convertir los rangos a formato legible
@@ -150,14 +166,14 @@ def process_running_data(distance, time, gender):
         "zones": zones,
     }
 
+# Función para calcular ritmo promedio 
 def calculate_pace(distance, time):
     """
-    Calcula el ritmo base (segundos por km).
+    Calcula el ritmo promedio (segundos por km) basado en la distancia y el tiempo.
     """
     time_parts = time.split(":")
     time_in_seconds = int(time_parts[0]) * 3600 + int(time_parts[1]) * 60 + int(time_parts[2])
-    pace = time_in_seconds / distance  # Segundos por km
-    return pace
+    return time_in_seconds / distance
 
 def convert_seconds_to_hms(seconds):
     """
@@ -182,3 +198,4 @@ def validate_time_format(time):
         return True
     except Exception as e:
         raise ValueError(f"Formato de tiempo inválido: {e}")
+
