@@ -210,7 +210,7 @@ def cycling():
 @app.route('/triatlon_results', methods=['POST'])
 def triatlon_results():
     try:
-        # Recoger datos del formulario
+        # 1. Recoger datos del formulario
         swim_distance = int(request.form['swim_distance'])
         swim_hours = int(request.form['swim_hours'])
         swim_minutes = int(request.form['swim_minutes'])
@@ -238,7 +238,7 @@ def triatlon_results():
         }
         cda_label = cda_labels.get(cda, "Desconocido")
 
-        # Procesar datos de natación
+        # 2. Procesar datos de natación
         swim_time = f"{swim_hours:02}:{swim_minutes:02}:{swim_seconds:02}"
         estimated_times, css, css_category = estimate_swim_times(swim_distance, swim_time)
 
@@ -247,20 +247,16 @@ def triatlon_results():
         if not event_distance:
             raise ValueError("Evento no válido.")
 
-        # Extraer el tiempo estimado de natación
-        event_swim_time = estimated_times[event_distance]["time"]
-
-        # Calcular el tiempo estimado de natación en segundos
         event_swim_time_seconds = sum(
-            x * int(t) for x, t in zip([3600, 60, 1], event_swim_time.split(":"))
+            x * int(t) for x, t in zip([3600, 60, 1], estimated_times[event_distance]["time"].split(":"))
         )
 
-        # Procesar datos de ciclismo (cálculo FTP)
+        # 3. Procesar datos de ciclismo (cálculo FTP)
         ftp, ftp_kg = calculate_ftp(gender, weight, power, test_time)
         ftp_category = classify_ftp(ftp_kg, gender)
         watts_range = calculate_event_watts(ftp, event)
 
-        # Procesar datos de bicicleta y velocidad
+        # 4. Procesar datos de bicicleta y velocidad
         bike_weight = 8.0  # Peso de la bicicleta en kg
         alpha = 0.95  # Factor de corrección empírico
         mass_total = weight + bike_weight
@@ -289,7 +285,7 @@ def triatlon_results():
             tri_speeds_data[event]["time_min"] + tri_speeds_data[event]["time_max"]
         ) / 2 * 60
 
-        # Procesar datos de carrera
+        # 5. Procesar datos de carrera
         run_time = f"{run_hours:02}:{run_minutes:02}:{run_seconds:02}"
         avg_pace_seconds = calculate_pace(run_distance, run_time)
         ua_pace_seconds = calculate_anaerobic_threshold(run_distance, run_time)
@@ -310,14 +306,15 @@ def triatlon_results():
             x * int(t) for x, t in zip([3600, 60, 1], event_running_times["event_time"].split(":"))
         )
 
-        # Calcular tiempo total promedio
+        # 6. Calcular tiempo total promedio
         total_time_avg_sec = event_swim_time_seconds + bike_time_avg_sec + run_time_sec
         total_time_avg_hhmmss = hours_to_hms_str(total_time_avg_sec / 3600)
 
-        # Renderizar la plantilla con todos los datos
+        # 7. Renderizar la plantilla con todos los datos
         return render_template(
             'triatlon_results.html',
-            event_time_swim=event_swim_time,  # Tiempo específico de natación
+            estimated_times=estimated_times,  # Pasar al contexto
+            event_time_swim=estimated_times[event_distance]["time"],  # Tiempo específico de natación
             css=css,
             css_category=css_category,
             event_distance=event_distance,
@@ -335,6 +332,7 @@ def triatlon_results():
         )
     except Exception as e:
         return f"Error: {e}"
+
 
 
 @app.route('/triatlon_input', methods=['GET', 'POST'])
