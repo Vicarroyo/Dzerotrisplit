@@ -97,7 +97,7 @@
         }
 
         .time-select select {
-            width: 50px; /* ancho fijo para horas, min, seg */
+            width: 70px; /* ancho fijo para horas, min, seg */
             padding: 8px;
             border: none;
             border-radius: 10px;
@@ -170,50 +170,52 @@
                 </select>
 
                 <!-- Natación -->
-                <h2>Natación</h2>
-                <label for="swim-distance">Distancia (m):</label>
-                <select id="swim-distance" name="swim_distance" required>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                    <option value="200">200</option>
-                    <option value="400">400</option>
-                    <option value="800">800</option>
-                    <option value="1500">1500</option>
-                    <option value="1900">1900</option>
-                    <option value="3800">3800</option>
-                </select>
+<h2>Natación</h2>
+<label for="swim-distance">Distancia (m):</label>
+<select id="swim-distance" name="swim_distance" required>
+    <option value="50">50</option>
+    <option value="100">100</option>
+    <option value="200">200</option>
+    <option value="400">400</option>
+    <option value="800">800</option>
+    <option value="1500">1500</option>
+    <option value="1900">1900</option>
+    <option value="3800">3800</option>
+</select>
 
-                <label for="swim-time">Tiempo:</label>
-                <div class="time-select">
-                    <div>
-                        <select id="swim-hours" name="swim_hours" required>
-                            {% for h in range(0, 24) %}
-                            <option value="{{ h }}">{{ h }}</option>
-                            {% endfor %}
-                        </select>
-                        <span>hh</span>
-                    </div>
-                    <div>
-                        <select id="swim-minutes" name="swim_minutes" required>
-                            {% for m in range(0, 60) %}
-                            <option value="{{ m }}">{{ m }}</option>
-                            {% endfor %}
-                        </select>
-                        <span>mm</span>
-                    </div>
-                    <div>
-                        <select id="swim-seconds" name="swim_seconds" required>
-                            {% for s in range(0, 60) %}
-                            <option value="{{ s }}">{{ s }}</option>
-                            {% endfor %}
-                        </select>
-                        <span>ss</span>
-                    </div>
-                </div>
+<label for="swim-time">Tiempo:</label>
+<div class="time-select">
+    <div>
+        <select id="swim-hours" name="swim_hours" required>
+            <!-- Usar valores generados dinámicamente -->
+            {% for h in range(0, 24) %}
+            <option value="{{ h }}">{{ h }}</option>
+            {% endfor %}
+        </select>
+        <span>hh</span>
+    </div>
+    <div>
+        <select id="swim-minutes" name="swim_minutes" required>
+            {% for m in range(0, 60) %}
+            <option value="{{ m }}">{{ m }}</option>
+            {% endfor %}
+        </select>
+        <span>mm</span>
+    </div>
+    <div>
+        <select id="swim-seconds" name="swim_seconds" required>
+            {% for s in range(0, 60) %}
+            <option value="{{ s }}">{{ s }}</option>
+            {% endfor %}
+        </select>
+        <span>ss</span>
+    </div>
+</div>
+
 
                 <!-- Ciclismo -->
                 <h2>Ciclismo</h2>
-                <label for="weight">Peso (kg):</label>
+                <label for="weight">Peso corporal (kg):</label>
                 <input 
                   type="number" 
                   id="weight" 
