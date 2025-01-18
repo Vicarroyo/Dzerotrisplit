@@ -354,3 +354,4 @@ def calculate_tri_speeds(ftp, mass_total, cda, rho=1.225, alpha=0.95):
             "time_max_hhmmss": time_max_hhmmss
         }
     return results
+
