@@ -9,6 +9,10 @@ from utils.running import (
 )
 from utils.swimming import estimate_swim_times, calculate_zones
 from utils.cycling import calculate_ftp, classify_ftp, calculate_ftp_zones, calculate_corrected_speed, calculate_tri_speeds
+from flask import Flask, render_template, request, session
+from datetime import timedelta
+
+# Importación de funciones desde utils.triatlon
 from utils.triatlon import (
     estimate_swim_times,
     calculate_ftp,
@@ -24,12 +28,24 @@ from utils.triatlon import (
     calculate_speed,
     calculate_corrected_speed,
     hours_to_hms_str,
-    calculate_tri_speeds
+    calculate_tri_speeds,
+    calculate_adjusted_time,
+    convert_seconds_to_hms
 )
+
+from utils.triatlon import convert_seconds_to_hms
+
+app = Flask(__name__)
+app.jinja_env.filters['convert_seconds_to_hms'] = convert_seconds_to_hms
 
 
 # Crear la instancia de Flask
 app = Flask(__name__)
+
+from flask import Flask
+
+app = Flask(__name__)
+app.secret_key = "una_clave_secreta_muy_aleatoria_y_segura"  # Cambia este valor por uno único y secreto
 
 # Ruta de inicio
 @app.route('/')
@@ -82,49 +98,56 @@ def running():
     return render_template('running_input.html')
 
 
-
-# Página para natación
-@app.route('/swimming', methods=['GET', 'POST']) 
+@app.route('/swimming', methods=['GET', 'POST'])
 def swimming():
     if request.method == 'POST':
-        # Obtener los datos del formulario
-        distance = float(request.form['distance'])
-        hours = int(request.form['hours'])
-        minutes = int(request.form['minutes'])
-        seconds = int(request.form['seconds'])
+        try:
+            # Obtener los datos del formulario
+            distance = float(request.form['distance'])  # Distancia del test en metros
+            hours = int(request.form['hours'])  # Horas
+            minutes = int(request.form['minutes'])  # Minutos
+            seconds = int(request.form['seconds'])  # Segundos
 
-        # Convertir tiempo a formato hh:mm:ss
-        total_time = f"{hours:02}:{minutes:02}:{seconds:02}"
+            # Convertir el tiempo total a segundos
+            total_seconds = (hours * 3600) + (minutes * 60) + seconds
 
-        # Calcular las estimaciones, CSS y categoría
-        estimates, css, css_category = estimate_swim_times(distance, total_time)
+            # Calcular el ritmo promedio en segundos por 100m
+            pace_seconds_per_100m = (total_seconds / distance) * 100
 
-        # Calcular las zonas en base al CSS
-        css_seconds = sum(
-            x * int(t) for x, t in zip([3600, 60, 1], css.split(":"))
-        )  # Convertir CSS a segundos
-        zones = calculate_zones(css_seconds)
+            # Convertir el ritmo promedio a formato MM:SS
+            pace_minutes = int(pace_seconds_per_100m // 60)
+            pace_remainder_seconds = int(pace_seconds_per_100m % 60)
+            pace = f"{pace_minutes:02}:{pace_remainder_seconds:02}"  # Formato MM:SS
 
-        # Calcular ritmo promedio (pace) en segundos por 100m
-        total_seconds = (hours * 3600) + (minutes * 60) + seconds
-        pace_seconds = (total_seconds / distance) * 100  # Tiempo por 100m
-        pace_minutes = int(pace_seconds // 60)
-        pace_remainder_seconds = int(pace_seconds % 60)
-        pace = f"{pace_minutes:02}:{pace_remainder_seconds:02}"  # Formato mm:ss
+            # Formatear el tiempo total para usar en cálculos posteriores
+            total_time = f"{hours:02}:{minutes:02}:{seconds:02}"
 
-        # Renderizar resultados
-        return render_template(
-            'swimming_results.html',
-            selected_distance=distance,
-            pace=pace,
-            estimates=estimates,
-            css=css,
-            css_category=css_category,
-            zones=zones,
-        )
+            # Calcular las estimaciones, CSS y categoría
+            estimates, css, css_category = estimate_swim_times(distance, total_time)
+
+            # Convertir CSS a segundos para calcular zonas
+            css_seconds = sum(
+                x * int(t) for x, t in zip([3600, 60, 1], css.split(":"))
+            )
+            zones = calculate_zones(css_seconds)
+
+            # Renderizar los resultados
+            return render_template(
+                'swimming_results.html',
+                selected_distance=distance,
+                total_time=total_time,  # Tiempo total del test
+                pace=pace,  # Ritmo promedio en MM:SS
+                estimates=estimates,  # Tiempos estimados para diferentes distancias
+                css=css,  # Velocidad crítica de nado (CSS) en MM:SS
+                css_category=css_category,  # Categoría del nadador
+                zones=zones,  # Zonas de entrenamiento calculadas
+            )
+        except Exception as e:
+            return f"Error inesperado: {e}"
 
     # Renderizar el formulario si es un GET
     return render_template('swimming_input.html')
+
 
 
 from flask import render_template, request
@@ -221,6 +244,11 @@ def triatlon_results():
         run_minutes = int(request.form['run_minutes'])
         run_seconds = int(request.form['run_seconds'])
 
+        # Recoger datos de Transiciones (HH:MM:SS)
+        transition_hours = int(request.form['transition_hours'])
+        transition_minutes = int(request.form['transition_minutes'])
+        transition_seconds = int(request.form['transition_seconds'])
+
         gender = request.form['gender']
         weight = float(request.form['weight'])
         power = int(request.form['power'])
@@ -228,7 +256,7 @@ def triatlon_results():
         event = request.form['event']
 
         # Recoger CdA y mapearlo a una etiqueta legible
-        cda = float(request.form.get('cda', 0.25))  # Default a 0.25 si no se proporciona
+        cda = float(request.form.get('cda', 0.25))
         cda_labels = {
             0.2: "(posición élite)",
             0.225: "(posición avanzada)",
@@ -257,21 +285,19 @@ def triatlon_results():
         watts_range = calculate_event_watts(ftp, event)
 
         # 4. Procesar datos de bicicleta y velocidad
-        bike_weight = 8.0  # Peso de la bicicleta en kg
-        alpha = 0.95  # Factor de corrección empírico
+        bike_weight = 8.0
+        alpha = 0.95
         mass_total = weight + bike_weight
 
-        # Velocidad al 100% de FTP (teórica + corrección)
         velocidad_ciclismo_100 = calculate_corrected_speed(
             ftp=ftp,
             mass_total=mass_total,
             cda=cda,
-            intensity=1.0,  # 100% FTP
+            intensity=1.0,
             rho=1.225,
             alpha=alpha
         )
 
-        # Velocidades y tiempos por tipo de evento
         tri_speeds_data = calculate_tri_speeds(
             ftp=ftp,
             mass_total=mass_total,
@@ -280,10 +306,9 @@ def triatlon_results():
             alpha=alpha
         )
 
-        # Calcular el tiempo promedio de ciclismo en segundos
         bike_time_avg_sec = (
-            tri_speeds_data[event]["time_min"] + tri_speeds_data[event]["time_max"]
-        ) / 2 * 60
+            (tri_speeds_data[event]["time_min"] + tri_speeds_data[event]["time_max"]) / 2 * 60
+        )
 
         # 5. Procesar datos de carrera
         run_time = f"{run_hours:02}:{run_minutes:02}:{run_seconds:02}"
@@ -301,20 +326,29 @@ def triatlon_results():
         }
         event_running_times = calculate_event_running_times(event, avg_pace_seconds)
 
-        # Tiempo total de carrera en segundos
         run_time_sec = sum(
             x * int(t) for x, t in zip([3600, 60, 1], event_running_times["event_time"].split(":"))
         )
 
-        # 6. Calcular tiempo total promedio
-        total_time_avg_sec = event_swim_time_seconds + bike_time_avg_sec + run_time_sec
+        # 6. Procesar datos de transiciones
+        transition_time_sec = transition_hours * 3600 + transition_minutes * 60 + transition_seconds
+
+        # 7. Calcular tiempo total (incluyendo transiciones)
+        total_time_avg_sec = event_swim_time_seconds + bike_time_avg_sec + run_time_sec + transition_time_sec
         total_time_avg_hhmmss = hours_to_hms_str(total_time_avg_sec / 3600)
 
-        # 7. Renderizar la plantilla con todos los datos
+        # 8. Guardar tiempos en session para ajustes posteriores
+        session['original_times'] = {
+            'natacion': event_swim_time_seconds,
+            'ciclismo': bike_time_avg_sec,
+            'carrera': run_time_sec
+        }
+        session['original_total_time'] = total_time_avg_sec
+
         return render_template(
             'triatlon_results.html',
-            estimated_times=estimated_times,  # Pasar al contexto
-            event_time_swim=estimated_times[event_distance]["time"],  # Tiempo específico de natación
+            estimated_times=estimated_times,
+            event_time_swim=estimated_times[event_distance]["time"],
             css=css,
             css_category=css_category,
             event_distance=event_distance,
@@ -334,6 +368,85 @@ def triatlon_results():
         return f"Error: {e}"
 
 
+@app.route('/ajustes_input', methods=['GET'])
+def ajustes_input():
+    # Renderiza el formulario de ajustes
+    return render_template('ajustes_input.html')
+
+def convert_seconds_to_hms(seconds):
+    """
+    Convierte segundos en formato hh:mm:ss.
+    """
+    h = int(seconds // 3600)
+    m = int((seconds % 3600) // 60)
+    s = int(seconds % 60)
+    return f"{h:02}:{m:02}:{s:02}"
+
+
+
+# Registrar filtro para convertir segundos a formato hh:mm:ss
+app.jinja_env.filters['convert_seconds_to_hms'] = convert_seconds_to_hms
+
+@app.route('/ajustes_results', methods=['GET', 'POST'])
+def ajustes_variables():
+    if request.method == 'POST':
+        try:
+            # Procesar tiempos base (convertir minutos a segundos)
+            base_times = {
+                "natacion": float(request.form.get('base_time_swim', '0')) * 60,
+                "ciclismo": float(request.form.get('base_time_bike', '0')) * 60,
+                "carrera": float(request.form.get('base_time_run', '0')) * 60,
+            }
+
+            # Procesar ajustes
+            adjustments = {
+                "natacion": {
+                    "neopreno": float(request.form.get('swim_adjustments_neopreno', '0')),
+                    "olas_mod": float(request.form.get('swim_adjustments_olas_mod', '0')),
+                    "corriente": float(request.form.get('swim_adjustments_corriente', '0')),
+                    "tecnica": float(request.form.get('swim_adjustments_tecnica', '0')),
+                },
+                "ciclismo": {
+                    "viento_mod": float(request.form.get('bike_adjustments_viento_mod', '0')),
+                    "desnivel": float(request.form.get('bike_adjustments_desnivel', '0')),
+                    "asfalto": float(request.form.get('bike_adjustments_asfalto', '0')),
+                },
+                "carrera": {
+                    "temperatura_calor": float(request.form.get('run_adjustments_temperatura_calor', '0')),
+                    "superficie_trail": float(request.form.get('run_adjustments_superficie_trail', '0')),
+                    "fatiga": float(request.form.get('run_adjustments_fatiga', '0')),
+                    "hidratacion": float(request.form.get('run_adjustments_hidratacion', '0')),
+                },
+            }
+
+            # Calcular tiempos ajustados
+            adjusted_times = {
+                "natacion": calculate_adjusted_time(base_times["natacion"], adjustments["natacion"]),
+                "ciclismo": calculate_adjusted_time(base_times["ciclismo"], adjustments["ciclismo"]),
+                "carrera": calculate_adjusted_time(base_times["carrera"], adjustments["carrera"]),
+            }
+
+            total_adjusted_time = sum(adjusted_times.values())
+            modified_variables = {
+                k: [var for var, val in adjustments[k].items() if val != 0]
+                for k in adjustments
+            }
+
+            return render_template(
+                'ajustes_resultados.html',
+                original_times=base_times,
+                adjusted_times=adjusted_times,
+                total_adjusted_time=total_adjusted_time,
+                original_total_time=sum(base_times.values()),
+                modified_variables=modified_variables,
+            )
+        except Exception as e:
+            return f"Error inesperado: {e}"
+
+    return render_template('ajustes_input.html')
+
+
+
 
 @app.route('/triatlon_input', methods=['GET', 'POST'])
 def triatlon_input():
@@ -344,7 +457,6 @@ def triatlon_input():
 @app.route('/instructions')
 def instructions():
     return render_template('instructions.html')
-
 
 
 if __name__ == '__main__':
