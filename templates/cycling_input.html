@@ -13,7 +13,6 @@
     * {
       box-sizing: border-box;
     }
-
     body {
       font-family: "Poppins", sans-serif;
       background: #f0f5fc;
@@ -25,7 +24,6 @@
       min-height: 100vh;
       text-align: center;
     }
-
     .container {
       width: 100%;
       max-width: 400px;
@@ -34,33 +32,30 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      position: relative;
     }
-
     h1, h2 {
       color: #444444;
     }
-
     h1 {
       font-size: 2.5rem;
       font-weight: 700;
       margin-bottom: 10px;
     }
-
     h2 {
       font-size: 1.8rem;
       font-weight: 600;
       color: #4caf50;
       margin-bottom: 20px;
     }
-
     .form-container {
       background: #e0e5ec;
       padding: 20px;
       border-radius: 15px;
       box-shadow: 6px 6px 12px #bebebe, -6px -6px 12px #ffffff;
       width: 100%;
+      position: relative; /* Para poder posicionar el ícono de ayuda de forma absoluta */
     }
-
     .form-container label {
       font-weight: 600;
       color: #444444;
@@ -68,7 +63,6 @@
       text-align: center;
       display: block;
     }
-
     .form-container select,
     .form-container input[type="number"],
     .form-container input[type="text"] {
@@ -84,7 +78,6 @@
       text-align: center;
       outline: none;
     }
-
     input[type="submit"] {
       width: 100%;
       padding: 12px;
@@ -97,12 +90,10 @@
       cursor: pointer;
       transition: all 0.3s ease-in-out;
     }
-
     input[type="submit"]:hover {
       background: #76ff7a;
       box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
     }
-
     a {
       font-family: "Poppins", sans-serif;
       display: block;
@@ -113,9 +104,32 @@
       text-decoration: none;
       transition: color 0.3s ease;
     }
-
     a:hover {
       color: #76ff7a;
+    }
+    /* Ícono de ayuda pegado arriba a la derecha dentro del contenedor */
+    .help-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 24px;
+      color: #4caf50;
+      cursor: pointer;
+    }
+    /* Texto de ayuda, inicialmente oculto */
+    .help-text {
+      display: none;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 5px;
+      position: absolute;
+      top: 40px;
+      right: 10px;
+      width: 250px;
+      text-align: left;
+      z-index: 10;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
   </style>
 </head>
@@ -124,6 +138,17 @@
     <h1>Calculadora</h1>
     <h2>Ciclismo</h2>
     <div class="form-container">
+      <!-- Ícono de ayuda pegado arriba a la derecha dentro del contenedor -->
+      <span class="help-icon" onclick="toggleHelp()">&#x2753;</span>
+      <!-- Texto de ayuda, inicialmente oculto -->
+      <div id="help-text" class="help-text">
+        <p>En este test de ciclismo, introduce los datos solicitados:</p>
+        <p>- Género, peso y peso de la bici.</p>
+        <p>- Duración del test y vatios medios.</p>
+        <p>- Selecciona la posición aerodinámica (CdA).</p>
+        <p>Si no estas seguro, elije la opción que se ajuste a tu rendimiento.</p>
+      </div>
+      
       <form method="POST">
         <label for="gender">Género:</label>
         <select id="gender" name="gender" required>
@@ -160,7 +185,7 @@
           <option value="30">30 minutos</option>
         </select>
 
-        <label for="power">Vatios Normalizados (NP):</label>
+        <label for="power">Vatios Medios:</label>
         <input
           type="number"
           id="power"
@@ -185,5 +210,17 @@
       <a href="/">Volver al inicio</a>
     </div>
   </div>
+
+  <script>
+    function toggleHelp() {
+      var helpText = document.getElementById("help-text");
+      if (helpText.style.display === "none" || helpText.style.display === "") {
+        helpText.style.display = "block";
+      } else {
+        helpText.style.display = "none";
+      }
+    }
+  </script>
 </body>
 </html>
+
