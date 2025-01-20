@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -107,14 +107,23 @@
     a:hover {
       color: #76ff7a;
     }
-    /* Ícono de ayuda pegado arriba a la derecha dentro del contenedor */
+    /* Ícono de interrogación dentro de un círculo verde */
     .help-icon {
       position: absolute;
       top: 10px;
       right: 10px;
-      font-size: 24px;
-      color: #4caf50;
+      width: 30px;
+      height: 30px;
+      background-color: #4caf50; /* Fondo verde */
+      border-radius: 50%; /* Círculo */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white; /* Color del ícono */
+      font-size: 18px; /* Tamaño del ícono */
+      font-weight: bold; /* Más grueso para que resalte */
       cursor: pointer;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     }
     /* Texto de ayuda, inicialmente oculto */
     .help-text {
@@ -124,12 +133,12 @@
       padding: 10px;
       border-radius: 5px;
       position: absolute;
-      top: 40px;
+      top: 45px;
       right: 10px;
       width: 250px;
       text-align: left;
       z-index: 10;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     }
   </style>
 </head>
@@ -138,15 +147,15 @@
     <h1>Calculadora</h1>
     <h2>Ciclismo</h2>
     <div class="form-container">
-      <!-- Ícono de ayuda pegado arriba a la derecha dentro del contenedor -->
-      <span class="help-icon" onclick="toggleHelp()">&#x2753;</span>
+      <!-- Ícono de interrogación dentro de un círculo verde -->
+      <span class="help-icon" onclick="toggleHelp()">?</span>
       <!-- Texto de ayuda, inicialmente oculto -->
       <div id="help-text" class="help-text">
         <p>En este test de ciclismo, introduce los datos solicitados:</p>
         <p>- Género, peso y peso de la bici.</p>
         <p>- Duración del test y vatios medios.</p>
         <p>- Selecciona la posición aerodinámica (CdA).</p>
-        <p>Si no estas seguro, elije la opción que se ajuste a tu rendimiento.</p>
+        <p>Si no estás seguro, elije la opción que se ajuste a tu rendimiento.</p>
       </div>
       
       <form method="POST">
