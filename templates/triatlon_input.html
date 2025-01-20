@@ -147,9 +147,18 @@
             position: absolute;
             top: 10px;
             right: 10px;
-            font-size: 24px;
-            color: #4caf50;
+            width: 30px;
+            height: 30px;
+            background-color: #4caf50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
             cursor: pointer;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
         }
         /* Texto de ayuda, inicialmente oculto */
         .help-text {
@@ -159,7 +168,7 @@
             padding: 10px;
             border-radius: 5px;
             position: absolute;
-            top: 40px;
+            top: 45px;
             right: 10px;
             width: 250px;
             text-align: left;
@@ -175,23 +184,19 @@
         <h2>Triatlón</h2>
 
         <div class="form-container">
-            <!-- Ícono de ayuda pegado arriba a la derecha dentro del contenedor -->
-            <span class="help-icon" onclick="toggleHelp()">&#x2753;</span>
+            <!-- Ícono de ayuda con diseño verde y círculo -->
+            <span class="help-icon" onclick="toggleHelp()">?</span>
             <!-- Texto de ayuda, inicialmente oculto -->
             <div id="help-text" class="help-text">
                 <p>Vamos a calcular el tiempo total de un evento de triatlón:</p>
                 <p>- Selecciona la distancia del evento que quieres calcular.</p>
                 <p>- Indica tu género.</p>
-                <p>A partir de aquí, si no estás seguro en algun dato, elige la opción que se ajuste a tu rendimiento.</p>
-                <p>Selecciona la distancia y el tiempo de tu último Test de natación.</p>
-                <p>El formato es: Horas:Minutos:Segundos.</p>
+                <p>Selecciona la distancia y el tiempo de tu último Test de natación (Formato: Horas:Minutos:Segundos).</p>
                 <p>Rellena los campos del test de ciclismo, tu peso y el peso de tu bici.</p>
-                <p>Elige el tiempo del ultimo test de ciclismo y los vatios medios que moviste.</p>
-                <p>Selecciona la posición que llevarás en la bici de competición durante la competición que quieres calcular.</p>
-                <p>En este test de carrera, introduce los datos solicitados:</p>
-                <p>- Selecciona la distancia (km) del evento o test.</p>
-                <p>- Ingresa el tiempo que te costó completar la distancia (Formato: Horas:Minutos:Segundos).</p>
-                <p>Indica mas o menos cuanto tradarías en realizar las 2 transiciones T1 y T2 (Formato: Horas:Minutos:Segundos)</p>
+                <p>Elige el tiempo del último test de ciclismo y los vatios medios que moviste.</p>
+                <p>Selecciona la posición que llevarás en la bici de competición.</p>
+                <p>Introduce la distancia y el tiempo de tu última carrera (Formato: Horas:Minutos:Segundos).</p>
+                <p>Indica cuánto tiempo estimas para las transiciones T1 y T2 (Formato: Horas:Minutos:Segundos).</p>
             </div>
             
             <form method="POST" action="/triatlon_results">
