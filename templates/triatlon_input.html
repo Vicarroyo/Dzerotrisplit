@@ -1,11 +1,9 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <!-- Aseguramos vista responsive en móviles -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Calculadora Triatlón</title>
-    <!-- Fuente Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         /* CONTENEDOR GENERAL */
@@ -14,7 +12,7 @@
             background: #f0f5fc;
             margin: 0;
             padding: 0;
-            display: flex;             /* centro vertical/horizontal */
+            display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
@@ -23,16 +21,12 @@
         .container {
             width: 90%;
             max-width: 400px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            text-align: center;
         }
 
         h1 {
             font-size: 2.5rem;
             font-weight: 700;
-            text-align: center;
             color: #444444;
             margin-bottom: 10px;
         }
@@ -40,31 +34,25 @@
         h2 {
             font-size: 1.8rem;
             font-weight: 600;
-            text-align: center;
             color: #4caf50;
-            margin-bottom: 20px;
+            margin: 15px 0;
         }
 
-        /* CONTENEDOR DEL FORMULARIO */
         .form-container {
             background: #e0e5ec;
             padding: 20px;
             border-radius: 20px;
             box-shadow: 4px 4px 8px #bebebe, -4px -4px 8px #ffffff;
-            width: 100%;
-            position: relative; /* Para posicionar el ícono de ayuda */
         }
 
         .form-container label {
             font-weight: 600;
             color: #444444;
-            margin-bottom: 10px;
-            text-align: center;
+            margin-bottom: 5px;
             display: block;
         }
 
-        /* CAMPOS DE DATOS (MISMO ANCHO) */
-        .form-container select, 
+        .form-container select,
         .form-container input[type="number"] {
             font-family: 'Poppins', sans-serif;
             width: 100%;
@@ -73,44 +61,27 @@
             border: none;
             border-radius: 10px;
             background: #f0f5fc;
-            box-shadow: inset 4px 4px 8px #bebebe,
-                        inset -4px -4px 8px #ffffff;
-            font-size: 14px;
-            color: #444444;
-            outline: none;
+            box-shadow: inset 4px 4px 8px #bebebe, inset -4px -4px 8px #ffffff;
             text-align: center;
         }
 
         .time-select {
             display: flex;
             justify-content: center;
-            align-items: center;
             gap: 5px;
         }
 
         .time-select div {
             display: flex;
             align-items: center;
-            gap: 5px;
         }
 
         .time-select select {
-            width: 70px; /* ancho fijo para horas, min, seg */
-            padding: 8px;
-            border: none;
-            border-radius: 10px;
-            background: #f0f5fc;
-            box-shadow: inset 4px 4px 8px #bebebe,
-                        inset -4px -4px 8px #ffffff;
-            font-size: 14px;
-            color: #444444;
-            outline: none;
+            width: 60px;
             text-align: center;
         }
 
-        /* BOTÓN CALCULAR */
         input[type="submit"] {
-            font-family: 'Poppins', sans-serif;
             width: 100%;
             padding: 12px;
             border: none;
@@ -118,52 +89,59 @@
             background: #4caf50;
             color: white;
             font-weight: 600;
-            font-size: 16px;
             cursor: pointer;
-            transition: all 0.3s ease-in-out;
+            transition: background 0.3s;
         }
 
         input[type="submit"]:hover {
             background: #76ff7a;
-            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
         }
 
-        a {
-            font-family: 'Poppins', sans-serif;
+        .toggle-btn {
+            width: 100%;
+            text-align: left;
+            padding: 10px 15px;
+            background: #4caf50;
+            color: white;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .toggle-btn:hover {
+            background: #76ff7a;
+        }
+
+        .section-content {
+            display: none;
+            padding: 10px 0;
+        }
+
+        .visible {
             display: block;
-            text-align: center;
-            margin-top: 15px;
-            font-size: 14px;
-            color: #4caf50;
-            text-decoration: none;
-            transition: color 0.3s ease;
         }
 
-        a:hover {
-            color: #76ff7a;
-        }
-        /* Ícono de ayuda pegado arriba a la derecha dentro del contenedor */
         .help-icon {
             position: absolute;
             top: 10px;
             right: 10px;
+            background: #4caf50;
+            color: white;
             width: 30px;
             height: 30px;
-            background-color: #4caf50;
-            border-radius: 50%;
             display: flex;
-            align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
+            align-items: center;
+            border-radius: 50%;
             cursor: pointer;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
         }
-        /* Texto de ayuda, inicialmente oculto */
+
         .help-text {
             display: none;
-            background-color: #fff;
+            background: white;
             border: 1px solid #ccc;
             padding: 10px;
             border-radius: 5px;
@@ -171,9 +149,8 @@
             top: 45px;
             right: 10px;
             width: 250px;
-            text-align: left;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             z-index: 10;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
     </style>
 </head>
@@ -189,8 +166,8 @@
             <!-- Texto de ayuda, inicialmente oculto -->
             <div id="help-text" class="help-text">
                 <p>Vamos a calcular el tiempo total de un evento de triatlón:</p>
-                <p>- Selecciona la distancia del evento que quieres calcular.</p>
-                <p>- Indica tu género.</p>
+                <p>Selecciona la distancia del evento que quieres calcular.</p>
+                <p>Indica tu género.</p>
                 <p>Selecciona la distancia y el tiempo de tu último Test de natación (Formato: Horas:Minutos:Segundos).</p>
                 <p>Rellena los campos del test de ciclismo, tu peso y el peso de tu bici.</p>
                 <p>Elige el tiempo del último test de ciclismo y los vatios medios que moviste.</p>
@@ -198,8 +175,10 @@
                 <p>Introduce la distancia y el tiempo de tu última carrera (Formato: Horas:Minutos:Segundos).</p>
                 <p>Indica cuánto tiempo estimas para las transiciones T1 y T2 (Formato: Horas:Minutos:Segundos).</p>
             </div>
-            
+
             <form method="POST" action="/triatlon_results">
+
+                <!-- DISTANCIA DEL EVENTO -->
                 <label for="event">Distancia Objetivo del Evento:</label>
                 <select id="event" name="event" required>
                     <option value="sprint">Sprint</option>
@@ -208,191 +187,182 @@
                     <option value="full">Full Ironman (140.6)</option>
                 </select>
 
+                <!-- GÉNERO -->
                 <label for="gender">Género:</label>
                 <select id="gender" name="gender" required>
                     <option value="male">Masculino</option>
                     <option value="female">Femenino</option>
                 </select>
 
-                <!-- Natación -->
-                <h2>Natación</h2>
-                <label for="swim-distance">Distancia (m):</label>
-                <select id="swim-distance" name="swim_distance" required>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                    <option value="200">200</option>
-                    <option value="400">400</option>
-                    <option value="800">800</option>
-                    <option value="1500">1500</option>
-                    <option value="1900">1900</option>
-                    <option value="3800">3800</option>
-                </select>
+                <!-- NATACIÓN -->
+<button type="button" class="toggle-btn" onclick="toggleSection('natacion')" 
+style="font-family: 'Poppins', sans-serif;">Natación</button>
+<div id="natacion" class="section-content">
+<label for="swim-distance">Distancia (m):</label>
+<select id="swim-distance" name="swim_distance" required>
+    <option value="50">50</option>
+    <option value="100">100</option>
+    <option value="200">200</option>
+    <option value="400">400</option>
+    <option value="800">800</option>
+    <option value="1500">1500</option>
+    <option value="1900">1900</option>
+    <option value="3800">3800</option>
+</select>
+<label>Tiempo:</label>
+<div class="time-select">
+    <div>
+        <select id="swim-hours" name="swim_hours" required>
+            {% for h in range(0, 24) %}
+            <option value="{{ h }}">{{ h }}</option>
+            {% endfor %}
+        </select>
+        <span>hh</span>
+    </div>
+    <div>
+        <select id="swim-minutes" name="swim_minutes" required>
+            {% for m in range(0, 60) %}
+            <option value="{{ m }}">{{ m }}</option>
+            {% endfor %}
+        </select>
+        <span>mm</span>
+    </div>
+    <div>
+        <select id="swim-seconds" name="swim_seconds" required>
+            {% for s in range(0, 60) %}
+            <option value="{{ s }}">{{ s }}</option>
+            {% endfor %}
+        </select>
+        <span>ss</span>
+    </div>
+</div>
+</div>
 
-                <label for="swim-time">Tiempo:</label>
-                <div class="time-select">
-                    <div>
-                        <select id="swim-hours" name="swim_hours" required>
-                            {% for h in range(0, 24) %}
-                            <option value="{{ h }}">{{ h }}</option>
-                            {% endfor %}
-                        </select>
-                        <span>hh</span>
-                    </div>
-                    <div>
-                        <select id="swim-minutes" name="swim_minutes" required>
-                            {% for m in range(0, 60) %}
-                            <option value="{{ m }}">{{ m }}</option>
-                            {% endfor %}
-                        </select>
-                        <span>mm</span>
-                    </div>
-                    <div>
-                        <select id="swim-seconds" name="swim_seconds" required>
-                            {% for s in range(0, 60) %}
-                            <option value="{{ s }}">{{ s }}</option>
-                            {% endfor %}
-                        </select>
-                        <span>ss</span>
-                    </div>
+
+<!-- CICLISMO -->
+<button type="button" class="toggle-btn" onclick="toggleSection('ciclismo')" 
+    style="font-family: 'Poppins', sans-serif;">Ciclismo</button>
+<div id="ciclismo" class="section-content">
+                    <label for="weight">Peso corporal (kg):</label>
+                    <input type="number" id="weight" name="weight" min="30" max="200" step="0.1" required />
+
+                    <label for="bike_weight">Peso de la bici (kg):</label>
+                    <input type="number" id="bike_weight" name="bike_weight" min="0" max="30" step="0.1" required />
+
+                    <label for="test-time">Duración del Test (min):</label>
+                    <select id="test-time" name="test_time" required>
+                        <option value="10">10 minutos</option>
+                        <option value="20">20 minutos</option>
+                        <option value="30">30 minutos</option>
+                    </select>
+
+                    <label for="power">Vatios Medios:</label>
+                    <input type="number" id="power" name="power" min="50" max="1000" step="1" required />
+
+                    <label for="cda">Posición aerodinámica (CdA):</label>
+                    <select id="cda" name="cda" required>
+                        <option value="0.2">(posición élite)</option>
+                        <option value="0.225">(posición avanzada)</option>
+                        <option value="0.25">(posición estándar)</option>
+                        <option value="0.275">(posición poco aerodinámica)</option>
+                        <option value="0.3">(sin posición aerodinámica)</option>
+                    </select>
                 </div>
 
-                <!-- Ciclismo -->
-                <h2>Ciclismo</h2>
-                <label for="weight">Peso corporal (kg):</label>
-                <input 
-                  type="number" 
-                  id="weight" 
-                  name="weight" 
-                  min="30" 
-                  max="200" 
-                  step="0.1" 
-                  required 
-                />
+                <!-- CARRERA -->
+<button type="button" class="toggle-btn" onclick="toggleSection('carrera')" 
+style="font-family: 'Poppins', sans-serif;">Carrera</button>
+<div id="carrera" class="section-content">
+<label for="run-distance">Distancia (km):</label>
+<select id="run-distance" name="run_distance" required>
+    <option value="5">5</option>
+    <option value="10">10</option>
+    <option value="15">15</option>
+    <option value="21.1">21.1 (Media Maratón)</option>
+    <option value="42.2">42.2 (Maratón)</option>
+</select>
+<label>Tiempo:</label>
+<div class="time-select">
+    <div>
+        <select id="run-hours" name="run_hours" required>
+            {% for h in range(0, 24) %}
+            <option value="{{ h }}">{{ h }}</option>
+            {% endfor %}
+        </select>
+        <span>hh</span>
+    </div>
+    <div>
+        <select id="run-minutes" name="run_minutes" required>
+            {% for m in range(0, 60) %}
+            <option value="{{ m }}">{{ m }}</option>
+            {% endfor %}
+        </select>
+        <span>mm</span>
+    </div>
+    <div>
+        <select id="run-seconds" name="run_seconds" required>
+            {% for s in range(0, 60) %}
+            <option value="{{ s }}">{{ s }}</option>
+            {% endfor %}
+        </select>
+        <span>ss</span>
+    </div>
+</div>
+</div>
 
-                <label for="bike_weight">Peso de la bici (kg):</label>
-                <input
-                  type="number"
-                  id="bike_weight"
-                  name="bike_weight"
-                  min="0"
-                  max="30"
-                  step="0.1"
-                  required
-                />
 
-                <label for="test-time">Duración del Test (min):</label>
-                <select id="test-time" name="test_time" required>
-                    <option value="10">10 minutos</option>
-                    <option value="20">20 minutos</option>
-                    <option value="30">30 minutos</option>
-                </select>
-
-                <label for="power">Vatios Medios:</label>
-                <input 
-                  type="number" 
-                  id="power" 
-                  name="power" 
-                  min="50" 
-                  max="1000" 
-                  step="1" 
-                  required 
-                />
-        
-                <label for="cda">Posición aerodinámica (CdA):</label>
-                <select id="cda" name="cda" required>
-                  <option value="0.2">(posición élite)</option>
-                  <option value="0.225">(posición avanzada)</option>
-                  <option value="0.25">(posición estándar)</option>
-                  <option value="0.275">(posición poco aerodinámica)</option>
-                  <option value="0.3">(sin posición aerodinámica)</option>
-                </select>
-
-                <!-- Carrera -->
-                <h2>Carrera</h2>
-                <label for="run-distance">Distancia (km):</label>
-                <select id="run-distance" name="run_distance" required>
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="15">15</option>
-                    <option value="21.1">21.1 (Media Maratón)</option>
-                    <option value="42.2">42.2 (Maratón)</option>
-                </select>
-
-                <label for="run-time">Tiempo:</label>
-                <div class="time-select">
-                    <div>
-                        <select id="run-hours" name="run_hours" required>
-                            {% for h in range(0, 24) %}
-                            <option value="{{ h }}">{{ h }}</option>
-                            {% endfor %}
-                        </select>
-                        <span>hh</span>
-                    </div>
-                    <div>
-                        <select id="run-minutes" name="run_minutes" required>
-                            {% for m in range(0, 60) %}
-                            <option value="{{ m }}">{{ m }}</option>
-                            {% endfor %}
-                        </select>
-                        <span>mm</span>
-                    </div>
-                    <div>
-                        <select id="run-seconds" name="run_seconds" required>
-                            {% for s in range(0, 60) %}
-                            <option value="{{ s }}">{{ s }}</option>
-                            {% endfor %}
-                        </select>
-                        <span>ss</span>
-                    </div>
-                </div>
-
-                <!-- SECCIÓN TRANSICIONES -->
-                <h2>Transiciones (T1+T2)</h2>
-                <label for="transition-time">Tiempo total transiciones (HH:MM:SS):</label>
-                <div class="time-select">
-                    <div>
-                        <select id="transition-hours" name="transition_hours" required>
-                            {% for h in range(0, 24) %}
-                            <option value="{{ h }}">{{ h }}</option>
-                            {% endfor %}
-                        </select>
-                        <span>hh</span>
-                    </div>
-                    <div>
-                        <select id="transition-minutes" name="transition_minutes" required>
-                            {% for m in range(0, 60) %}
-                            <option value="{{ m }}">{{ m }}</option>
-                            {% endfor %}
-                        </select>
-                        <span>mm</span>
-                    </div>
-                    <div>
-                        <select id="transition-seconds" name="transition_seconds" required>
-                            {% for s in range(0, 60) %}
-                            <option value="{{ s }}">{{ s }}</option>
-                            {% endfor %}
-                        </select>
-                        <span>ss</span>
-                    </div>
-                </div>
-
-                <input type="submit" value="Calcular">
-            </form>
-            <a href="/">Volver al inicio</a>
+                <!-- TRANSICIONES -->
+<button type="button" class="toggle-btn" onclick="toggleSection('transiciones')"style="font-family: 'Poppins', sans-serif;">Transiciones</button>
+<div id="transiciones" class="section-content">
+    <label for="transition-time">Tiempo total transiciones (HH:MM:SS):</label>
+    <div class="time-select">
+        <div>
+            <select id="transition-hours" name="transition_hours" required>
+                {% for h in range(0, 24) %}
+                <option value="{{ h }}">{{ h }}</option>
+                {% endfor %}
+            </select>
+            <span>hh</span>
+        </div>
+        <div>
+            <select id="transition-minutes" name="transition_minutes" required>
+                {% for m in range(0, 60) %}
+                <option value="{{ m }}">{{ m }}</option>
+                {% endfor %}
+            </select>
+            <span>mm</span>
+        </div>
+        <div>
+            <select id="transition-seconds" name="transition_seconds" required>
+                {% for s in range(0, 60) %}
+                <option value="{{ s }}">{{ s }}</option>
+                {% endfor %}
+            </select>
+            <span>ss</span>
         </div>
     </div>
+</div>
+
+<!-- Botón de Calcular Fuera de la sección -->
+<input type="submit" value="Calcular" style="font-family: 'Poppins', sans-serif;">
+</form>
+
+<!-- Enlace Volver al inicio -->
+<a href="/" style="color: #4caf50; font-family: 'Poppins', sans-serif; text-decoration: none;">Volver al inicio</a>
+
+
 
     <script>
-      function toggleHelp() {
-        var helpText = document.getElementById("help-text");
-        if (helpText.style.display === "none" || helpText.style.display === "") {
-          helpText.style.display = "block";
-        } else {
-          helpText.style.display = "none";
+        function toggleSection(id) {
+            const section = document.getElementById(id);
+            section.classList.toggle('visible');
         }
-      }
+
+        function toggleHelp() {
+            const helpText = document.getElementById("help-text");
+            helpText.style.display = helpText.style.display === "block" ? "none" : "block";
+        }
     </script>
 </body>
 </html>
-
 
