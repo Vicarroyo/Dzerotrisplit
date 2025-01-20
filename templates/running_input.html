@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html>  
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -53,7 +53,7 @@
       box-shadow: 9px 9px 16px #bebebe, -9px -9px 16px #ffffff;
       width: 100%;
       box-sizing: border-box;
-      position: relative; /* Necesario para posicionar el ícono de ayuda */
+      position: relative; /* Para posicionar el ícono de ayuda */
     }
     .form-container label {
       font-weight: 600;
@@ -129,14 +129,23 @@
     a:hover {
       color: #76ff7a;
     }
-    /* Ícono de ayuda pegado arriba a la derecha dentro del contenedor */
+    /* Ícono de interrogación dentro de un círculo verde */
     .help-icon {
       position: absolute;
       top: 10px;
       right: 10px;
-      font-size: 24px;
-      color: #4caf50;
+      width: 30px;
+      height: 30px;
+      background-color: #4caf50; /* Fondo verde */
+      border-radius: 50%; /* Círculo */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white; /* Color del ícono */
+      font-size: 20px; /* Tamaño del ícono */
+      font-weight: bold; /* Más grueso para que resalte */
       cursor: pointer;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     }
     /* Texto de ayuda, inicialmente oculto */
     .help-text {
@@ -146,7 +155,7 @@
       padding: 10px;
       border-radius: 5px;
       position: absolute;
-      top: 40px;
+      top: 45px;
       right: 10px;
       width: 250px;
       text-align: left;
@@ -160,14 +169,13 @@
     <h1>Calculadora</h1>
     <h2>Carrera</h2>
     <div class="form-container">
-      <!-- Ícono de ayuda pegado arriba a la derecha dentro del contenedor -->
-      <span class="help-icon" onclick="toggleHelp()">&#x2753;</span>
+      <!-- Ícono de interrogación dentro de un círculo verde -->
+      <span class="help-icon" onclick="toggleHelp()">?</span>
       <!-- Texto de ayuda, inicialmente oculto -->
       <div id="help-text" class="help-text">
-        <p>En este test de carrera, introduce los datos solicitados:</p>
-        <p>- Selecciona la distancia (km) del evento o test.</p>
-        <p>- Indica tu género.</p>
-        <p>- Ingresa el tiempo que te costó completar la distancia (Formato: Horas:Minutos:Segundos).</p>
+        <p>Introduce la distancia de tu ultimo test de carrera o distancia de competición.</p>
+        <p>Indica tu género.</p>
+        <p>Ingresa el tiempo en completar la distancia (Formato: Horas:Minutos:Segundos).</p>
         <p>Si no estás seguro, elige la opción que se ajuste a tu rendimiento.</p>
       </div>
 
@@ -224,7 +232,6 @@
   <script>
     function toggleHelp() {
       var helpText = document.getElementById("help-text");
-      // Alternar visualización entre "none" y "block"
       if (helpText.style.display === "none" || helpText.style.display === "") {
         helpText.style.display = "block";
       } else {
@@ -234,3 +241,4 @@
   </script>
 </body>
 </html>
+
