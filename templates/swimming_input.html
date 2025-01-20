@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -50,6 +50,7 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 9px 9px 16px #bebebe, -9px -9px 16px #ffffff;
+            position: relative; /* Para posicionar el ícono */
         }
 
         .form-container select {
@@ -113,6 +114,41 @@
         a:hover {
             color: #76ff7a;
         }
+
+        /* Ícono de interrogación dentro de un círculo verde */
+        .help-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            background-color: #4caf50; /* Fondo verde */
+            border-radius: 50%; /* Círculo */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white; /* Color del ícono */
+            font-size: 18px; /* Tamaño del ícono */
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Texto de ayuda */
+        .help-text {
+            display: none;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            position: absolute;
+            top: 45px;
+            right: 10px;
+            width: 250px;
+            text-align: left;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 <body>
@@ -120,6 +156,13 @@
         <h1>Calculadora</h1>
         <h2>Natación</h2>
         <div class="form-container">
+            <!-- Ícono de interrogación -->
+            <span class="help-icon" onclick="toggleHelp()">?</span>
+            <div id="help-text" class="help-text">
+            <p>Introduce la distancia de tu ultimo test de natación o distancia de competición.</p>
+            <p>Ingresa el tiempo en completar la distancia (Formato: Horas:Minutos:Segundos).</p>
+            <p>Si no estás seguro, elige la opción que se ajuste a tu rendimiento.</p>
+            </div>
             <form method="POST">
                 <label for="distance">Distancia (m):</label>
                 <select id="distance" name="distance" required>
@@ -167,6 +210,12 @@
             <a href="/">Volver al inicio</a>
         </div>
     </div>
+    <script>
+        function toggleHelp() {
+            const helpText = document.getElementById("help-text");
+            helpText.style.display = helpText.style.display === "block" ? "none" : "block";
+        }
+    </script>
 </body>
 </html>
 
