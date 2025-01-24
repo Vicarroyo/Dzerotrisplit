@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,7 +8,8 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: #f0f5fc;
+            background: #000000; /* Fondo negro */
+            color: #ffffff; /* Texto en blanco */
             margin: 0;
             padding: 0;
             display: flex;
@@ -21,36 +22,37 @@
             width: 90%;
             max-width: 400px;
             text-align: center;
+            padding: 20px;
+            background: linear-gradient(145deg, #222222, #111111); /* Fondo estilizado */
+            border: 2px solid #ffcc00; /* Borde mostaza */
+            border-radius: 15px;
+            box-shadow: 0px 4px 20px rgba(255, 204, 0, 0.5); /* Sombra mostaza */
         }
 
         h1 {
             font-size: 2rem;
             font-weight: 700;
-            color: #444444;
+            color: #ffffff;
             margin-bottom: 10px;
         }
 
         h2 {
             font-size: 1.5rem;
             font-weight: 600;
-            color: #4caf50;
+            color: #ffcc00; /* Mostaza */
             margin-top: -5px;
             margin-bottom: 20px;
         }
 
         label {
             font-weight: 600;
-            color: #444444;
+            color: #ffffff;
             display: block;
             margin-bottom: 10px;
         }
 
         .form-container {
-            background: #e0e5ec;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 9px 9px 16px #bebebe, -9px -9px 16px #ffffff;
-            position: relative; /* Para posicionar el ícono */
+            text-align: center;
         }
 
         .form-container select {
@@ -60,26 +62,50 @@
             margin-bottom: 15px;
             border: none;
             border-radius: 8px;
-            background: #f0f5fc;
-            box-shadow: inset 4px 4px 8px #bebebe, inset -4px -4px 8px #ffffff;
+            background: #1a1a1a; /* Fondo oscuro */
+            color: #ffffff; /* Texto en blanco */
             font-size: 14px;
             font-weight: 600;
-            color: #444444;
             text-align: center;
             outline: none;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .time-select {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
 
-        .time-select div {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
+.time-select div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.time-select span {
+    color: #bbbbbb;
+}
+
+/* Ajusta el ancho de los campos de datos */
+.time-select select {
+    width: 80px; /* Ancho ajustado, puedes modificar el valor */
+    padding: 5px; /* Para mejor espacio interno */
+    font-size: 14px; /* Ajusta el tamaño de la fuente si es necesario */
+    text-align: center; /* Centra el texto en el campo */
+    border-radius: 5px; /* Bordes redondeados para un diseño más moderno */
+    background: #1a1a1a; /* Fondo del campo */
+    color: #ffffff; /* Color del texto */
+    border: 1px solid #ffcc00; /* Borde mostaza */
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5), inset -2px -2px 5px rgba(255, 255, 255, 0.1); /* Sombra interna */
+}
+
+.time-select select:focus {
+    outline: none;
+    border-color: #ffd966; /* Color de borde al enfocar */
+    box-shadow: 0px 0px 8px rgba(255, 204, 0, 0.5); /* Brillo al enfocar */
+}
+
 
         input[type="submit"] {
             font-family: 'Poppins', sans-serif;
@@ -87,17 +113,18 @@
             padding: 12px;
             border: none;
             border-radius: 10px;
-            background: #4caf50;
-            color: white;
+            background: linear-gradient(135deg, #ffcc00, #e6b800); /* Degradado mostaza */
+            color: #000000; /* Texto negro */
             font-weight: 600;
             font-size: 16px;
             cursor: pointer;
             transition: all 0.3s ease-in-out;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
         }
 
         input[type="submit"]:hover {
-            background: #76ff7a;
-            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0px 8px 12px rgba(255, 204, 0, 0.5);
         }
 
         a {
@@ -107,38 +134,36 @@
             margin-top: 15px;
             padding: 10px;
             font-weight: 600;
-            color: #4caf50;
+            color: #ffcc00; /* Mostaza */
             text-decoration: none;
         }
 
         a:hover {
-            color: #76ff7a;
+            color: #e6b800; /* Mostaza más oscuro */
         }
 
-        /* Ícono de interrogación dentro de un círculo verde */
         .help-icon {
             position: absolute;
             top: 10px;
             right: 10px;
             width: 30px;
             height: 30px;
-            background-color: #4caf50; /* Fondo verde */
+            background-color: #ffcc00; /* Fondo mostaza */
             border-radius: 50%; /* Círculo */
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white; /* Color del ícono */
-            font-size: 18px; /* Tamaño del ícono */
+            color: #000000; /* Texto negro */
+            font-size: 18px;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
         }
 
-        /* Texto de ayuda */
         .help-text {
             display: none;
-            background-color: #fff;
-            border: 1px solid #ccc;
+            background-color: #1a1a1a; /* Fondo oscuro */
+            border: 1px solid #ffcc00; /* Borde mostaza */
             padding: 10px;
             border-radius: 5px;
             position: absolute;
@@ -146,6 +171,7 @@
             right: 10px;
             width: 250px;
             text-align: left;
+            color: #ffffff; /* Texto blanco */
             z-index: 10;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
@@ -159,12 +185,12 @@
             <!-- Ícono de interrogación -->
             <span class="help-icon" onclick="toggleHelp()">?</span>
             <div id="help-text" class="help-text">
-            <p>Introduce la distancia de tu ultimo test de natación o distancia de competición.</p>
-            <p>Ingresa el tiempo en completar la distancia (Formato: Horas:Minutos:Segundos).</p>
-            <p>Si no estás seguro, elige la opción que se ajuste a tu rendimiento.</p>
+                <p>Introduce la distancia de tu último test de natación o distancia de competición.</p>
+                <p>Ingresa el tiempo en completar la distancia (Formato: Horas:Minutos:Segundos).</p>
+                <p>Si no estás seguro, elige la opción que se ajuste a tu rendimiento.</p>
             </div>
             <form method="POST">
-                <label for="distance">Distancia del Test (m):</label>
+                <label for="distance">Distancia (m):</label>
                 <select id="distance" name="distance" required>
                     <option value="50">50 m</option>
                     <option value="100">100 m</option>
