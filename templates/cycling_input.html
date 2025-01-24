@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -15,7 +15,8 @@
     }
     body {
       font-family: "Poppins", sans-serif;
-      background: #f0f5fc;
+      background: #000000; /* Fondo negro */
+      color: #ffffff; /* Texto blanco */
       margin: 0;
       padding: 0;
       display: flex;
@@ -32,10 +33,9 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      position: relative;
     }
     h1, h2 {
-      color: #444444;
+      color: #ffcc00; /* Mostaza */
     }
     h1 {
       font-size: 2.5rem;
@@ -45,20 +45,20 @@
     h2 {
       font-size: 1.8rem;
       font-weight: 600;
-      color: #4caf50;
       margin-bottom: 20px;
     }
     .form-container {
-      background: #e0e5ec;
+      background: #111111; /* Fondo oscuro */
       padding: 20px;
       border-radius: 15px;
-      box-shadow: 6px 6px 12px #bebebe, -6px -6px 12px #ffffff;
+      border: 2px solid #ffcc00; /* Borde mostaza */
+      box-shadow: 0px 8px 20px rgba(255, 204, 0, 0.5); /* Sombra mostaza */
       width: 100%;
-      position: relative; /* Para poder posicionar el ícono de ayuda de forma absoluta */
+      position: relative;
     }
     .form-container label {
       font-weight: 600;
-      color: #444444;
+      color: #bbbbbb; /* Texto gris claro */
       margin-bottom: 10px;
       text-align: center;
       display: block;
@@ -71,10 +71,10 @@
       margin-bottom: 15px;
       border: none;
       border-radius: 10px;
-      background: #f0f5fc;
-      box-shadow: inset 4px 4px 8px #bebebe, inset -4px -4px 8px #ffffff;
+      background: #1c1c1c; /* Fondo gris oscuro */
+      box-shadow: inset 4px 4px 8px #0e0e0e, inset -4px -4px 8px #262626; /* Sombra interna */
       font-size: 1rem;
-      color: #444444;
+      color: #ffffff; /* Texto blanco */
       text-align: center;
       outline: none;
     }
@@ -83,16 +83,16 @@
       padding: 12px;
       border: none;
       border-radius: 15px;
-      background: #4caf50;
-      color: white;
+      background: linear-gradient(135deg, #ffcc00, #e6b800); /* Botón mostaza degradado */
+      color: #000000; /* Letras negras */
       font-weight: 600;
       font-size: 1rem;
       cursor: pointer;
       transition: all 0.3s ease-in-out;
     }
     input[type="submit"]:hover {
-      background: #76ff7a;
-      box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+      background: linear-gradient(135deg, #e6b800, #b8860b); /* Degradado más oscuro al pasar el mouse */
+      box-shadow: 0px 8px 15px rgba(255, 204, 0, 0.5);
     }
     a {
       font-family: "Poppins", sans-serif;
@@ -100,36 +100,35 @@
       text-align: center;
       margin-top: 15px;
       font-size: 1rem;
-      color: #4caf50;
+      color: #ffcc00;
       text-decoration: none;
       transition: color 0.3s ease;
     }
     a:hover {
-      color: #76ff7a;
+      color: #e6b800;
     }
-    /* Ícono de interrogación dentro de un círculo verde */
+    /* Ícono de interrogación dentro de un círculo */
     .help-icon {
       position: absolute;
       top: 10px;
       right: 10px;
       width: 30px;
       height: 30px;
-      background-color: #4caf50; /* Fondo verde */
+      background-color: #ffcc00; /* Fondo mostaza */
       border-radius: 50%; /* Círculo */
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white; /* Color del ícono */
+      color: #000000; /* Letras negras */
       font-size: 18px; /* Tamaño del ícono */
-      font-weight: bold; /* Más grueso para que resalte */
+      font-weight: bold; /* Más grueso */
       cursor: pointer;
       box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     }
-    /* Texto de ayuda, inicialmente oculto */
     .help-text {
       display: none;
-      background-color: #fff;
-      border: 1px solid #ccc;
+      background-color: #1c1c1c;
+      border: 1px solid #ffcc00;
       padding: 10px;
       border-radius: 5px;
       position: absolute;
@@ -138,7 +137,8 @@
       width: 250px;
       text-align: left;
       z-index: 10;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 2px 5px rgba(255, 204, 0, 0.2);
+      color: #bbbbbb;
     }
   </style>
 </head>
@@ -147,7 +147,7 @@
     <h1>Calculadora</h1>
     <h2>Ciclismo</h2>
     <div class="form-container">
-      <!-- Ícono de interrogación dentro de un círculo verde -->
+      <!-- Ícono de interrogación dentro de un círculo -->
       <span class="help-icon" onclick="toggleHelp()">?</span>
       <!-- Texto de ayuda, inicialmente oculto -->
       <div id="help-text" class="help-text">
@@ -194,7 +194,7 @@
           <option value="30">30 minutos</option>
         </select>
 
-        <label for="power">Vatios Medios:</label>
+        <label for="power">Vatios Medios del Test:</label>
         <input
           type="number"
           id="power"
@@ -211,7 +211,7 @@
           <option value="0.225">(posición avanzada)</option>
           <option value="0.25">(posición estándar)</option>
           <option value="0.275">(posición poco aerodinámica)</option>
-          <option value="0.3">(sin posición aerodinámica)</option>
+          <option value="0.325">(sin posición aerodinámica)</option>
         </select>
 
         <input type="submit" value="Calcular" />
@@ -232,4 +232,3 @@
   </script>
 </body>
 </html>
-
