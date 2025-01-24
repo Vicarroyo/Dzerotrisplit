@@ -112,6 +112,7 @@
         }
 
         /* Estilo del popup */
+/* Estilo del popup */
 .popup {
     position: fixed;
     top: 50%;
@@ -120,13 +121,13 @@
     background: rgba(0, 0, 0, 0.95);
     border: 2px solid #ffcc00;
     border-radius: 20px;
-    padding: 20px;
+    padding: 15px;
     box-shadow: 0px 8px 15px rgba(255, 204, 0, 0.5);
     display: none; /* Oculto por defecto */
     z-index: 1000;
-    width: 75%; /* Tamaño adaptativo */
-    max-width: 500px; /* Límite máximo en pantallas grandes */
-    max-height: 90%; /* Asegura que no ocupe toda la pantalla */
+    width: 80%; /* Más pequeño que el contenedor */
+    max-width: 400px; /* Límite máximo en pantallas grandes */
+    max-height: 80%; /* Asegura que no ocupe toda la pantalla */
     overflow: hidden; /* Oculta cualquier contenido que se salga */
 }
 
@@ -165,15 +166,16 @@
 /* Media query para pantallas pequeñas */
 @media (max-width: 768px) {
     .popup {
-        width: 95%; /* Aumenta el ancho en pantallas pequeñas */
+        width: 85%; /* Un poco más ancho para móviles */
         max-width: none; /* Sin límite de ancho fijo */
-        padding: 15px; /* Menor padding en móviles */
+        padding: 10px; /* Menor padding en móviles */
     }
 
     .popup img {
         border-radius: 10px;
     }
 }
+
 
     </style>
 </head>
