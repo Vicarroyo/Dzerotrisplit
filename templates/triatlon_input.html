@@ -9,7 +9,8 @@
         /* CONTENEDOR GENERAL */
         body {
             font-family: 'Poppins', sans-serif;
-            background: #f0f5fc;
+            background: #1a1a1a;
+            color: #ffffff;
             margin: 0;
             padding: 0;
             display: flex;
@@ -20,104 +21,92 @@
 
         .container {
             width: 90%;
-            max-width: 400px;
+            max-width: 600px;
+            background: #000000;
             text-align: center;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0px 4px 20px rgba(255, 204, 0, 0.3);
+            border: 2px solid #ffcc00;
+            position: relative;
+        }
+
+        h1, h2 {
+            color: #ffcc00;
+            font-weight: 600;
         }
 
         h1 {
             font-size: 2.5rem;
-            font-weight: 700;
-            color: #444444;
             margin-bottom: 10px;
         }
 
         h2 {
             font-size: 1.8rem;
-            font-weight: 600;
-            color: #4caf50;
             margin: 15px 0;
         }
 
-        .form-container {
-            background: #e0e5ec;
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: 4px 4px 8px #bebebe, -4px -4px 8px #ffffff;
-        }
-
-        .form-container label {
+        label {
             font-weight: 600;
-            color: #444444;
-            margin-bottom: 5px;
+            color: #bbbbbb;
+            margin-bottom: 10px;
             display: block;
         }
 
-        .form-container select,
-        .form-container input[type="number"] {
+        select, input[type="number"] {
             font-family: 'Poppins', sans-serif;
-            width: 100%;
-            padding: 8px;
+            width: 50%;
+            padding: 10px;
             margin-bottom: 15px;
             border: none;
             border-radius: 10px;
-            background: #f0f5fc;
-            box-shadow: inset 4px 4px 8px #bebebe, inset -4px -4px 8px #ffffff;
-            text-align: center;
-        }
-
-        .time-select {
-            display: flex;
-            justify-content: center;
-            gap: 5px;
-        }
-
-        .time-select div {
-            display: flex;
-            align-items: center;
-        }
-
-        .time-select select {
-            width: 60px;
+            background: #1a1a1a;
+            color: #ffffff;
+            box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.5), inset -4px -4px 8px rgba(255, 255, 255, 0.1);
             text-align: center;
         }
 
         input[type="submit"] {
-            width: 100%;
+            font-family: 'Poppins', sans-serif;
+            width: 70%;
             padding: 12px;
             border: none;
-            border-radius: 15px;
-            background: #4caf50;
-            color: white;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #ffcc00, #e6b800); /* Degradado mostaza */
+            color: #000000; /* Texto negro */
             font-weight: 600;
+            font-size: 16px;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
         }
 
         input[type="submit"]:hover {
-            background: #76ff7a;
+            transform: translateY(-5px);
+            box-shadow: 0px 8px 12px rgba(255, 204, 0, 0.5);
         }
 
         .toggle-btn {
-            width: 100%;
-            text-align: left;
-            padding: 10px 15px;
-            background: #4caf50;
-            color: white;
+            width: 50%;
+            text-align: center;
+            padding: 10px;
+            background: #ffcc00;
+            color: #000000;
             font-weight: 600;
             border: none;
             border-radius: 10px;
             margin-bottom: 10px;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s;
         }
 
         .toggle-btn:hover {
-            background: #76ff7a;
+            background: linear-gradient(135deg, #ffd966, #e6c300);
         }
 
         .section-content {
             display: none;
-            padding: 10px 0;
+            padding: 15px;
         }
 
         .visible {
@@ -128,8 +117,8 @@
             position: absolute;
             top: 10px;
             right: 10px;
-            background: #4caf50;
-            color: white;
+            background: #ffcc00;
+            color: #000000;
             width: 30px;
             height: 30px;
             display: flex;
@@ -137,32 +126,83 @@
             align-items: center;
             border-radius: 50%;
             cursor: pointer;
+            font-weight: bold;
         }
 
         .help-text {
             display: none;
-            background: white;
-            border: 1px solid #ccc;
+            background: #1a1a1a;
+            border: 1px solid #ffcc00;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(255, 204, 0, 0.2);
+            color: #bbbbbb;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .time-select {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.time-select div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.time-select span {
+    color: #bbbbbb;
+}
+
+/* Ajusta el ancho de los campos de datos */
+.time-select select {
+    width: 80px; /* Ancho ajustado, puedes modificar el valor */
+    padding: 5px; /* Para mejor espacio interno */
+    font-size: 14px; /* Ajusta el tamaño de la fuente si es necesario */
+    text-align: center; /* Centra el texto en el campo */
+    border-radius: 5px; /* Bordes redondeados para un diseño más moderno */
+    background: #1a1a1a; /* Fondo del campo */
+    color: #ffffff; /* Color del texto */
+    border: 1px solid #ffcc00; /* Borde mostaza */
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5), inset -2px -2px 5px rgba(255, 255, 255, 0.1); /* Sombra interna */
+}
+
+.time-select select:focus {
+    outline: none;
+    border-color: #ffd966; /* Color de borde al enfocar */
+    box-shadow: 0px 0px 8px rgba(255, 204, 0, 0.5); /* Brillo al enfocar */
+}
+
+
+        a {
+            font-family: 'Poppins', sans-serif;
+            display: block;
+            text-align: center;
+            margin-top: 15px;
             padding: 10px;
-            border-radius: 5px;
-            position: absolute;
-            top: 45px;
-            right: 10px;
-            width: 250px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            z-index: 10;
+            font-weight: 600;
+            color: #ffcc00; /* Mostaza */
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #e6b800; /* Mostaza más oscuro */
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Botón de ayuda en la esquina superior derecha -->
+        <span class="help-icon" onclick="toggleHelp()">?</span>
+
         <!-- TITULARES -->
         <h1>Calculadora</h1>
         <h2>Triatlón</h2>
 
         <div class="form-container">
-            <!-- Ícono de ayuda con diseño verde y círculo -->
-            <span class="help-icon" onclick="toggleHelp()">?</span>
             <!-- Texto de ayuda, inicialmente oculto -->
             <div id="help-text" class="help-text">
                 <p>Vamos a calcular el tiempo total de un evento de triatlón:</p>
@@ -177,7 +217,6 @@
             </div>
 
             <form method="POST" action="/triatlon_results">
-
                 <!-- DISTANCIA DEL EVENTO -->
                 <label for="event">Distancia Objetivo del Evento:</label>
                 <select id="event" name="event" required>
@@ -194,7 +233,7 @@
                     <option value="female">Femenino</option>
                 </select>
 
-                <!-- NATACIÓN -->
+                                <!-- NATACIÓN -->
 <button type="button" class="toggle-btn" onclick="toggleSection('natacion')" 
 style="font-family: 'Poppins', sans-serif;">Natación</button>
 <div id="natacion" class="section-content">
@@ -343,12 +382,9 @@ style="font-family: 'Poppins', sans-serif;">Carrera</button>
     </div>
 </div>
 
-<!-- Botón de Calcular Fuera de la sección -->
-<input type="submit" value="Calcular" style="font-family: 'Poppins', sans-serif;">
-</form>
-
-<!-- Enlace Volver al inicio -->
-<a href="/" style="color: #4caf50; font-family: 'Poppins', sans-serif; text-decoration: none;">Volver al inicio</a>
+<input type="submit" value="Calcular">
+            </form>
+            <a href="/">Volver al inicio</a>
 
 
 
@@ -365,4 +401,3 @@ style="font-family: 'Poppins', sans-serif;">Carrera</button>
     </script>
 </body>
 </html>
-
