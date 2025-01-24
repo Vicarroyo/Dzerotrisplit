@@ -283,11 +283,11 @@ style="font-family: 'Poppins', sans-serif;">Natación</button>
     style="font-family: 'Poppins', sans-serif;">Ciclismo</button>
 <div id="ciclismo" class="section-content">
                     <label for="weight">Peso corporal (kg):</label>
-                    <input type="number" id="weight" name="weight" min="30" max="200" step="0.1" required />
+                    <input type="number" id="weight" name="weight" min="30" max="200" step="0.1" placeholder="Ej. 65.5" step="1" required />
 
                     <label for="bike_weight">Peso de la bici (kg):</label>
-                    <input type="number" id="bike_weight" name="bike_weight" min="0" max="30" step="0.1" required />
-
+                    <input type="number" id="bike_weight" name="bike_weight" min="0" max="30" step="0.1" placeholder="Ej. 10.5" step="1" required />
+                    
                     <label for="test-time">Duración del Test (min):</label>
                     <select id="test-time" name="test_time" required>
                         <option value="10">10 minutos</option>
@@ -296,16 +296,16 @@ style="font-family: 'Poppins', sans-serif;">Natación</button>
                     </select>
 
                     <label for="power">Vatios Medios:</label>
-                    <input type="number" id="power" name="power" min="50" max="1000" step="1" required />
+                    <input type="number" id="power" name="power" min="50" max="1000" step="1" placeholder="Ej. 250" step="1" required />
 
-                    <label for="cda">Posición aerodinámica (CdA):</label>
-                    <select id="cda" name="cda" required>
-                        <option value="0.2">(posición élite)</option>
-                        <option value="0.225">(posición avanzada)</option>
-                        <option value="0.25">(posición estándar)</option>
-                        <option value="0.275">(posición poco aerodinámica)</option>
-                        <option value="0.3">(sin posición aerodinámica)</option>
-                    </select>
+                    <label for="cda">Posición aerodinámica (Posición/CdA):</label>
+        <select id="cda" name="cda" required>
+          <option value="0.2">(Élite/0.2)</option>
+          <option value="0.225">(Avanzada/0.225)</option>
+          <option value="0.25" selected>(Estándar/0.25)</option> <!-- Opción predefinida -->
+          <option value="0.275">(Poco aerodinámica/0.275)</option>
+          <option value="0.325">(Sin posición aerodinámica/0.3)</option>
+        </select>
                 </div>
 
                 <!-- CARRERA -->
@@ -401,3 +401,4 @@ style="font-family: 'Poppins', sans-serif;">Carrera</button>
     </script>
 </body>
 </html>
+
