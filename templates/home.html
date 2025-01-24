@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,7 +8,8 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: #f0f5fc;
+            background: #000000;
+            color: #ffffff;
             margin: 0;
             padding: 0;
             display: flex;
@@ -19,24 +20,26 @@
         }
 
         .container {
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
-            max-width: 600px;
             width: 100%;
+            max-width: 600px;
+            padding: 30px;
+            background: #000000; /* Fondo negro */
+            border: 2px solid #ffcc00; /* Borde color mostaza */
+            border-radius: 20px; /* Bordes redondeados */
+            box-shadow: 0px 4px 15px rgba(255, 204, 0, 0.5); /* Sombra mostaza */
         }
 
         h1 {
             font-size: 2rem;
             font-weight: 600;
-            color: #444444;
+            color: #ffffff;
+            margin: 20px 0;
         }
 
         .subtitle {
             font-size: 1rem;
-            color: gray;
+            color: #bbbbbb;
             margin-top: -10px;
         }
 
@@ -50,10 +53,10 @@
 
         .option-card {
             text-decoration: none;
-            background: linear-gradient(135deg, #4caf50, #3a3a3a);
+            background: linear-gradient(135deg, #ffcc00, #e6b800); /* Degradado mostaza */
             padding: 15px 25px;
             border-radius: 10px;
-            color: white;
+            color: #000000; /* Letras en negro */
             font-size: 18px;
             font-weight: bold;
             text-align: center;
@@ -66,68 +69,106 @@
         }
 
         .option-card.triatlon {
-            background: linear-gradient(135deg, #b8860b, #8b6914); /* Dorado oscuro */
+            background: linear-gradient(135deg, #b8860b, #8b6914); /* Mostaza oscuro */
+            color: #000000; /* Texto en negro */
         }
 
         .option-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.5);
+            box-shadow: 0px 8px 12px rgba(255, 204, 0, 0.5);
         }
 
-        .ghost-buttons {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .ghost-button {
-            text-decoration: none;
-            background: linear-gradient(135deg, #ffffff, #f0f5fc);
-            padding: 15px 25px;
-            border-radius: 10px;
-            color: #444444;
-            font-size: 18px;
-            font-weight: bold;
-            text-align: center;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease-in-out;
-            width: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .ghost-button:hover {
-            background: linear-gradient(135deg, #e8e8e8, #d6d6d6);
-            color: #222222;
-            box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.3);
+        .option-card.triatlon:hover {
+            box-shadow: 0px 8px 12px rgba(184, 134, 11, 0.5); /* Sombra acorde con el color */
         }
 
         footer {
             margin-top: 50px;
             text-align: center;
-            color: gray;
+            color: #bbbbbb;
             font-size: 0.9rem;
         }
 
         footer a {
-            color: #4caf50;
+            color: #ffcc00;
             text-decoration: none;
         }
 
         footer a:hover {
             text-decoration: underline;
         }
+
+        img.logo, img.banner {
+            margin: 20px auto;
+            max-width: 300px;
+            height: auto;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        img.logo:hover, img.banner:hover {
+            transform: scale(1.05); /* Efecto zoom */
+            box-shadow: 0px 8px 15px rgba(255, 204, 0, 0.7); /* Sombra brillante */
+        }
+
+        /* Estilo del popup */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.95);
+            border: 2px solid #ffcc00;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0px 8px 15px rgba(255, 204, 0, 0.5);
+            display: none; /* Oculto por defecto */
+            z-index: 1000;
+        }
+
+        .popup img {
+            max-width: 100%;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 18px;
+            color: #ffcc00;
+            cursor: pointer;
+        }
+
+        .popup-close:hover {
+            text-decoration: underline;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <div class="container" style="text-align: center;">
+    <div class="container">
+        <!-- Logo en la parte superior con enlace -->
+        <a href="https://dzerotri.com/" target="_blank">
+            <img src="/static/logo fondo negro.png" alt="DZero Logo" class="logo">
+        </a>
+
+        <!-- Título -->
         <h1>Dzero TriSplit</h1>
         <p class="subtitle">por Víctor Arroyo Bugallo</p>
         <p>Elige una opción:</p>
-
+        <!-- Opciones principales -->
         <div class="options-center">
             <a href="/swimming" class="option-card">Natación</a>
             <a href="/cycling" class="option-card">Ciclismo</a>
@@ -135,17 +176,38 @@
             <a href="/triatlon_input" class="option-card triatlon">Triatlón</a>
         </div>
 
-        <div class="ghost-buttons">
-            <a href="https://dzerotri.com/consulta-sobre-nuestros-programas-de-entrenamiento-de-triatlon" class="ghost-button">Planes de Entrenamiento</a>
-            <a href="https://dzerotri.com/victor-arroyo-dzero" class="ghost-button">Sobre Nosotros</a>
-            <a href="/instructions" class="ghost-button">Instrucciones DzeroTriSplit</a>
-        </div>
-      
+        <!-- Imagen adicional con enlace -->
+        <a href="https://dzerotri.com/" target="_blank">
+            <img src="/static/inicio.png" alt="Team DZero Banner" class="banner">
+        </a>
     </div>
 
     <footer>
         <p>&copy; 2025 DzeroTriSplit. Todos los derechos reservados. <a href="/privacy">Política de Privacidad</a></p>
     </footer>
+
+    <!-- Popup -->
+    <div class="overlay" id="overlay"></div>
+    <div class="popup" id="popup">
+        <span class="popup-close" onclick="closePopup()">×</span>
+        <a href="https://dzerotri.com/consulta-sobre-nuestros-programas-de-entrenamiento-de-triatlon" target="_blank">
+            <img src="/static/contacta.png" alt="Popup DZero Tri">
+        </a>
+    </div>
+
+    <script>
+        // Mostrar el popup después de 5 segundos
+        setTimeout(() => {
+            document.getElementById('popup').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }, 5000);
+
+        // Función para cerrar el popup
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
 
