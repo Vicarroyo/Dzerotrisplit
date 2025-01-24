@@ -173,6 +173,7 @@
           min="30"
           max="200"
           step="0.1"
+          placeholder="Ej. 65.5" step="1"
           required
         />
 
@@ -184,6 +185,7 @@
           min="0"
           max="30"
           step="0.1"
+          placeholder="Ej. 10.5" step="1"
           required
         />
 
@@ -202,16 +204,17 @@
           min="50"
           max="1000"
           step="1"
+          placeholder="Ej. 200" step="1"
           required
         />
 
-        <label for="cda">Posición aerodinámica (Posición:CdA):</label>
+        <label for="cda">Posición aerodinámica (CdA):</label>
         <select id="cda" name="cda" required>
-          <option value="0.2">(Élite: 0.2)</option>
-          <option value="0.225">(Avanzada: 0.225)</option>
-          <option value="0.25">(Estándar: 0.25)</option>
-          <option value="0.275">(Poco aerodinámica: 0.275)</option>
-          <option value="0.325">(Sin posición aerodinámica: 0.3)</option>
+          <option value="0.2">(posición élite)</option>
+          <option value="0.225">(posición avanzada)</option>
+          <option value="0.25" selected>(posición estándar)</option> <!-- Opción predefinida -->
+          <option value="0.275">(posición poco aerodinámica)</option>
+          <option value="0.325">(sin posición aerodinámica)</option>
         </select>
 
         <input type="submit" value="Calcular" />
