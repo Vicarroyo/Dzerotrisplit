@@ -19,6 +19,7 @@
         }
 
         .container {
+            position: relative; /* Para posicionar elementos dentro del contenedor */
             width: 90%;
             max-width: 400px;
             text-align: center;
@@ -68,44 +69,42 @@
             font-weight: 600;
             text-align: center;
             outline: none;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: inset 4px 4px 8px #0e0e0e, inset -4px -4px 8px #262626; /* Sombra interna */;
         }
 
         .time-select {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-}
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
 
-.time-select div {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
+        .time-select div {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
 
-.time-select span {
-    color: #bbbbbb;
-}
+        .time-select span {
+            color: #bbbbbb;
+        }
 
-/* Ajusta el ancho de los campos de datos */
-.time-select select {
-    width: 60px; /* Ancho ajustado, puedes modificar el valor */
-    padding: 5px; /* Para mejor espacio interno */
-    font-size: 14px; /* Ajusta el tamaño de la fuente si es necesario */
-    text-align: center; /* Centra el texto en el campo */
-    border-radius: 5px; /* Bordes redondeados para un diseño más moderno */
-    background: #1a1a1a; /* Fondo del campo */
-    color: #ffffff; /* Color del texto */
-    border: 1px solid #ffcc00; /* Borde mostaza */
-    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5), inset -2px -2px 5px rgba(255, 255, 255, 0.1); /* Sombra interna */
-}
+        .time-select select {
+            width: 60px;
+            padding: 5px;
+            font-size: 14px;
+            text-align: center;
+            border-radius: 5px;
+            background: #1a1a1a;
+            color: #ffffff;
+            border: 1px solid #ffcc00;
+            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5), inset -2px -2px 5px rgba(255, 255, 255, 0.1);
+        }
 
-.time-select select:focus {
-    outline: none;
-    border-color: #ffd966; /* Color de borde al enfocar */
-    box-shadow: 0px 0px 8px rgba(255, 204, 0, 0.5); /* Brillo al enfocar */
-}
-
+        .time-select select:focus {
+            outline: none;
+            border-color: #ffd966;
+            box-shadow: 0px 0px 8px rgba(255, 204, 0, 0.5);
+        }
 
         input[type="submit"] {
             font-family: 'Poppins', sans-serif;
@@ -113,8 +112,8 @@
             padding: 12px;
             border: none;
             border-radius: 10px;
-            background: linear-gradient(135deg, #ffcc00, #e6b800); /* Degradado mostaza */
-            color: #000000; /* Texto negro */
+            background: linear-gradient(135deg, #ffcc00, #e6b800);
+            color: #000000;
             font-weight: 600;
             font-size: 16px;
             cursor: pointer;
@@ -134,12 +133,12 @@
             margin-top: 15px;
             padding: 10px;
             font-weight: 600;
-            color: #ffcc00; /* Mostaza */
+            color: #ffcc00;
             text-decoration: none;
         }
 
         a:hover {
-            color: #e6b800; /* Mostaza más oscuro */
+            color: #e6b800;
         }
 
         .help-icon {
@@ -148,12 +147,12 @@
             right: 10px;
             width: 30px;
             height: 30px;
-            background-color: #ffcc00; /* Fondo mostaza */
-            border-radius: 50%; /* Círculo */
+            background-color: #ffcc00;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #000000; /* Texto negro */
+            color: #000000;
             font-size: 18px;
             font-weight: bold;
             cursor: pointer;
@@ -162,8 +161,8 @@
 
         .help-text {
             display: none;
-            background-color: #1a1a1a; /* Fondo oscuro */
-            border: 1px solid #ffcc00; /* Borde mostaza */
+            background-color: #1a1a1a;
+            border: 1px solid #ffcc00;
             padding: 10px;
             border-radius: 5px;
             position: absolute;
@@ -171,7 +170,7 @@
             right: 10px;
             width: 250px;
             text-align: left;
-            color: #ffffff; /* Texto blanco */
+            color: #ffffff;
             z-index: 10;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
@@ -179,18 +178,19 @@
 </head>
 <body>
     <div class="container">
+        <!-- Ícono de interrogación -->
+        <span class="help-icon" onclick="toggleHelp()">?</span>
+        <div id="help-text" class="help-text">
+            <p>Introduce la distancia de tu último test de natación o distancia de competición.</p>
+            <p>Ingresa el tiempo en completar la distancia (Formato: Horas:Minutos:Segundos).</p>
+            <p>Si no estás seguro, elige la opción que se ajuste a tu rendimiento.</p>
+        </div>
+
         <h1>Calculadora</h1>
         <h2>Natación</h2>
         <div class="form-container">
-            <!-- Ícono de interrogación -->
-            <span class="help-icon" onclick="toggleHelp()">?</span>
-            <div id="help-text" class="help-text">
-                <p>Introduce la distancia de tu último test de natación o distancia de competición.</p>
-                <p>Ingresa el tiempo en completar la distancia (Formato: Horas:Minutos:Segundos).</p>
-                <p>Si no estás seguro, elige la opción que se ajuste a tu rendimiento.</p>
-            </div>
             <form method="POST">
-                <label for="distance">Distancia del Test (m):</label>
+                <label for="distance">Distancia (m):</label>
                 <select id="distance" name="distance" required>
                     <option value="50">50 m</option>
                     <option value="100">100 m</option>
