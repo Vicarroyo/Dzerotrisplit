@@ -12,7 +12,8 @@
     }
     body {
       font-family: "Poppins", sans-serif;
-      background: #f0f5fc;
+      background: #000000;
+      color: #ffffff;
       margin: 0;
       padding: 0;
       display: flex;
@@ -35,29 +36,30 @@
       font-size: 3rem;
       font-weight: 700;
       text-align: center;
-      color: #444444;
+      color: #ffcc00;
       margin-bottom: 0;
     }
     h2 {
       font-size: 2rem;
       font-weight: 600;
       text-align: center;
-      color: #4caf50;
+      color: #ffcc00;
       margin-top: 5px;
       margin-bottom: 20px;
     }
     .form-container {
-      background: #e0e5ec;
+      background: linear-gradient(135deg, #222222, #111111); /* Fondo degradado oscuro */
       padding: 30px;
       border-radius: 20px;
-      box-shadow: 9px 9px 16px #bebebe, -9px -9px 16px #ffffff;
+      border: 2px solid #ffcc00; /* Borde color mostaza */
+      box-shadow: 0px 4px 15px rgba(255, 204, 0, 0.5);
       width: 100%;
       box-sizing: border-box;
-      position: relative; /* Para posicionar el ícono de ayuda */
+      position: relative;
     }
     .form-container label {
       font-weight: 600;
-      color: #444444;
+      color: #ffcc00; /* Letras mostaza */
       display: block;
       margin-bottom: 10px;
       text-align: center;
@@ -70,51 +72,62 @@
       margin-bottom: 15px;
       border: none;
       border-radius: 10px;
-      background: #f0f5fc;
-      box-shadow: inset 4px 4px 8px #bebebe, inset -4px -4px 8px #ffffff;
+      background: #222222;
+      color: #ffffff;
       font-size: 1rem;
-      color: #444444;
       text-align: center;
       outline: none;
     }
     .time-select {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-    }
-    .time-select div {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .time-select select {
-      width: 70px;
-      padding: 10px;
-      border: none;
-      border-radius: 10px;
-      background: #f0f5fc;
-      box-shadow: inset 4px 4px 8px #bebebe, inset -4px -4px 8px #ffffff;
-      font-size: 16px;
-      color: #444444;
-      text-align: center;
-      outline: none;
-    }
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.time-select div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.time-select span {
+    color: #bbbbbb;
+}
+
+/* Ajusta el ancho de los campos de datos */
+.time-select select {
+    width: 80px; /* Ancho ajustado, puedes modificar el valor */
+    padding: 5px; /* Para mejor espacio interno */
+    font-size: 14px; /* Ajusta el tamaño de la fuente si es necesario */
+    text-align: center; /* Centra el texto en el campo */
+    border-radius: 5px; /* Bordes redondeados para un diseño más moderno */
+    background: #1a1a1a; /* Fondo del campo */
+    color: #ffffff; /* Color del texto */
+    border: 1px solid #ffcc00; /* Borde mostaza */
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5), inset -2px -2px 5px rgba(255, 255, 255, 0.1); /* Sombra interna */
+}
+
+.time-select select:focus {
+    outline: none;
+    border-color: #ffd966; /* Color de borde al enfocar */
+    box-shadow: 0px 0px 8px rgba(255, 204, 0, 0.5); /* Brillo al enfocar */
+}
+
     input[type="submit"] {
       width: 100%;
       padding: 15px;
       border: none;
       border-radius: 15px;
-      background: #4caf50;
-      color: white;
+      background: linear-gradient(135deg, #ffcc00, #e6b800); /* Degradado mostaza */
+      color: #000000; /* Letras negras */
       font-weight: 600;
       font-size: 18px;
       cursor: pointer;
       transition: all 0.3s ease-in-out;
     }
     input[type="submit"]:hover {
-      background: #76ff7a;
-      box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+      background: linear-gradient(135deg, #ffd966, #e6c300); /* Hover más claro */
+      box-shadow: 0px 8px 15px rgba(255, 204, 0, 0.5);
     }
     a {
       font-family: "Poppins", sans-serif;
@@ -122,12 +135,12 @@
       text-align: center;
       margin-top: 20px;
       font-size: 16px;
-      color: #4caf50;
+      color: #ffcc00;
       text-decoration: none;
       transition: color 0.3s ease;
     }
     a:hover {
-      color: #76ff7a;
+      color: #ffd966;
     }
     /* Ícono de interrogación dentro de un círculo verde */
     .help-icon {
@@ -136,12 +149,12 @@
       right: 10px;
       width: 30px;
       height: 30px;
-      background-color: #4caf50; /* Fondo verde */
+      background-color: #ffcc00; /* Fondo mostaza */
       border-radius: 50%; /* Círculo */
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white; /* Color del ícono */
+      color: #000; /* Color del ícono */
       font-size: 20px; /* Tamaño del ícono */
       font-weight: bold; /* Más grueso para que resalte */
       cursor: pointer;
@@ -161,6 +174,7 @@
       text-align: left;
       z-index: 10;
       box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      color: #000; /* Texto negro */
     }
   </style>
 </head>
@@ -169,18 +183,18 @@
     <h1>Calculadora</h1>
     <h2>Carrera</h2>
     <div class="form-container">
-      <!-- Ícono de interrogación dentro de un círculo verde -->
+      <!-- Ícono de interrogación dentro de un círculo mostaza -->
       <span class="help-icon" onclick="toggleHelp()">?</span>
       <!-- Texto de ayuda, inicialmente oculto -->
       <div id="help-text" class="help-text">
-        <p>Introduce la distancia de tu ultimo test de carrera o distancia de competición.</p>
+        <p>Introduce la distancia de tu último test de carrera o distancia de competición.</p>
         <p>Indica tu género.</p>
         <p>Ingresa el tiempo en completar la distancia (Formato: Horas:Minutos:Segundos).</p>
         <p>Si no estás seguro, elige la opción que se ajuste a tu rendimiento.</p>
       </div>
 
       <form method="POST">
-        <label for="distance">Distancia del Test (km):</label>
+        <label for="distance">Distancia (km):</label>
         <select id="distance" name="distance" required>
           <option value="5">5 km</option>
           <option value="10">10 km</option>
