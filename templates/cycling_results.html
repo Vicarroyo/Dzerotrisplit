@@ -2,83 +2,67 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- Asegura que en móviles se muestre correctamente -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resultados - Ciclismo</title>
-    <!-- Fuente -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <!-- Tu CSS principal si lo deseas -->
-    <link rel="stylesheet" href="/static/style.css">
-
     <style>
         /* Estilo base */
         body {
             margin: 0;
             padding: 0;
-            background: #f0f5fc;
+            background: #000000;
             font-family: 'Poppins', sans-serif;
             text-align: center;
+            color: #ffffff;
         }
 
         .container {
             width: 100%;
-            max-width: 500px;
+            max-width: 600px;
             margin: 0 auto;
             padding: 20px;
         }
 
-        h1 {
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-            color: #444444;
-        }
-
         .results-container {
-            background: #e0e5ec;
+            background: linear-gradient(145deg, #222222, #111111); /* Fondo degradado */
             padding: 20px;
             border-radius: 20px;
-            box-shadow: 9px 9px 16px #bebebe, -9px -9px 16px #ffffff;
+            box-shadow: 0px 4px 15px rgba(255, 204, 0, 0.5); /* Sombra mostaza */
             margin: 20px auto;
-            text-align: center;
         }
 
-        h2 {
-            color: #444444;
-            margin-bottom: 15px;
+        h1 {
+            color: #ffcc00;
+            font-size: 2rem;
+            margin-bottom: 20px;
             font-weight: 600;
-        }
-
-        p {
-            font-size: 16px;
-            margin: 10px 0;
-            color: #666666;
         }
 
         table {
             width: 100%;
             margin: 20px auto;
             border-collapse: collapse;
-            background: #f0f5fc;
-            box-shadow: 4px 4px 8px #bebebe, -4px -4px 8px #ffffff;
+            background: #1a1a1a;
             border-radius: 10px;
             overflow: hidden;
+            color: #ffffff;
         }
 
         table th, table td {
             padding: 10px;
             text-align: center;
-            border-bottom: 1px solid #dcdcdc;
+            border-bottom: 1px solid #444444;
             font-size: 14px;
         }
 
         table th {
-            background-color: #4caf50;
-            color: white;
+            background-color: #ffcc00; /* Color mostaza */
+            color: #000000; /* Texto negro */
             font-weight: 600;
         }
 
         table tr:hover {
-            background-color: #f9fafc;
+            background-color: #333333;
             transition: background-color 0.3s ease;
         }
 
@@ -86,65 +70,77 @@
             border-bottom: none;
         }
 
-        /* Botón CONTINUAR */
         .button-primary {
             display: inline-block;
-            text-align: center;
-            margin-top: 20px;
+            margin: 20px 0;
             padding: 10px 20px;
-            background: #4caf50;
-            color: white;
+            background: linear-gradient(135deg, #ffcc00, #e6b800);
+            color: #000000;
             font-weight: bold;
+            border: none;
             border-radius: 10px;
             text-decoration: none;
-            box-shadow: 4px 4px 8px #bebebe, -4px -4px 8px #ffffff;
+            box-shadow: 0px 4px 10px rgba(255, 204, 0, 0.5);
             transition: all 0.3s ease-in-out;
+            cursor: pointer;
         }
 
         .button-primary:hover {
-            background: #76ff7a;
-            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #ffd966, #e6c300);
+            box-shadow: 0px 8px 15px rgba(255, 204, 0, 0.7);
         }
 
-        /* Botón VOLVER (sin fondo) */
-        .button-secondary {
+        .back-link {
             display: inline-block;
             margin-top: 10px;
-            color: #4caf50;
+            color: #ffcc00;
             font-size: 16px;
             text-decoration: none;
             font-weight: bold;
             transition: color 0.3s ease-in-out;
         }
 
-        .button-secondary:hover {
-            color: #76ff7a;
+        .back-link:hover {
+            color: #ffd966;
+        }
+
+        .highlight-image {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            border-radius: 15px;
+            cursor: pointer;
+            box-shadow: 0px 4px 10px rgba(255, 204, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .highlight-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 8px 15px rgba(255, 204, 0, 0.7);
         }
 
         @media (max-width: 480px) {
             h1 {
-                font-size: 1.5rem;
+                font-size: 1.8rem;
             }
             table th, table td {
                 font-size: 13px;
                 padding: 8px;
             }
         }
-
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h1>Resultados - Ciclismo</h1>
         <div class="results-container">
+            <h1>Resultados de Ciclismo</h1>
+
             <p><strong>FTP (Test):</strong> {{ ftp|int }} W</p>
             <p><strong>FTP Relativo (Test):</strong> {{ ftp_kg|round(1) }} W/kg</p>
             <p><strong>Categoría:</strong> {{ category }}</p>
             <p><strong>Velocidad Estimada FTP, llano y sin viento:</strong> {{ velocidad_kmh }} km/h</p>
 
-            
-    
             <h2>Velocidades estimadas para diferentes distancias</h2>
             <p>CdA seleccionado: <strong>{{ cda_label }}</strong></p>
 
@@ -170,7 +166,11 @@
                     {% endfor %}
                 </tbody>
             </table>
-            
+
+            <a href="https://dzerotri.com/victor-arroyo-dzero" target="_blank">
+                <img src="/static/quien esta detras.png" alt="¿Quién está detrás?" class="highlight-image">
+            </a>
+
             <h2>Zonas de Entrenamiento</h2>
             <table>
                 <thead>
@@ -193,15 +193,11 @@
             </table>
 
             <!-- Botón Continuar -->
-            <a href="https://dzerotri.com/consulta-sobre-nuestros-programas-de-entrenamiento-de-triatlon" class="button-primary">
-                CONTINUAR
-            </a>
+            <a href="/" class="button-primary">CONTINUAR</a>
 
-            <!-- Botón Volver a calcular -->
+            <!-- Botón Volver a Calcular -->
             <a href="/cycling" class="back-link">Volver a calcular</a>
-            </a>
         </div>
     </div>
 </body>
 </html>
-
