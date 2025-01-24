@@ -23,6 +23,18 @@
             padding: 20px;
         }
 
+        .logo {
+            width: 200px;
+            margin: 20px auto;
+            display: block;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 8px 15px rgba(255, 204, 0, 0.7);
+        }
+
         .results-container {
             background: linear-gradient(145deg, #222222, #111111); /* Fondo degradado */
             padding: 20px;
@@ -133,6 +145,9 @@
 
 <body>
     <div class="container">
+        <!-- Logo agregado -->
+        <img src="/static/logo fondo negro.png" alt="DZero Logo" class="logo">
+
         <div class="results-container">
             <h1>Resultados de Ciclismo</h1>
 
