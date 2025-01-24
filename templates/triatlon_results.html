@@ -8,7 +8,8 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: #f0f5fc;
+            background: #000000;
+            color: #ffffff;
             margin: 0;
             padding: 0;
             display: flex;
@@ -17,102 +18,101 @@
             min-height: 100vh;
         }
         .container {
-            background: #ffffff;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 90%;
             text-align: center;
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0px 4px 20px rgba(255, 204, 0, 0.3);
+            width: 90%;
+            max-width: 900px;
+            border: 2px solid #ffcc00;
         }
-        h1 {
-            color: #4caf50;
+        h1, h2 {
+            color: #ffcc00;
             font-weight: 600;
-            font-size: 1.8rem;
-        }
-        .objective {
-            font-size: 1rem;
-            font-weight: bold;
-            color: #444444;
-            margin-top: 10px;
-        }
-        h2 {
-            color: #4caf50;
-            font-weight: 600;
-            margin-bottom: 10px;
-            font-size: 1.5rem;
+            margin-bottom: 15px;
         }
         p {
-            font-size: 0.9rem;
-            color: #444444;
+            font-size: 16px;
+            margin: 10px 0;
+            color: #bbbbbb;
+        }
+        .results-container {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(255, 204, 0, 0.2);
+            margin-top: 15px;
         }
         .highlight {
             font-weight: bold;
-            color: #4caf50;
+            color: #ffcc00;
+        }
+        table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+            background: #1a1a1a;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        table th, table td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #333333;
+        }
+        table th {
+            background-color: #ffcc00;
+            color: #000000;
+            font-weight: 600;
+        }
+        table tr:hover {
+            background-color: #2a2a2a;
+            transition: background-color 0.3s ease;
+        }
+        table tbody tr:last-child td {
+            border-bottom: none;
         }
         .button-primary {
             display: inline-block;
             margin-top: 20px;
             padding: 10px 20px;
-            background: #4caf50;
-            color: white;
+            background: linear-gradient(135deg, #ffcc00, #e6b800);
+            color: #000000;
             font-weight: bold;
             border: none;
             border-radius: 10px;
             text-decoration: none;
-            box-shadow: 4px 4px 8px #bebebe, -4px -4px 8px #ffffff;
+            box-shadow: 0px 4px 10px rgba(255, 204, 0, 0.5);
             transition: all 0.3s ease-in-out;
             cursor: pointer;
-            font-family: 'Poppins', sans-serif;
         }
         .button-primary:hover {
-            background: #76ff7a;
-            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #ffd966, #e6c300);
+            box-shadow: 0px 8px 15px rgba(255, 204, 0, 0.7);
         }
         .link-secondary {
-            font-family: 'Poppins', sans-serif;
             display: block;
-            text-align: center;
             margin-top: 10px;
-            font-size: 14px;
-            color: #4caf50;
+            font-size: 16px;
+            font-weight: bold;
+            color: #ffcc00;
             text-decoration: none;
-            transition: color 0.3s ease;
         }
         .link-secondary:hover {
-            color: #76ff7a;
+            text-decoration: underline;
         }
-        .results-container {
-            background: #e0e5ec;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 9px 9px 16px #bebebe, -9px -9px 16px #ffffff;
-            margin-top: 15px;
-        }
-        table {
-            width: 100%;
-            margin: 10px 0;
-            border-collapse: collapse;
-            background: #f0f5fc;
-            box-shadow: 4px 4px 8px #bebebe, -4px -4px 8px #ffffff;
+        .highlight-image {
+            margin: 20px 0;
+            max-width: 100%;
             border-radius: 10px;
-            overflow: hidden;
-            font-size: 0.85rem;
+            cursor: pointer;
+            box-shadow: 0px 4px 10px rgba(255, 204, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        table th, table td {
-            padding: 10px;
-            text-align: center;
-            border-bottom: 1px solid #dcdcdc;
-        }
-        table th {
-            background-color: #4caf50;
-            color: white;
-            font-weight: 600;
-        }
-        table tbody tr:last-child td {
-            border-bottom: none;
-        }
-        table td {
-            word-wrap: break-word;
+        .highlight-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 8px 15px rgba(255, 204, 0, 0.7);
         }
     </style>
 </head>
@@ -154,25 +154,17 @@
                 <strong>Categoría:</strong> {{ ftp_category }}
             </p>
             <p>Velocidad Estimada FTP, llano y sin viento (Test): {{ velocidad_ciclismo_100 }} km/h</p>
-            
-            
-            <div>
-                <h2>Velocidades y tiempos ({{ event|capitalize }})</h2>
-                <p><strong>Distancia:</strong> {{ event|capitalize }}</p>
-                <p><strong>CdA seleccionado: <strong>{{ cda_label }}</strong></p>
             <p>
                 <strong>Vatios estimados:</strong> 
                 {{ watts_range[0]|int }} W - {{ watts_range[1]|int }} W
-                
             </p>
-                <p><strong>Velocidad Mínima:</strong> {{ tri_speeds_data[event].v_min | round(2) }} km/h</p>
-                <p><strong>Velocidad Máxima:</strong> {{ tri_speeds_data[event].v_max | round(2) }} km/h</p>
-                <p><strong>Tiempo Mínimo:</strong> {{ tri_speeds_data[event].time_min_hhmmss }}</p>
-                <p><strong>Tiempo Máximo:</strong> {{ tri_speeds_data[event].time_max_hhmmss }}</p>
-            </div>
-            
+            <p><strong>Velocidad Mínima:</strong> {{ tri_speeds_data[event].v_min | round(2) }} km/h</p>
+            <p><strong>Velocidad Máxima:</strong> {{ tri_speeds_data[event].v_max | round(2) }} km/h</p>
+            <p><strong>Tiempo Mínimo:</strong> {{ tri_speeds_data[event].time_min_hhmmss }}</p>
+            <p><strong>Tiempo Máximo:</strong> {{ tri_speeds_data[event].time_max_hhmmss }}</p>
         </div>
 
+        
         <!-- Carrera -->
         <div class="results-container">
             <h1>Carrera</h1>
@@ -197,12 +189,14 @@
             </p>
         </div>
 
+<!-- Imagen destacada -->
+<a href="https://dzerotri.com/victor-arroyo-dzero" target="_blank">
+    <img src="/static/quien esta detras.png" alt="¿Quién está detrás?" class="highlight-image">
+</a>
+
         <!-- Botones Centrados -->
-        <a href="https://dzerotri.com/consulta-sobre-nuestros-programas-de-entrenamiento-de-triatlon" class="button-primary">
-            CONTINUAR
-        </a>
+        <a href="/" class="button-primary">CONTINUAR</a>
         <a href="/triatlon_input" class="link-secondary">Calcular otra vez</a>
     </div>
 </body>
 </html>
-
