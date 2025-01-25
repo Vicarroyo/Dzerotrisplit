@@ -1,63 +1,75 @@
 import math
 
-# Función para calcular ritmo promedio 
 def calculate_pace(distance, time):
-    """
-    Calcula el ritmo promedio (segundos por km) basado en la distancia y el tiempo.
-    """
-    time_parts = time.split(":")
-    time_in_seconds = int(time_parts[0]) * 3600 + int(time_parts[1]) * 60 + int(time_parts[2])
+    """Calcula el ritmo promedio (segundos por km) basado en la distancia y el tiempo."""
+    h, m, s = map(int, time.split(":"))
+    time_in_seconds = h * 3600 + m * 60 + s
     return time_in_seconds / distance
 
-# Función para convertir segundos a hh:mm:ss
 def convert_seconds_to_hms(seconds):
-    """
-    Convierte segundos a formato hh:mm:ss.
-    """
+    """Convierte segundos a formato hh:mm:ss."""
     hours = int(seconds // 3600)
     minutes = int((seconds % 3600) // 60)
     remaining_seconds = int(seconds % 60)
     return f"{hours:02}:{minutes:02}:{remaining_seconds:02}"
 
+def calculate_anaerobic_threshold_riegel(distance_km, time_hms):
+    """
+    Calcula el ritmo de Umbral Anaeróbico, asumiendo que UA equivale al ritmo
+    para 60 minutos, usando la fórmula de Riegel.
+    """
+    # 1) Convertimos el tiempo del test a minutos
+    h, m, s = map(int, time_hms.split(":"))
+    total_minutes = h * 60 + m + s / 60.0
+
+    # 2) Distancia esperable en 60 min (D2)
+    distance_60 = distance_km * (60.0 / total_minutes) ** (1.0 / 1.06)
+
+    # 3) Ritmo (min/km)
+    pace_min_km = 60.0 / distance_60
+
+    # 4) Convertimos a mm:ss
+    pace_minutes = int(pace_min_km)
+    pace_seconds = round((pace_min_km - pace_minutes) * 60)
+    if pace_seconds == 60:
+        pace_seconds = 0
+        pace_minutes += 1
+
+    return f"{pace_minutes:02}:{pace_seconds:02}:00"
+
+# Ejemplo de uso
+distance_test = 15  # km
+time_test = "00:46:00"
+
+ua_estimate = calculate_anaerobic_threshold_riegel(distance_test, time_test)
+print("Umbral Anaeróbico estimado (Riegel):", ua_estimate, "min/km")
+
+
 # Función para calcular el umbral anaeróbico
-def calculate_anaerobic_threshold(distance, time):
+def calculate_anaerobic_threshold(distance_km, time_hms):
     """
-    Calcula el ritmo de Umbral Anaeróbico (UA) ajustado según el tiempo total de la carrera.
-    Devuelve el ritmo en formato hh:mm:ss por km.
+    Calcula el ritmo de Umbral Anaeróbico basado en el tiempo del test y la distancia.
+    Devuelve el ritmo en minutos por km.
     """
-    avg_pace_seconds = calculate_pace(distance, time)
+    # Convertir tiempo del test a minutos
+    h, m, s = map(int, time_hms.split(":"))
+    total_minutes = h * 60 + m + s / 60.0
 
-    # Convertir tiempo a segundos totales para clasificar el factor
-    time_parts = time.split(":")
-    time_in_seconds = int(time_parts[0]) * 3600 + int(time_parts[1]) * 60 + int(time_parts[2])
-    time_in_minutes = time_in_seconds / 60
+    # Calcular distancia equivalente en 60 minutos usando la fórmula de Riegel
+    factor_riegel = 1.06
+    distance_60 = distance_km * (60.0 / total_minutes) ** (1.0 / factor_riegel)
 
-    # Definir factores de ajuste basados en el tiempo total
-    if time_in_minutes < 60:
-        factor = 1.05  # Ajuste menor para tiempos por debajo de 60 minutos
-    else:
-        factor = 1.02  # Ajuste leve para tiempos por encima de 60 minutos
+    # Calcular ritmo (min/km)
+    pace_min_km = 60.0 / distance_60
 
-    # Calcular ritmo de umbral anaeróbico
-    if time_in_minutes < 60:
-        threshold_pace_seconds = avg_pace_seconds * factor  # Más lento que el promedio
-    else:
-        threshold_pace_seconds = avg_pace_seconds / factor  # Más rápido que el promedio
+    # Convertir a formato mm:ss
+    pace_minutes = int(pace_min_km)
+    pace_seconds = round((pace_min_km - pace_minutes) * 60)
+    if pace_seconds == 60:
+        pace_seconds = 0
+        pace_minutes += 1
 
-    # Ajustar para mantener dentro de rangos típicos según ejemplos dados
-    if distance == 5 and threshold_pace_seconds > avg_pace_seconds * 1.08:
-        threshold_pace_seconds = avg_pace_seconds * 1.08
-    elif distance == 10 and threshold_pace_seconds > avg_pace_seconds * 1.07:
-        threshold_pace_seconds = avg_pace_seconds * 1.07
-    elif distance == 15 and threshold_pace_seconds > avg_pace_seconds * 1.06:
-        threshold_pace_seconds = avg_pace_seconds * 1.06
-    elif distance == 21.1 and threshold_pace_seconds > avg_pace_seconds * 1.05:
-        threshold_pace_seconds = avg_pace_seconds * 1.05
-    elif distance >= 42.195 and threshold_pace_seconds > avg_pace_seconds * 1.04:
-        threshold_pace_seconds = avg_pace_seconds * 1.04
-
-    return convert_seconds_to_hms(threshold_pace_seconds)
-
+    return f"{pace_minutes:02}:{pace_seconds:02}"
 
 def classify_anaerobic_threshold(gender, ua_pace):
     """
@@ -179,10 +191,10 @@ def convert_seconds_to_hms(seconds):
     """
     Convierte segundos a formato hh:mm:ss.
     """
-    h = int(seconds // 3600)
-    m = int((seconds % 3600) // 60)
-    s = int(seconds % 60)
-    return f"{h:02}:{m:02}:{s:02}"
+    hours = int(seconds // 3600)
+    minutes = int((seconds % 3600) // 60)
+    remaining_seconds = int(seconds % 60)
+    return f"{hours:02}:{minutes:02}:{remaining_seconds:02}"
 
 def validate_time_format(time):
     """
@@ -198,4 +210,3 @@ def validate_time_format(time):
         return True
     except Exception as e:
         raise ValueError(f"Formato de tiempo inválido: {e}")
-
