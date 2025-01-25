@@ -150,7 +150,7 @@
 
     <div class="container">
         <h1>Resultados de Triatlón</h1>
-        <p class="objective">OBJETIVO: {{ event|capitalize }}</p>
+        <p class="objective">OBJETIVO: <span class="highlight">{{ event|capitalize }}</span></p>
         <strong>Tiempo total estimado:</strong> {{ total_time_avg }}
 
         <!-- Natación -->
@@ -175,8 +175,8 @@
             <p><strong>FTP/kg (Test):</strong> {{ ftp_kg|round(1) }} W/kg</p>
             <p><strong>Categoría:</strong> {{ ftp_category }}</p>
             <p><strong>Velocidad Estimada FTP, llano y sin viento:</strong> {{ velocidad_ciclismo_100 }} km/h</p>
-            <p><strong>Tiempo Mínimo:</strong> {{ tri_speeds_data[event].time_min_hhmmss }}</p>
-            <p><strong>Tiempo Máximo:</strong> {{ tri_speeds_data[event].time_max_hhmmss }}</p>
+            <p><strong>Tiempo Mínimo:</strong> {{ tri_speeds_data[event].time_min_hhmmss }}</p><span class="highlight">({{ event|capitalize }})</span>
+            <p><strong>Tiempo Máximo:</strong> {{ tri_speeds_data[event].time_max_hhmmss }}</p><span class="highlight">({{ event|capitalize }})</span>
         </div>
 
         <!-- Carrera -->
@@ -189,7 +189,8 @@
         {{ event_running_times.event_time }}
     </p>
     <p>
-        <strong>Ritmo Estimado ({{ event|capitalize }}):</strong> 
+        <strong>Ritmo Estimado </strong> 
+        <span class="highlight">({{ event|capitalize }})</span>:
         {{ event_running_times.event_pace }}
     </p>
 </div>
