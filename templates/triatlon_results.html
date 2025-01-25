@@ -180,13 +180,20 @@
         </div>
 
         <!-- Carrera -->
-        <div class="results-container">
-            <h1>Carrera</h1>
-            <p><strong>Ritmo promedio (Test):</strong> {{ running_data.pace }}</p>
-            <p><strong>Umbral anaeróbico (Test):</strong> {{ running_data.anaerobic_threshold }}</p>
-            <p><strong>Categoría:</strong> {{ running_data.ua_category }}</p>
-            <p><strong>Tiempo Estimado:</strong> {{ event_running_times.event_time }}</p>
-        </div>
+<div class="results-container">
+    <h1>Carrera</h1>
+    <p><strong>Ritmo promedio (Test):</strong> {{ running_data.pace }}</p>
+    <p>
+        <strong>Tiempo Estimado </strong>
+        <span class="highlight">({{ event|capitalize }})</span>: 
+        {{ event_running_times.event_time }}
+    </p>
+    <p>
+        <strong>Ritmo Estimado ({{ event|capitalize }}):</strong> 
+        {{ event_running_times.event_pace }}
+    </p>
+</div>
+
 
         <!-- Imagen destacada -->
         <a href="https://dzerotri.com/victor-arroyo-dzero" target="_blank">
