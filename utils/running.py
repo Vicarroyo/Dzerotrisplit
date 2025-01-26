@@ -109,28 +109,6 @@ def classify_anaerobic_threshold(gender, ua_pace):
     else:
         raise ValueError("Género inválido. Use 'male' o 'female'.")
 
-def calculate_pace_zones_joe_friel(anaerobic_threshold):
-    """
-    Calcula las zonas de ritmo basadas en porcentajes del ritmo de Umbral Anaeróbico (UA) usando la fórmula de Joe Friel.
-    """
-    zones = {
-        "Zona 1 – Recuperación activa": (anaerobic_threshold * 1.30, anaerobic_threshold * 1.35),
-        "Zona 2 – Umbral aeróbico": (anaerobic_threshold * 1.16, anaerobic_threshold * 1.30),
-        "Zona 3 – Tempo": (anaerobic_threshold * 1.06, anaerobic_threshold * 1.16),
-        "Zona 4 – Umbral anaeróbico": (anaerobic_threshold * 1.03, anaerobic_threshold * 1.06),
-        "Zona 5 – Supraumbral": (anaerobic_threshold * 0.96, anaerobic_threshold * 1.03),
-        "Zona 6 – Velocidad aeróbica máxima": (anaerobic_threshold * 0.96, float('inf')),
-    }
-
-    # Convertir los rangos a formato legible
-    zones_converted = {
-        zone: (
-            convert_seconds_to_hms(min_val) if min_val > 0 else "N/A",
-            convert_seconds_to_hms(max_val) if max_val != float('inf') else "∞",
-        )
-        for zone, (min_val, max_val) in zones.items()
-    }
-    return zones_converted
 
 def estimate_running_times(pace, base_distance):
     """
@@ -159,16 +137,59 @@ def estimate_running_times(pace, base_distance):
 
     return results
 
+def convert_time_to_seconds(time_hms):
+    """
+    Convierte un tiempo en formato hh:mm:ss o mm:ss a segundos.
+    """
+    parts = time_hms.split(":")
+    if len(parts) == 2:  # Formato mm:ss
+        m, s = map(int, parts)
+        return m * 60 + s
+    elif len(parts) == 3:  # Formato hh:mm:ss
+        h, m, s = map(int, parts)
+        return h * 3600 + m * 60 + s
+    else:
+        raise ValueError("El formato de tiempo debe ser hh:mm:ss o mm:ss.")
+
+def calculate_pace_zones_joe_friel(anaerobic_threshold_pace_seconds):
+    """
+    Calcula las zonas de ritmo basadas en porcentajes del ritmo de Umbral Anaeróbico (UA) según Joe Friel.
+
+    Args:
+        anaerobic_threshold_pace_seconds (float): Ritmo del Umbral Anaeróbico (en segundos por km).
+
+    Returns:
+        dict: Zonas de ritmo con rangos en formato hh:mm:ss por km.
+    """
+    zones = {
+        "Zona 1 – Recuperación activa": (anaerobic_threshold_pace_seconds * 1.29, anaerobic_threshold_pace_seconds * 1.35),
+        "Zona 2 – Umbral aeróbico": (anaerobic_threshold_pace_seconds * 1.14, anaerobic_threshold_pace_seconds * 1.29),
+        "Zona 3 – Tempo": (anaerobic_threshold_pace_seconds * 1.02, anaerobic_threshold_pace_seconds * 1.14),
+        "Zona 4 – Umbral anaeróbico": (anaerobic_threshold_pace_seconds * 0.99, anaerobic_threshold_pace_seconds * 1.02),
+        "Zona 5 – Supraumbral": (anaerobic_threshold_pace_seconds * 0.92, anaerobic_threshold_pace_seconds * 0.99),
+        "Zona 6 – Velocidad aeróbica máxima": (anaerobic_threshold_pace_seconds * 0.92, float('inf')),
+    }
+
+    # Convertir los rangos de segundos/km a formato hh:mm:ss
+    converted_zones = {
+        zone: (convert_seconds_to_hms(rango[0]), convert_seconds_to_hms(rango[1]) if rango[1] != float('inf') else "∞")
+        for zone, rango in zones.items()
+    }
+
+    return converted_zones
+
 def process_running_data(distance, time, gender):
     """
     Procesa los datos de carrera y devuelve los cálculos necesarios para los resultados.
     """
-    pace = calculate_pace(distance, time)
-    anaerobic_threshold = calculate_anaerobic_threshold(distance, time)
-    ua_pace_seconds = calculate_pace(distance, time) * 1.05  # Ajuste para UA en segundos
-    ua_category = classify_anaerobic_threshold(gender, ua_pace_seconds)
-    estimated_times = estimate_running_times(pace, distance)
-    zones = calculate_pace_zones_joe_friel(pace)
+    pace = calculate_pace(distance, time)  # Ritmo promedio en segundos por km
+    anaerobic_threshold = calculate_anaerobic_threshold(distance, time)  # UA en formato mm:ss/km
+    anaerobic_threshold_seconds = convert_time_to_seconds(anaerobic_threshold)  # Convertir UA a segundos por km
+    ua_category = classify_anaerobic_threshold(gender, anaerobic_threshold_seconds)  # Clasificación
+    estimated_times = estimate_running_times(pace, distance)  # Tiempos estimados para otras distancias
+    
+    # Calcular zonas de ritmo según Joe Friel
+    zones = calculate_pace_zones_joe_friel(anaerobic_threshold_seconds)
 
     return {
         "pace": convert_seconds_to_hms(pace),
@@ -177,6 +198,7 @@ def process_running_data(distance, time, gender):
         "estimated_times": estimated_times,
         "zones": zones,
     }
+
 
 # Función para calcular ritmo promedio 
 def calculate_pace(distance, time):
