@@ -52,13 +52,6 @@ app.secret_key = "una_clave_secreta_muy_aleatoria_y_segura"  # Cambia este valor
 def home():
     return render_template('home.html')
 
-@app.route('/about')
-def about():
-    return render_template('about.html')
-
-@app.route('/plans')
-def plans():
-    return render_template('planes.html')
 
 
 
@@ -66,36 +59,38 @@ def plans():
 @app.route('/running', methods=['GET', 'POST'])
 def running():
     if request.method == 'POST':
-        distance = float(request.form['distance'])  # Obtener distancia del formulario
-        gender = request.form['gender']
-        hours = int(request.form['hours'])
-        minutes = int(request.form['minutes'])
-        seconds = int(request.form['seconds'])
-
-        # Convertir tiempo a formato hh:mm:ss
-        time = f"{hours:02}:{minutes:02}:{seconds:02}"
-
         try:
+            # Recoger los datos del formulario
+            distance = float(request.form['distance'])  # Distancia en km
+            gender = request.form['gender']
+            hours = int(request.form['hours'])
+            minutes = int(request.form['minutes'])
+            seconds = int(request.form['seconds'])
+
+            # Convertir tiempo a formato hh:mm:ss
+            time = f"{hours:02}:{minutes:02}:{seconds:02}"
+
             # Validar el formato del tiempo
             validate_time_format(time)
 
             # Procesar los datos de carrera
             results = process_running_data(distance, time, gender)
 
-            # Renderizar los resultados y pasar la distancia al template
+            # Renderizar los resultados y pasar los cálculos al template
             return render_template(
                 'running_results.html',
-                selected_distance=distance,  # Pasar la distancia seleccionada al template
+                selected_distance=distance,  # Pasar la distancia seleccionada
                 pace=results["pace"],
                 anaerobic_threshold=results["anaerobic_threshold"],
                 ua_category=results["ua_category"],
                 estimated_times=results["estimated_times"],
-                zones=results["zones"],
+                zones=results["zones"],  # Zonas calculadas
             )
         except ValueError as e:
-            return f"Error: {e}"
+            return f"Error: {e}"  # Enviar mensaje de error si ocurre alguna excepción
 
     return render_template('running_input.html')
+
 
 
 @app.route('/swimming', methods=['GET', 'POST'])
@@ -454,10 +449,7 @@ def triatlon_input():
         return triatlon_results()
     return render_template('triatlon_input.html')
 
-@app.route('/instructions')
-def instructions():
-    return render_template('instructions.html')
-
 
 if __name__ == '__main__':
     app.run(debug=True)
+
