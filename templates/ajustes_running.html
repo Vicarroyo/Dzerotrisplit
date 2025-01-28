@@ -39,7 +39,7 @@
     /* Contenedor principal */
     .container {
       width: 90%;
-      max-width: 500px; /* Tamaño para móviles */
+      max-width: 550px; /* Tamaño para móviles */
       background: linear-gradient(145deg, #222222, #111111);
       text-align: center;
       padding: 30px;
@@ -56,41 +56,91 @@
     }
 
     /* Selects y slider */
-    label {
-      color: #bbbbbb;
-      font-weight: 600;
-      display: block;
-      margin-top: 10px;
-      margin-bottom: 5px;
-      text-align: center;
-    }
-    select {
-      width: 80%;
-      padding: 8px;
-      border-radius: 10px;
-      border: none;
-      background: #1a1a1a;
-      color: #fff;
-      box-shadow: inset 4px 4px 8px rgba(0,0,0,0.5),
-                  inset -4px -4px 8px rgba(255,255,255,0.1);
-      text-align: center;
-      outline: none;
-      margin-bottom: 10px;
-    }
-    select:focus {
-      border: 1px solid #ffd966;
-      box-shadow: 0 0 8px rgba(255,204,0,0.5);
-    }
-    #timeSlider {
-      width: 80%;
-      margin: 10px 0;
-    }
-    #sliderValue {
-      color: #ffcc00;
-      font-weight: 600;
-      margin-bottom: 10px;
-      display: block;
-    }
+label {
+  color: #bbbbbb;
+  font-weight: 600;
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+select {
+  width: 80%;
+  padding: 8px;
+  border-radius: 10px;
+  border: none;
+  background: #1a1a1a;
+  color: #fff;
+  box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.5),
+              inset -4px -4px 8px rgba(255, 255, 255, 0.1);
+  text-align: center;
+  outline: none;
+  margin-bottom: 10px;
+}
+
+select:focus {
+  border: 1px solid #ffd966;
+  box-shadow: 0 0 8px rgba(255, 204, 0, 0.5);
+}
+
+#timeSlider {
+  -webkit-appearance: none;
+  width: 80%;
+  height: 10px;
+  border-radius: 10px;
+  background: #1a1a1a; /* Fondo oscuro */
+  box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.5),
+              inset -4px -4px 8px rgba(255, 255, 255, 0.1);
+  outline: none;
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+#timeSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ffcc00; /* Amarillo mostaza */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4),
+              inset 0 -4px 8px rgba(255, 255, 255, 0.4);
+  border: none;
+  transition: transform 0.2s ease, box-shadow 0.3s ease-in-out;
+}
+
+#timeSlider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6),
+              inset 0 -6px 12px rgba(255, 255, 255, 0.5);
+}
+
+#timeSlider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ffcc00; /* Amarillo mostaza */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4),
+              inset 0 -4px 8px rgba(255, 255, 255, 0.4);
+  border: none;
+  transition: transform 0.2s ease, box-shadow 0.3s ease-in-out;
+}
+
+#timeSlider::-moz-range-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6),
+              inset 0 -6px 12px rgba(255, 255, 255, 0.5);
+}
+
+#sliderValue {
+  color: #ffcc00; /* Amarillo mostaza */
+  font-weight: 600;
+  margin-bottom: 10px;
+  display: block;
+  text-align: center;
+}
+
+
 
     /* Botón de ayuda al lado del select */
     .strategy-label {
@@ -217,7 +267,7 @@
   <img src="/static/logo fondo negro.png" alt="Logo" class="logo">
 
   <div class="container">
-    <h1>Ajustes de Ritmo</h1>
+    <h1>Ajusta Tiempo final, ritmo y estrategia</h1>
 
     <!-- Select Distancia -->
     <label for="selectDistance">Distancia:</label>
@@ -504,3 +554,4 @@ function getSplitFactor(km, totalKm, strategy) {
   </script>
 </body>
 </html>
+
