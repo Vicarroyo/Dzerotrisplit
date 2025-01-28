@@ -233,49 +233,31 @@
     }
 
     /* Tabla km a km */
-.km-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: #1a1a1a;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 4px 10px rgba(255, 204, 0, 0.2);
-  position: relative;
-  display: block;
-  white-space: nowrap;
-}
-.km-table thead {
-  background-color: #ffcc00;
-  color: #000;
-  position: sticky;
-  top: 0;
-  z-index: 2;
-}
-.km-table th:first-child {
-  position: sticky;
-  left: 0;
-  z-index: 3;
-  background-color: #ffcc00;
-}
-.km-table td:first-child {
-  position: sticky;
-  left: 0;
-  z-index: 1;
-  background-color: #1a1a1a;
-}
-.km-table th,
-.km-table td {
-  text-align: center;
-  padding: 10px;
-  border-bottom: 1px solid #333;
-}
-.km-table tbody tr:last-child td {
-  border-bottom: none;
-}
-.km-table tr:hover {
-  background-color: #2a2a2a;
-  transition: background-color 0.3s ease;
-}
+    .km-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #1a1a1a;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(255, 204, 0, 0.2);
+    }
+    .km-table thead {
+      background-color: #ffcc00;
+      color: #000;
+    }
+    .km-table th,
+    .km-table td {
+      text-align: center;
+      padding: 10px;
+      border-bottom: 1px solid #333;
+    }
+    .km-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    .km-table tr:hover {
+      background-color: #2a2a2a;
+      transition: background-color 0.3s ease;
+    }
   </style>
 </head>
 <body>
@@ -283,7 +265,7 @@
   <img src="/static/logo fondo negro.png" alt="Logo" class="logo">
 
   <div class="container">
-    <h1>Ajusta la Estrategia</h1>
+    <h1>Ajusta Tiempo final, ritmo y estrategia</h1>
 
     <!-- Select Distancia -->
     <label for="selectDistance">Distancia:</label>
@@ -371,9 +353,9 @@
         </td>
       </tr>
 
-    <!-- Tabla km a km --> 
-<div style="overflow-x: auto;">
-    <table class="km-table" id="kmTable">
+    <!-- Tabla km a km -->
+    <div style="overflow-x: auto;">
+        <table class="km-table" id="kmTable">
       <thead>
         <tr>
           <th>KM</th>
@@ -387,13 +369,12 @@
         <!-- Se llena con JS -->
       </tbody>
     </table>
-</div>
-
-<!-- Botón CONTINUAR -->
-<div style="text-align: center; margin-top: 20px;">
-  <a href="/" class="button-primary">CONTINUAR</a>
-</div>
-
+    <tr>
+        <td colspan="2">
+          <a href="/" class="button-primary">CONTINUAR</a>
+        </td>
+      </tr>
+  </div>
 
   <script>
     // -----------------------------------
