@@ -91,6 +91,26 @@ def running():
 
     return render_template('running_input.html')
 
+@app.route('/ajustes_running', methods=['GET', 'POST'])
+def ajustes_running():
+    # Recuperamos de la sesión la info necesaria
+    estimated_times = session.get('estimated_times', {})
+    original_pace = session.get('original_pace', "00:00:00")
+    selected_distance = session.get('selected_distance', None)
+
+    # Si necesitas hacer algo en POST, puedes hacerlo aquí
+    if request.method == 'POST':
+        # Por ejemplo, podrías capturar un “ritmo final” que el usuario
+        # haya confirmado y guardarlo/mostrarlo, etc.
+        pass
+
+    # Renderiza la plantilla con la info necesaria
+    return render_template(
+        'ajustes_running.html',
+        estimated_times=estimated_times,
+        original_pace=original_pace,
+        selected_distance=selected_distance
+    )
 
 
 @app.route('/swimming', methods=['GET', 'POST'])
