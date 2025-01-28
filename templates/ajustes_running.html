@@ -46,6 +46,7 @@
       border-radius: 20px;
       box-shadow: 0 4px 20px rgba(255, 204, 0, 0.3);
       border: 2px solid #ffcc00;
+      margin-bottom: 20px; /* Espacio adicional para el botón CONTINUAR */
     }
 
     h1 {
@@ -180,7 +181,7 @@
       margin: 8px 0;
     }
 
-    /* Tabla principal (Tiempos Base/Ajustado + imagen + botón) */
+    /* Tabla principal (Tiempos Base/Ajustado + imagen) */
     table {
       width: 100%;
       margin-top: 20px;
@@ -324,7 +325,7 @@
     >
     <span id="sliderValue">100%</span>
 
-    <!-- Tabla principal con Tiempos, Imagen y Botón -->
+    <!-- Tabla principal con Tiempos e Imagen -->
     <table>
       <tbody>
         <tr>
@@ -343,37 +344,34 @@
           <td><strong>Ritmo Ajustado (mm:ss/km):</strong></td>
           <td id="adjustedPace">03:12</td>
         </tr>
-        
-        
       </tbody>
     </table>
-    <tr>
-        <td colspan="2">
-          <img src="/static/testimonios.png" alt="¿Quién está detrás?" class="highlight-image">
-        </td>
-      </tr>
+
+    <img src="/static/testimonios.png" alt="¿Quién está detrás?" class="highlight-image">
 
     <!-- Tabla km a km -->
     <div style="overflow-x: auto;">
-        <table class="km-table" id="kmTable">
-      <thead>
-        <tr>
-          <th>KM</th>
-          <th>Tiempo Base</th>
-          <th>Ritmo Base (mm:ss/km)</th>
-          <th>Tiempo Ajustado</th>
-          <th>Ritmo Ajustado (mm:ss/km)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Se llena con JS -->
-      </tbody>
-    </table>
-    <tr>
-        <td colspan="2">
-          <a href="/" class="button-primary">CONTINUAR</a>
-        </td>
-      </tr>
+      <table class="km-table" id="kmTable">
+        <thead>
+          <tr>
+            <th>KM</th>
+            <th>Tiempo Base</th>
+            <th>Ritmo Base (mm:ss/km)</th>
+            <th>Tiempo Ajustado</th>
+            <th>Ritmo Ajustado (mm:ss/km)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Se llena con JS -->
+        </tbody>
+      </table>
+    </div>
+
+  </div> <!-- Cierra .container -->
+
+  <!-- Botón CONTINUAR fuera del contenedor -->
+  <div style="text-align: center;">
+    <a href="/" class="button-primary">CONTINUAR</a>
   </div>
 
   <script>
@@ -426,59 +424,57 @@
     }
 
     // -----------------------------------
-// Estrategia Positive/Negative con 4 fases y tiempo constante
-// -----------------------------------
-function getSplitFactor(km, totalKm, strategy) {
-  let ratio = 0;
+    // Estrategia Positive/Negative con 4 fases y tiempo constante
+    // -----------------------------------
+    function getSplitFactor(km, totalKm, strategy) {
+      let ratio = 0;
 
-  // Definir el ratio según la estrategia
-  if (strategy === "pos1") ratio = +0.01;
-  if (strategy === "pos2") ratio = +0.02;
-  if (strategy === "pos3") ratio = +0.03;
-  if (strategy === "neg1") ratio = -0.01;
-  if (strategy === "neg2") ratio = -0.02;
-  if (strategy === "neg3") ratio = -0.03;
+      // Definir el ratio según la estrategia
+      if (strategy === "pos1") ratio = +0.01;
+      if (strategy === "pos2") ratio = +0.02;
+      if (strategy === "pos3") ratio = +0.03;
+      if (strategy === "neg1") ratio = -0.01;
+      if (strategy === "neg2") ratio = -0.02;
+      if (strategy === "neg3") ratio = -0.03;
 
-  // Calcular la longitud de cada fase
-  const phaseLength = totalKm / 4;
+      // Calcular la longitud de cada fase
+      const phaseLength = totalKm / 4;
 
-  // Ajustar factores por fase, asegurando tiempo constante
-  let phaseAdjustments = [0, 0, 0, 0]; // 4 fases
-  if (strategy.includes("pos")) {
-    // Estrategias positivas: más rápido en las fases finales
-    phaseAdjustments = [1.0 - ratio * 1.5, 1.0 - ratio * 0.5, 1.0 + ratio * 0.5, 1.0 + ratio * 1.5];
-  } else if (strategy.includes("neg")) {
-    // Estrategias negativas: más rápido al inicio
-    phaseAdjustments = [1.0 + ratio * 1.5, 1.0 + ratio * 0.5, 1.0 - ratio * 0.5, 1.0 - ratio * 1.5];
-  } else if (strategy === "estable") {
-    // Ritmo constante
-    return 1.0;
-  }
+      // Ajustar factores por fase, asegurando tiempo constante
+      let phaseAdjustments = [0, 0, 0, 0]; // 4 fases
+      if (strategy.includes("pos")) {
+        // Estrategias positivas: más rápido en las fases finales
+        phaseAdjustments = [1.0 - ratio * 1.5, 1.0 - ratio * 0.5, 1.0 + ratio * 0.5, 1.0 + ratio * 1.5];
+      } else if (strategy.includes("neg")) {
+        // Estrategias negativas: más rápido al inicio
+        phaseAdjustments = [1.0 + ratio * 1.5, 1.0 + ratio * 0.5, 1.0 - ratio * 0.5, 1.0 - ratio * 1.5];
+      } else if (strategy === "estable") {
+        // Ritmo constante
+        return 1.0;
+      }
 
-  // Determinar en qué fase se encuentra el km actual
-  if (km > 3 * phaseLength) {
-    // Último cuarto
-    return phaseAdjustments[3];
-  } else if (km > 2 * phaseLength) {
-    // Tercer cuarto
-    return phaseAdjustments[2];
-  } else if (km > phaseLength) {
-    // Segundo cuarto
-    return phaseAdjustments[1];
-  } else {
-    // Primer cuarto
-    return phaseAdjustments[0];
-  }
-}
+      // Determinar en qué fase se encuentra el km actual
+      if (km > 3 * phaseLength) {
+        // Último cuarto
+        return phaseAdjustments[3];
+      } else if (km > 2 * phaseLength) {
+        // Tercer cuarto
+        return phaseAdjustments[2];
+      } else if (km > phaseLength) {
+        // Segundo cuarto
+        return phaseAdjustments[1];
+      } else {
+        // Primer cuarto
+        return phaseAdjustments[0];
+      }
+    }
 
-const slider = document.getElementById("timeSlider");
+    const slider = document.getElementById("timeSlider");
 
-// Prevenir movimiento de la pantalla al usar el slider en táctiles
-slider.addEventListener("touchmove", (event) => {
-  event.preventDefault(); // Bloquea el desplazamiento de la página
-});
-
-
+    // Prevenir movimiento de la pantalla al usar el slider en táctiles
+    slider.addEventListener("touchmove", (event) => {
+      event.preventDefault(); // Bloquea el desplazamiento de la página
+    });
 
     // -----------------------------------
     // Calcular tiempo total
@@ -561,4 +557,3 @@ slider.addEventListener("touchmove", (event) => {
   </script>
 </body>
 </html>
-
