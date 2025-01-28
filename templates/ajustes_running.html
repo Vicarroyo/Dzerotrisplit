@@ -39,7 +39,7 @@
     /* Contenedor principal */
     .container {
       width: 90%;
-      max-width: 550px; /* Tamaño para móviles */
+      max-width: 700px; /* Tamaño para móviles */
       background: linear-gradient(145deg, #222222, #111111);
       text-align: center;
       padding: 30px;
@@ -330,29 +330,30 @@ select:focus {
     <table>
       <tbody>
         <tr>
-          <td><strong>Tiempo Base:</strong></td>
+          <td><strong>Tiempo Final Base:</strong></td>
           <td id="baseTime">00:16:00</td>
         </tr>
         <tr>
-          <td><strong>Ritmo Base:</strong></td>
+          <td><strong>Ritmo Base (mm:ss/km):</strong></td>
           <td id="basePace">03:12</td>
         </tr>
         <tr>
-          <td><strong>Tiempo Ajustado:</strong></td>
+          <td><strong>Tiempo Final Ajustado:</strong></td>
           <td id="adjustedTime">00:16:00</td>
         </tr>
         <tr>
-          <td><strong>Ritmo Ajustado:</strong></td>
+          <td><strong>Ritmo Ajustado (mm:ss/km):</strong></td>
           <td id="adjustedPace">03:12</td>
         </tr>
-        <tr>
-          <td colspan="2">
-            <img src="/static/testimonios.png" alt="¿Quién está detrás?" class="highlight-image">
-          </td>
-        </tr>
+        
         
       </tbody>
     </table>
+    <tr>
+        <td colspan="2">
+          <img src="/static/testimonios.png" alt="¿Quién está detrás?" class="highlight-image">
+        </td>
+      </tr>
 
     <!-- Tabla km a km -->
     <table class="km-table" id="kmTable">
@@ -360,9 +361,9 @@ select:focus {
         <tr>
           <th>KM</th>
           <th>Tiempo Base</th>
-          <th>Ritmo Base</th>
+          <th>Ritmo Base (mm:ss/km)</th>
           <th>Tiempo Ajustado</th>
-          <th>Ritmo Ajustado</th>
+          <th>Ritmo Ajustado (mm:ss/km)</th>
         </tr>
       </thead>
       <tbody>
