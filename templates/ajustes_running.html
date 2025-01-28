@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ajustes de Ritmo</title>
+  <!-- Fuente Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* Reset y estilo general */
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background: #000;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+
+    /* Logo */
+    .logo {
+      width: 200px;
+      margin: 20px 0;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .logo:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 15px rgba(255, 204, 0, 0.7);
+    }
+
+    /* Contenedor principal */
+    .container {
+      width: 90%;
+      max-width: 500px; /* Tamaño para móviles */
+      background: linear-gradient(145deg, #222222, #111111);
+      text-align: center;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(255, 204, 0, 0.3);
+      border: 2px solid #ffcc00;
+    }
+
+    h1 {
+      color: #ffcc00;
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    /* Selects y slider */
+    label {
+      color: #bbbbbb;
+      font-weight: 600;
+      display: block;
+      margin-top: 10px;
+      margin-bottom: 5px;
+      text-align: center;
+    }
+    select {
+      width: 80%;
+      padding: 8px;
+      border-radius: 10px;
+      border: none;
+      background: #1a1a1a;
+      color: #fff;
+      box-shadow: inset 4px 4px 8px rgba(0,0,0,0.5),
+                  inset -4px -4px 8px rgba(255,255,255,0.1);
+      text-align: center;
+      outline: none;
+      margin-bottom: 10px;
+    }
+    select:focus {
+      border: 1px solid #ffd966;
+      box-shadow: 0 0 8px rgba(255,204,0,0.5);
+    }
+    #timeSlider {
+      width: 80%;
+      margin: 10px 0;
+    }
+    #sliderValue {
+      color: #ffcc00;
+      font-weight: 600;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    /* Botón de ayuda al lado del select */
+    .strategy-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      color: #bbbbbb;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    .help-icon {
+      width: 24px;
+      height: 24px;
+      background: #ffcc00;
+      color: #000;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    /* Texto de ayuda */
+    .help-text {
+      display: none;
+      background: #1a1a1a;
+      border: 1px solid #ffcc00;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(255, 204, 0, 0.3);
+      text-align: left;
+      margin: 10px 0;
+      font-size: 0.9rem;
+    }
+    .help-text p {
+      margin: 8px 0;
+    }
+
+    /* Tabla principal (Tiempos Base/Ajustado + imagen + botón) */
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+      background: #1a1a1a;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(255, 204, 0, 0.2);
+      margin-bottom: 20px;
+    }
+    table td {
+      padding: 12px 10px;
+      border-bottom: 1px solid #333;
+    }
+    table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .highlight-image {
+      margin: 10px 0;
+      max-width: 100%;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(255, 204, 0, 0.5);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .highlight-image:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 15px rgba(255, 204, 0, 0.7);
+    }
+
+    /* Botón CONTINUAR */
+    .button-primary {
+      display: inline-block;
+      margin: 10px 0;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #ffcc00, #e6b800);
+      color: #000;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      text-decoration: none;
+      box-shadow: 0 4px 10px rgba(255, 204, 0, 0.5);
+      transition: all 0.3s ease-in-out;
+      cursor: pointer;
+    }
+    .button-primary:hover {
+      background: linear-gradient(135deg, #ffd966, #e6c300);
+      box-shadow: 0 8px 15px rgba(255, 204, 0, 0.7);
+    }
+
+    /* Tabla km a km */
+    .km-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #1a1a1a;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(255, 204, 0, 0.2);
+    }
+    .km-table thead {
+      background-color: #ffcc00;
+      color: #000;
+    }
+    .km-table th,
+    .km-table td {
+      text-align: center;
+      padding: 10px;
+      border-bottom: 1px solid #333;
+    }
+    .km-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    .km-table tr:hover {
+      background-color: #2a2a2a;
+      transition: background-color 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+  <!-- Logo -->
+  <img src="/static/logo fondo negro.png" alt="Logo" class="logo">
+
+  <div class="container">
+    <h1>Ajustes de Ritmo</h1>
+
+    <!-- Select Distancia -->
+    <label for="selectDistance">Distancia:</label>
+    <select id="selectDistance" onchange="updateAll()">
+      <option value="5">5 km</option>
+      <option value="10">10 km</option>
+      <option value="15">15 km</option>
+      <option value="21.1">Media Maratón (21.1 km)</option>
+      <option value="42.195">Maratón (42.195 km)</option>
+    </select>
+
+    <!-- Select Estrategia + Botón de ayuda -->
+    <div class="strategy-label">
+      <label for="selectStrategy" style="margin:0;">Estrategias de Ritmo:</label>
+      <div class="help-icon" onclick="toggleHelpText()">?</div>
+    </div>
+
+    <!-- Texto de ayuda de estrategias -->
+    <div id="helpText" class="help-text">
+      <p><strong>Estrategia Negativa (-1%, -2%, -3%):</strong><br>
+      Comenzar más lento que el ritmo objetivo y terminar más rápido.<br>
+      <em>Ventaja:</em> Ayuda a evitar la fatiga temprana.<br>
+      <em>Desventaja:</em> Requiere gran control al inicio.
+      </p>
+      <p><strong>Estrategia Positiva (+1%, +2%, +3%):</strong><br>
+      Comenzar más rápido que el ritmo objetivo y disminuir el ritmo en los tramos finales.<br>
+      <em>Ventaja:</em> Puede aprovechar una mejor condición inicial.<br>
+      <em>Desventaja:</em> Puede llevar a un colapso por fatiga.
+      </p>
+      <p><strong>Estrategia Neutra (constante):</strong><br>
+      Mantener un ritmo constante cercano al óptimo.<br>
+      Ideal para pruebas controladas o muy llanas.
+      </p>
+    </div>
+
+    <select id="selectStrategy" onchange="updateAll()">
+      <option value="estable">Ritmo Estable</option>
+      <option value="pos1">1% Positiva</option>
+      <option value="pos2">2% Positiva</option>
+      <option value="pos3">3% Positiva</option>
+      <option value="neg1">1% Negativa</option>
+      <option value="neg2">2% Negativa</option>
+      <option value="neg3">3% Negativa</option>
+    </select>
+
+    <!-- Slider ±10% -->
+    <label for="timeSlider">Ajuste del tiempo (±10%):</label>
+    <input 
+      type="range" 
+      id="timeSlider" 
+      min="0.9" 
+      max="1.1" 
+      step="0.01" 
+      value="1.0"
+      oninput="updateAll()"
+    >
+    <span id="sliderValue">100%</span>
+
+    <!-- Tabla principal con Tiempos, Imagen y Botón -->
+    <table>
+      <tbody>
+        <tr>
+          <td><strong>Tiempo Base:</strong></td>
+          <td id="baseTime">00:16:00</td>
+        </tr>
+        <tr>
+          <td><strong>Ritmo Base:</strong></td>
+          <td id="basePace">03:12</td>
+        </tr>
+        <tr>
+          <td><strong>Tiempo Ajustado:</strong></td>
+          <td id="adjustedTime">00:16:00</td>
+        </tr>
+        <tr>
+          <td><strong>Ritmo Ajustado:</strong></td>
+          <td id="adjustedPace">03:12</td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <img src="/static/testimonios.png" alt="¿Quién está detrás?" class="highlight-image">
+          </td>
+        </tr>
+        
+      </tbody>
+    </table>
+
+    <!-- Tabla km a km -->
+    <table class="km-table" id="kmTable">
+      <thead>
+        <tr>
+          <th>KM</th>
+          <th>Tiempo Base</th>
+          <th>Ritmo Base</th>
+          <th>Tiempo Ajustado</th>
+          <th>Ritmo Ajustado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Se llena con JS -->
+      </tbody>
+    </table>
+    <tr>
+        <td colspan="2">
+          <a href="/" class="button-primary">CONTINUAR</a>
+        </td>
+      </tr>
+  </div>
+
+  <script>
+    // -----------------------------------
+    // Mostrar/ocultar texto de ayuda
+    // -----------------------------------
+    function toggleHelpText() {
+      const help = document.getElementById("helpText");
+      help.style.display = (help.style.display === "block") ? "none" : "block";
+    }
+
+    // -----------------------------------
+    // EJEMPLO: Tiempos base
+    // -----------------------------------
+    const estimatedTimes = {
+      "5":      "00:16:00",
+      "10":     "00:33:35",
+      "15":     "00:51:16",
+      "21.1":   "01:13:36",
+      "42.195": "02:33:27"
+    };
+
+    // -----------------------------------
+    // Funciones de conversión
+    // -----------------------------------
+    function timeToSeconds(hms) {
+      const parts = hms.split(":").map(Number);
+      if (parts.length === 3) {
+        return parts[0]*3600 + parts[1]*60 + parts[2];
+      }
+      return 0;
+    }
+    function secondsToHMS(sec) {
+      const h = Math.floor(sec/3600);
+      const m = Math.floor((sec%3600)/60);
+      const s = Math.floor(sec%60);
+      return (
+        String(h).padStart(2,"0") + ":" +
+        String(m).padStart(2,"0") + ":" +
+        String(s).padStart(2,"0")
+      );
+    }
+    function secondsToPaceString(sec) {
+      const minutes = Math.floor(sec / 60);
+      const secs = Math.floor(sec % 60);
+      return (
+        String(minutes).padStart(2,"0") + ":" +
+        String(secs).padStart(2,"0")
+      );
+    }
+
+    // -----------------------------------
+// Estrategia Positive/Negative con 4 fases y tiempo constante
+// -----------------------------------
+function getSplitFactor(km, totalKm, strategy) {
+  let ratio = 0;
+
+  // Definir el ratio según la estrategia
+  if (strategy === "pos1") ratio = +0.01;
+  if (strategy === "pos2") ratio = +0.02;
+  if (strategy === "pos3") ratio = +0.03;
+  if (strategy === "neg1") ratio = -0.01;
+  if (strategy === "neg2") ratio = -0.02;
+  if (strategy === "neg3") ratio = -0.03;
+
+  // Calcular la longitud de cada fase
+  const phaseLength = totalKm / 4;
+
+  // Ajustar factores por fase, asegurando tiempo constante
+  let phaseAdjustments = [0, 0, 0, 0]; // 4 fases
+  if (strategy.includes("pos")) {
+    // Estrategias positivas: más rápido en las fases finales
+    phaseAdjustments = [1.0 - ratio * 1.5, 1.0 - ratio * 0.5, 1.0 + ratio * 0.5, 1.0 + ratio * 1.5];
+  } else if (strategy.includes("neg")) {
+    // Estrategias negativas: más rápido al inicio
+    phaseAdjustments = [1.0 + ratio * 1.5, 1.0 + ratio * 0.5, 1.0 - ratio * 0.5, 1.0 - ratio * 1.5];
+  } else if (strategy === "estable") {
+    // Ritmo constante
+    return 1.0;
+  }
+
+  // Determinar en qué fase se encuentra el km actual
+  if (km > 3 * phaseLength) {
+    // Último cuarto
+    return phaseAdjustments[3];
+  } else if (km > 2 * phaseLength) {
+    // Tercer cuarto
+    return phaseAdjustments[2];
+  } else if (km > phaseLength) {
+    // Segundo cuarto
+    return phaseAdjustments[1];
+  } else {
+    // Primer cuarto
+    return phaseAdjustments[0];
+  }
+}
+
+
+
+    // -----------------------------------
+    // Calcular tiempo total
+    // -----------------------------------
+    function calcTotalSeconds(distance, basePaceSec, strategy, factor) {
+      let totalSec = 0;
+      for (let km = 1; km <= Math.floor(distance); km++) {
+        const splitF = getSplitFactor(km, distance, strategy);
+        totalSec += (basePaceSec * factor) * splitF;
+      }
+      return totalSec;
+    }
+
+    // -----------------------------------
+    // updateAll()
+    // -----------------------------------
+    function updateAll() {
+      const distValue = document.getElementById("selectDistance").value;
+      const strategy  = document.getElementById("selectStrategy").value;
+      const factor    = parseFloat(document.getElementById("timeSlider").value);
+
+      // Muestra el % en #sliderValue
+      document.getElementById("sliderValue").textContent = (factor*100).toFixed(0) + "%";
+
+      // Tiempo base total
+      const baseTimeHms = estimatedTimes[distValue] || "00:16:00";
+      const distance = parseFloat(distValue) || 5;
+
+      // Pace base
+      const baseTimeSec = timeToSeconds(baseTimeHms);
+      const basePaceSec = baseTimeSec / distance;
+
+      // 1) Calcular tiempo base final
+      const totalBaseSec = calcTotalSeconds(distance, basePaceSec, "estable", 1.0);
+      const avgBasePaceSec = totalBaseSec / distance;
+      document.getElementById("baseTime").textContent = secondsToHMS(Math.round(totalBaseSec));
+      document.getElementById("basePace").textContent = secondsToPaceString(avgBasePaceSec);
+
+      // 2) Calcular tiempo ajustado final
+      const totalAdjustedSec = calcTotalSeconds(distance, basePaceSec, strategy, factor);
+      const avgAdjustedPaceSec = totalAdjustedSec / distance;
+      document.getElementById("adjustedTime").textContent = secondsToHMS(Math.round(totalAdjustedSec));
+      document.getElementById("adjustedPace").textContent = secondsToPaceString(avgAdjustedPaceSec);
+
+      // 3) Llenar tabla km a km
+      const tbody = document.getElementById("kmTable").querySelector("tbody");
+      tbody.innerHTML = "";
+
+      let accumulatedBase = 0;
+      let accumulatedAdjusted = 0;
+
+      for (let km = 1; km <= Math.floor(distance); km++) {
+        const splitFBase = getSplitFactor(km, distance, "estable");
+        const splitFAdj  = getSplitFactor(km, distance, strategy);
+
+        // Ritmo base por km
+        const paceBaseSecKm = (basePaceSec * 1.0) * splitFBase;
+        accumulatedBase += paceBaseSecKm;
+
+        // Ritmo ajustado por km
+        const paceAdjSecKm = (basePaceSec * factor) * splitFAdj;
+        accumulatedAdjusted += paceAdjSecKm;
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${km}</td>
+          <td>${secondsToHMS(Math.round(accumulatedBase))}</td>
+          <td>${secondsToPaceString(paceBaseSecKm)}</td>
+          <td>${secondsToHMS(Math.round(accumulatedAdjusted))}</td>
+          <td>${secondsToPaceString(paceAdjSecKm)}</td>
+        `;
+        tbody.appendChild(row);
+      }
+    }
+
+    // Inicializar
+    window.onload = function() {
+      updateAll();
+    };
+  </script>
+</body>
+</html>
