@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>Ajustes de Ritmo</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
   <style>
     /* Reset y estilo general */
     * {
@@ -80,6 +81,7 @@
       box-shadow: 0 0 8px rgba(255, 204, 0, 0.5);
     }
 
+    /* Slider ±10% */
     #timeSlider {
       -webkit-appearance: none;
       width: 80%;
@@ -249,28 +251,32 @@
   <div class="container">
     <h1>Ajusta Tiempo final, ritmo y estrategia</h1>
 
+    <!-- Inyectar los datos venidos de results.html: estimated_times -->
+    <script>
+      const estimatedTimes = {{ estimated_times|tojson }};
+      console.log("Datos traídos de results:", estimatedTimes);
+    </script>
+
     <!-- 1) Seleccionar la distancia -->
     <label for="selectDistance">Distancia:</label>
-    <select id="selectDistance" onchange="updateAll()">
-      <option value="5">5 km</option>
-      <option value="10">10 km</option>
-      <option value="15">15 km</option>
-      <option value="21.1">Media Maratón (21.1 km)</option>
-      <option value="42.195">Maratón (42.195 km)</option>
+    <select id="selectDistance" onchange="fillTime(); updateAll()">
+      {% for dist, data in estimated_times.items() %}
+      <option value="{{ dist }}">{{ dist }} km</option>
+      {% endfor %}
     </select>
 
-    <!-- 2) INPUT para escribir el TIEMPO total -->
+    <!-- 2) INPUT para tiempo final -->
     <label for="inputTime">Tiempo final (HH:MM:SS):</label>
     <input 
       type="text" 
-      id="inputTime" 
-      placeholder="Ejemplo : 00:45:00"
+      id="inputTime"
+      placeholder="00:16:00"
       oninput="updateAll()"
     >
 
-    <!-- 3) Estrategia (pos/neg) + Ayuda (?) -->
+    <!-- Estrategia + ayuda -->
     <div class="strategy-label">
-      <label for="selectStrategy" style="margin:0;">Estrategias de Ritmo:</label>
+      <label for="selectStrategy">Estrategias de Ritmo:</label>
       <div class="help-icon" onclick="toggleHelpText()">?</div>
     </div>
     <div id="helpText" class="help-text">
@@ -296,7 +302,7 @@
       <option value="neg3">3% Negativa</option>
     </select>
 
-    <!-- 4) Slider ±10% -->
+    <!-- Slider ±10% -->
     <label for="timeSlider">Ajuste del tiempo (±10%):</label>
     <input
       type="range"
@@ -309,7 +315,7 @@
     >
     <span id="sliderValue">100%</span>
 
-    <!-- 5) Tabla principal (tiempo base / ajustado) -->
+    <!-- Tabla principal -->
     <table>
       <tbody>
         <tr>
@@ -331,26 +337,22 @@
       </tbody>
     </table>
 
-    <!-- Imagen destacada (opcional) -->
+    <!-- Imagen opcional -->
     <img src="/static/testimonios.png" alt="¿Quién está detrás?" class="highlight-image">
 
-    <!-- 6) Tabla km a km -->
-    <div style="overflow-x: auto;">
-      <table class="km-table" id="kmTable">
-        <thead>
-          <tr>
-            <th>KM</th>
-            <th>Tiempo Base</th>
-            <th>Ritmo Base (mm:ss/km)</th>
-            <th>Tiempo Ajustado</th>
-            <th>Ritmo Ajustado (mm:ss/km)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Se llena con JS -->
-        </tbody>
-      </table>
-    </div>
+    <!-- Tabla km a km -->
+    <table class="km-table" id="kmTable">
+      <thead>
+        <tr>
+          <th>KM</th>
+          <th>Tiempo Base</th>
+          <th>Ritmo Base</th>
+          <th>Tiempo Ajustado</th>
+          <th>Ritmo Ajustado</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
   </div>
 
   <!-- Botón CONTINUAR -->
@@ -359,38 +361,47 @@
   </div>
 
   <script>
-    // Mostrar/ocultar texto de ayuda
+    // Evitar scroll en moviles al deslizar el slider
+    const slider = document.getElementById("timeSlider");
+    slider.addEventListener("touchmove", (event) => {
+      event.preventDefault();
+    }, { passive: false });
+
+    // Mostrar/ocultar texto ayuda
     function toggleHelpText() {
       const help = document.getElementById("helpText");
       help.style.display = (help.style.display === "block") ? "none" : "block";
     }
 
+    // Rellena inputTime desde estimatedTimes
+    function fillTime() {
+      const dist = document.getElementById("selectDistance").value;
+      if (estimatedTimes[dist]) {
+        document.getElementById("inputTime").value = estimatedTimes[dist].time;
+      }
+    }
+
     // Conversiones
     function timeToSeconds(hms) {
-      // Esperamos hh:mm:ss, p.ej. "00:16:00"
       const parts = hms.split(":").map(Number);
       if (parts.length === 3) {
-        return parts[0] * 3600 + parts[1] * 60 + parts[2];
+        return parts[0]*3600 + parts[1]*60 + parts[2];
       }
       return 0;
     }
     function secondsToHMS(sec) {
       const h = Math.floor(sec / 3600),
-            m = Math.floor((sec % 3600) / 60),
+            m = Math.floor((sec % 3600)/60),
             s = Math.floor(sec % 60);
-      return String(h).padStart(2,"0") + ":" +
-             String(m).padStart(2,"0") + ":" +
-             String(s).padStart(2,"0");
+      return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
     }
     function secondsToPaceString(sec) {
-      // Convierte seg/km a "mm:ss"
       const minutes = Math.floor(sec / 60);
-      const secs    = Math.floor(sec % 60);
-      return String(minutes).padStart(2,"0") + ":" +
-             String(secs).padStart(2,"0");
+      const secs = Math.floor(sec % 60);
+      return String(minutes).padStart(2,"0")+":"+String(secs).padStart(2,"0");
     }
 
-    // Estrategias pos/neg (en 4 fases)
+    // Estrategias pos/neg
     function getSplitFactor(km, totalKm, strategy) {
       let ratio = 0;
       if (strategy === "pos1") ratio = +0.01;
@@ -403,23 +414,27 @@
       if (strategy === "estable") {
         return 1.0;
       }
-      const quarter = totalKm / 4;
-      let phaseAdjustments = [1, 1, 1, 1];
-      if (strategy.includes("pos")) {
+      const quarter = totalKm / 4.0;
+
+      let phaseAdjustments = [1,1,1,1];
+      if (strategy.startsWith("pos")) {
+        const absRatio = Math.abs(ratio);
         phaseAdjustments = [
-          1.0 - ratio*0.5,
-          1.0 - ratio*0.2,
-          1.0 + ratio*0.2,
-          1.0 + ratio*0.5
+          1.0 - absRatio*0.5,
+          1.0 - absRatio*0.2,
+          1.0 + absRatio*0.2,
+          1.0 + absRatio*0.5
         ];
-      } else if (strategy.includes("neg")) {
+      } else if (strategy.startsWith("neg")) {
+        const absRatio = Math.abs(ratio);
         phaseAdjustments = [
-          1.0 + ratio*0.5,
-          1.0 + ratio*0.2,
-          1.0 - ratio*0.2,
-          1.0 - ratio*0.5
+          1.0 + absRatio*0.5,
+          1.0 + absRatio*0.2,
+          1.0 - absRatio*0.2,
+          1.0 - absRatio*0.5
         ];
       }
+
       if (km > 3*quarter) {
         return phaseAdjustments[3];
       } else if (km > 2*quarter) {
@@ -441,50 +456,32 @@
     }
 
     function updateAll() {
-      // 1) Leer distancia
-      const distSelect = document.getElementById("selectDistance");
-      const distNum = parseFloat(distSelect.value) || 5;
+      fillTime();
 
-      // 2) Leer tiempo del input
+      const distNum = parseFloat(document.getElementById("selectDistance").value) || 5;
+
       const userTime = document.getElementById("inputTime").value || "00:16:00";
       const userTimeSec = timeToSeconds(userTime);
 
-      // 3) Calcular el Ritmo Base
-      //   "Ritmo Base" = tiempo total / distancia
       const basePaceSec = userTimeSec / distNum;
 
-      // 4) Tiempo Final Base = userTime (tal cual) -> 
-      //   o si quieres parted approach: 
-      //   let totalBaseSec = calcTotalSeconds(distNum, basePaceSec, "estable", 1.0);
-      //   Pero más sencillo: "Tiempo Final Base" = userTime.
-      document.getElementById("baseTime").textContent = userTime; 
-      // Ritmo Base
+      document.getElementById("baseTime").textContent = userTime;
       document.getElementById("basePace").textContent = secondsToPaceString(basePaceSec);
 
-      // 5) Factor (slider) y Estrategia
       const factor = parseFloat(document.getElementById("timeSlider").value);
-      document.getElementById("sliderValue").textContent = (factor * 100).toFixed(0) + "%";
+      document.getElementById("sliderValue").textContent = (factor*100).toFixed(0)+"%";
 
       const strategy = document.getElementById("selectStrategy").value;
 
-      // 6) Calcular Tiempo Ajustado
-      //   Si quieres parted approach, haz:
-      let totalAdjustedSec = calcTotalSeconds(distNum, basePaceSec, strategy, factor);
-
-      // Ritmo Ajustado
-      const avgAdjustedPaceSec = totalAdjustedSec / distNum;
-
-      // Asignar
+      const totalAdjustedSec = calcTotalSeconds(distNum, basePaceSec, strategy, factor);
       document.getElementById("adjustedTime").textContent = secondsToHMS(Math.round(totalAdjustedSec));
-      document.getElementById("adjustedPace").textContent = secondsToPaceString(avgAdjustedPaceSec);
+      document.getElementById("adjustedPace").textContent = secondsToPaceString(totalAdjustedSec / distNum);
 
-      // 7) Tabla km a km
-      const kmBody = document.getElementById("kmTable").querySelector("tbody");
-      kmBody.innerHTML = "";
-      let accumulatedBase = 0;
-      let accumulatedAdjusted = 0;
+      const tbody = document.getElementById("kmTable").querySelector("tbody");
+      tbody.innerHTML = "";
+
+      let accumulatedBase = 0, accumulatedAdjusted = 0;
       for (let km = 1; km <= distNum; km++) {
-        // "estable" -> factor=1, "pos"/"neg" -> getSplitFactor
         const splitFBase = getSplitFactor(km, distNum, "estable");
         const paceBaseSecKm = basePaceSec * splitFBase;
         accumulatedBase += paceBaseSecKm;
@@ -501,11 +498,11 @@
           <td>${secondsToHMS(Math.round(accumulatedAdjusted))}</td>
           <td>${secondsToPaceString(paceAdjSecKm)}</td>
         `;
-        kmBody.appendChild(row);
+        tbody.appendChild(row);
       }
     }
 
-    window.onload = function() {
+    window.onload = () => {
       updateAll();
     };
   </script>
