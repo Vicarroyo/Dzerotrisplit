@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Ajustes de Ritmo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Fuente Poppins -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
@@ -33,10 +32,8 @@
       transform: scale(1.05);
       box-shadow: 0 8px 15px rgba(255, 204, 0, 0.7);
     }
-
-    /* Contenedor principal más ancho (100%) con un máximo de 700px */
     .container {
-      width: 100%;
+      width: 90%;
       max-width: 700px;
       background: linear-gradient(145deg, #222, #111);
       text-align: center;
@@ -46,7 +43,6 @@
       border: 2px solid #ffcc00;
       margin-bottom: 20px;
     }
-
     h1 {
       color: #ffcc00;
       font-size: 1.8rem;
@@ -78,49 +74,41 @@
       box-shadow: 0 0 8px rgba(255,204,0,0.5);
     }
 
-    /* Slider ±10% */
     #timeSlider {
       -webkit-appearance: none;
       width: 80%;
       height: 10px;
       border-radius: 10px;
       background: #1a1a1a;
-      box-shadow: inset 4px 4px 8px rgba(0,0,0,0.5),
-                  inset -4px -4px 8px rgba(255,255,255,0.1);
+      box-shadow: inset 4px 4px 8px rgba(0,0,0,0.5), inset -4px -4px 8px rgba(255,255,255,0.1);
       outline: none;
       margin: 10px 0;
       cursor: pointer;
     }
     #timeSlider::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 20px; 
-      height: 20px;
+      width: 20px; height: 20px;
       border-radius: 50%;
       background: #ffcc00;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.4),
-                  inset 0 -4px 8px rgba(255,255,255,0.4);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.4), inset 0 -4px 8px rgba(255,255,255,0.4);
       border: none;
       transition: transform 0.2s, box-shadow 0.3s;
     }
     #timeSlider::-webkit-slider-thumb:hover {
       transform: scale(1.2);
-      box-shadow: 0 6px 12px rgba(0,0,0,0.6),
-                  inset 0 -6px 12px rgba(255,255,255,0.5);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.6), inset 0 -6px 12px rgba(255,255,255,0.5);
     }
     #timeSlider::-moz-range-thumb {
-      width: 20px; 
-      height: 20px;
+      width: 20px; height: 20px;
       border-radius: 50%;
       background: #ffcc00;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.4),
-                  inset 0 -4px 8px rgba(255,255,255,0.4);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.4), inset 0 -4px 8px rgba(255,255,255,0.4);
       border: none;
       transition: transform 0.2s, box-shadow 0.3s;
     }
     #timeSlider::-moz-range-thumb:hover {
       transform: scale(1.2);
-      box-shadow: 0 6px 12px rgba(0,0,0,0.6),
-                  inset 0 -6px 12px rgba(255,255,255,0.5);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.6), inset 0 -6px 12px rgba(255,255,255,0.5);
     }
     #sliderValue {
       color: #ffcc00;
@@ -140,8 +128,7 @@
       margin-bottom: 5px;
     }
     .help-icon {
-      width: 24px; 
-      height: 24px;
+      width: 24px; height: 24px;
       background: #ffcc00;
       color: #000;
       border-radius: 50%;
@@ -211,7 +198,6 @@
       background: linear-gradient(135deg, #ffd966, #e6c300);
       box-shadow: 0 8px 15px rgba(255,204,0,0.7);
     }
-
     .km-table {
       width: 100%;
       border-collapse: collapse;
@@ -243,16 +229,14 @@
   <img src="/static/logo fondo negro.png" alt="Logo" class="logo">
 
   <div class="container">
-    <h1>Estrategia de carrera</h1>
+    <h1>Ajusta Tiempo final, ritmo y estrategia</h1>
 
     <!-- Inyectar datos -->
     <script>
-      // Objeto con la distancia y los tiempos (ej. "5": { time:"00:16:00", ...})
       const estimatedTimes = {{ estimated_times|tojson }};
       console.log("Datos traídos de results:", estimatedTimes);
     </script>
 
-    <!-- Seleccionar distancia -->
     <label for="selectDistance">Distancia:</label>
     <select id="selectDistance" onchange="fillTime(); updateAll()">
       {% for dist, data in estimated_times.items() %}
@@ -260,27 +244,22 @@
       {% endfor %}
     </select>
 
-    <!-- Tiempo final base -->
     <label for="inputTime">Tiempo final (HH:MM:SS):</label>
-    <input
-      type="text"
-      id="inputTime"
+    <input 
+      type="text" 
+      id="inputTime" 
       placeholder="00:16:00"
       oninput="updateAll()"
     >
 
-    <!-- Estrategia -->
     <div class="strategy-label">
       <label for="selectStrategy">Estrategias de Ritmo:</label>
       <div class="help-icon" onclick="toggleHelpText()">?</div>
     </div>
     <div id="helpText" class="help-text">
-      <p><strong>Estrategia Negativa (-1%, -2%, -3%):</strong><br>
-         Comenzar más lento que el ritmo objetivo y terminar más rápido.</p>
-      <p><strong>Estrategia Positiva (+1%, +2%, +3%):</strong><br>
-         Comenzar más rápido y terminar más lento.</p>
-      <p><strong>Estrategia Neutra:</strong><br>
-         Ritmo constante en toda la prueba.</p>
+      <p><strong>Estrategia Negativa (-1%, -2%, -3%):</strong><br>Comenzar más lento que el ritmo objetivo y terminar más rápido.</p>
+      <p><strong>Estrategia Positiva (+1%, +2%, +3%):</strong><br>Comenzar más rápido y terminar más lento.</p>
+      <p><strong>Estrategia Neutra:</strong><br>Ritmo constante.</p>
     </div>
     <select id="selectStrategy" onchange="updateAll()">
       <option value="estable">Ritmo Estable</option>
@@ -292,7 +271,6 @@
       <option value="neg3">3% Negativa</option>
     </select>
 
-    <!-- Slider ±10% -->
     <label for="timeSlider">Ajuste del tiempo (±10%):</label>
     <input
       type="range"
@@ -305,7 +283,6 @@
     >
     <span id="sliderValue">100%</span>
 
-    <!-- Tabla principal (Base/Ajustado) -->
     <table>
       <tbody>
         <tr>
@@ -327,12 +304,8 @@
       </tbody>
     </table>
 
-    <!-- Imagen -->
-    <a href="https://dzerotri.com/triatletas-dzero" target="_blank">
-      <img src="/static/testimonios.png" alt="testimonios" class="highlight-image">
-    </a>
+    <img src="/static/testimonios.png" alt="¿Quién está detrás?" class="highlight-image">
 
-    <!-- Tabla km a km (dentro del mismo container) -->
     <table class="km-table" id="kmTable">
       <thead>
         <tr>
@@ -347,7 +320,6 @@
     </table>
   </div>
 
-  <!-- Botón Continuar -->
   <div style="text-align:center;">
     <a href="/" class="button-primary">CONTINUAR</a>
   </div>
@@ -357,13 +329,11 @@
     const slider = document.getElementById("timeSlider");
     slider.addEventListener("touchmove", e => e.preventDefault(), { passive: false });
 
-    // Toggle ayuda
     function toggleHelpText() {
       const help = document.getElementById("helpText");
       help.style.display = (help.style.display === "block") ? "none" : "block";
     }
 
-    // Rellena el inputTime al cambiar la distancia
     function fillTime() {
       const dist = document.getElementById("selectDistance").value;
       if (estimatedTimes[dist]) {
@@ -373,9 +343,7 @@
 
     function timeToSeconds(hms) {
       const parts = hms.split(":").map(Number);
-      if (parts.length === 3) {
-        return parts[0]*3600 + parts[1]*60 + parts[2];
-      }
+      if (parts.length === 3) return parts[0]*3600 + parts[1]*60 + parts[2];
       return 0;
     }
     function secondsToHMS(sec) {
@@ -399,148 +367,146 @@
 
     // Estrategia pos/neg con 4 cuartos
     function getSplitFactor(km, totalKm, strategy) {
-      let ratio = 0;
-      if (strategy === "pos1") ratio = +0.01;
-      if (strategy === "pos2") ratio = +0.02;
-      if (strategy === "pos3") ratio = +0.03;
-      if (strategy === "neg1") ratio = -0.01;
-      if (strategy === "neg2") ratio = -0.02;
-      if (strategy === "neg3") ratio = -0.03;
+      let ratio=0;
+      if (strategy==="pos1") ratio =+0.01;
+      if (strategy==="pos2") ratio =+0.02;
+      if (strategy==="pos3") ratio =+0.03;
+      if (strategy==="neg1") ratio =-0.01;
+      if (strategy==="neg2") ratio =-0.02;
+      if (strategy==="neg3") ratio =-0.03;
+      if (strategy==="estable") return 1.0;
 
-      if (strategy === "estable") {
-        return 1.0;
-      }
-      const quarter = totalKm / 4.0;
-      let phaseAdjustments = [1, 1, 1, 1];
-
+      const quarter = totalKm/4.0;
+      let phaseAdjustments=[1,1,1,1];
       if (strategy.startsWith("pos")) {
-        const absR = Math.abs(ratio);
-        phaseAdjustments = [
+        const absR=Math.abs(ratio);
+        phaseAdjustments=[
           1.0 - absR*0.5,
           1.0 - absR*0.2,
           1.0 + absR*0.2,
           1.0 + absR*0.5
         ];
-      } 
-      else if (strategy.startsWith("neg")) {
-        const absR = Math.abs(ratio);
-        phaseAdjustments = [
+      } else if (strategy.startsWith("neg")) {
+        const absR=Math.abs(ratio);
+        phaseAdjustments=[
           1.0 + absR*0.5,
           1.0 + absR*0.2,
           1.0 - absR*0.2,
           1.0 - absR*0.5
         ];
       }
-
-      if (km > 3*quarter) return phaseAdjustments[3];
-      else if (km > 2*quarter) return phaseAdjustments[2];
-      else if (km > quarter)   return phaseAdjustments[1];
-      else                     return phaseAdjustments[0];
+      if (km>3*quarter) return phaseAdjustments[3];
+      else if (km>2*quarter) return phaseAdjustments[2];
+      else if (km>quarter) return phaseAdjustments[1];
+      else return phaseAdjustments[0];
     }
 
-    // Suma total con parte decimal
+    // Incluir la parte decimal => parted approach
     function calcTotalSeconds(distance, basePaceSec, strategy, factor) {
       const fullKm = Math.floor(distance);
       const leftover = distance - fullKm;
-      let totalSec = 0;
+      let totalSec=0;
 
-      // 1) Kms enteros
-      for (let km = 1; km <= fullKm; km++) {
+      // 1) kms enteros
+      for (let km=1; km<=fullKm; km++){
         const splitF = getSplitFactor(km, distance, strategy);
-        totalSec += (basePaceSec * factor) * splitF;
+        totalSec += (basePaceSec*factor)*splitF;
       }
-      // 2) Tramo decimal
-      if (leftover > 0) {
-        const partialIndex = fullKm + leftover;
+      // 2) fracción sobrante
+      if (leftover>0) {
+        const partialIndex = fullKm+leftover; // e.g. 21 + 0.1 => 21.1
         const splitF = getSplitFactor(partialIndex, distance, strategy);
-        totalSec += (basePaceSec * factor) * splitF * leftover;
+        // Sumar sólo leftover (0.1) en km
+        totalSec += (basePaceSec*factor)*splitF*leftover;
       }
+
       return totalSec;
     }
 
-    // Construir splits (base/ajustado) con la parte decimal
+    // Construir tabla km a km con parte decimal
     function buildKmSplits(distance, basePaceSec, strategy, factor, isBase=false) {
-      let results = [];
-      let accumulated = 0;
+      // isBase===true => factor=1 y strategy="estable"
+      // isBase===false => factor y strategy reales
+      let results=[];
+      let accumulated=0;
+
       const fullKm = Math.floor(distance);
       const leftover = distance - fullKm;
 
-      for (let km = 1; km <= fullKm; km++) {
-        const sFactor = isBase 
-          ? getSplitFactor(km, distance, "estable") 
-          : getSplitFactor(km, distance, strategy);
-
-        const paceSec = (basePaceSec * (isBase ? 1 : factor)) * sFactor;
-        accumulated += paceSec;
+      for (let km=1; km<=fullKm; km++){
+        const sFactor = isBase ? getSplitFactor(km, distance, "estable") : getSplitFactor(km, distance, strategy);
+        const paceSecThisKm = (basePaceSec * (isBase?1:factor)) * sFactor;
+        accumulated += paceSecThisKm;
 
         results.push({
           kmDisplay: km.toString(),
           accumulated: secondsToHMS(Math.round(accumulated)),
-          paceString: secondsToPaceString(paceSec)
+          paceString: secondsToPaceString(paceSecThisKm)
         });
       }
-
-      // Parte decimal
-      if (leftover > 0) {
-        const partialIndex = fullKm + leftover;
-        const sFactor = isBase 
-          ? getSplitFactor(partialIndex, distance, "estable") 
-          : getSplitFactor(partialIndex, distance, strategy);
-
-        const paceSec = (basePaceSec * (isBase ? 1 : factor)) * sFactor * leftover;
-        accumulated += paceSec;
+      if (leftover>0) {
+        const partialIndex = fullKm+leftover;
+        const sFactor = isBase? getSplitFactor(partialIndex, distance, "estable") : getSplitFactor(partialIndex, distance, strategy);
+        // Para leftover => multiplicar paceSecThisKm * leftover
+        const paceSecThisKm = (basePaceSec * (isBase?1:factor)) * sFactor * leftover;
+        accumulated += paceSecThisKm;
 
         results.push({
-          kmDisplay: partialIndex.toFixed(3), 
+          kmDisplay: partialIndex.toFixed(3), // e.g "21.100"
           accumulated: secondsToHMS(Math.round(accumulated)),
-          paceString: secondsToPaceString(
-            (basePaceSec * (isBase ? 1 : factor)) * sFactor
-          )
+          paceString: secondsToPaceString((basePaceSec*(isBase?1:factor))*sFactor)
         });
       }
       return results;
     }
 
-    function updateAll() {
+    function updateAll(){
       fillTime();
 
-      const distNum = parseFloat(document.getElementById("selectDistance").value) || 5;
-      const userTime = document.getElementById("inputTime").value || "00:16:00";
+      const distNum = parseFloat(document.getElementById("selectDistance").value)||5;
+      const userTime = document.getElementById("inputTime").value||"00:16:00";
       const userTimeSec = timeToSeconds(userTime);
 
-      const basePaceSec = userTimeSec / distNum;
+      const basePaceSec = userTimeSec/distNum;
 
-      document.getElementById("baseTime").textContent = userTime;
-      document.getElementById("basePace").textContent = secondsToPaceString(basePaceSec);
+      document.getElementById("baseTime").textContent=userTime;
+      document.getElementById("basePace").textContent=secondsToPaceString(basePaceSec);
 
-      const factor = parseFloat(document.getElementById("timeSlider").value);
-      document.getElementById("sliderValue").textContent = (factor*100).toFixed(0) + "%";
+      const factor=parseFloat(document.getElementById("timeSlider").value);
+      document.getElementById("sliderValue").textContent=(factor*100).toFixed(0)+"%";
 
-      const strategy = document.getElementById("selectStrategy").value;
+      const strategy=document.getElementById("selectStrategy").value;
 
-      const totalAdjustedSec = calcTotalSeconds(distNum, basePaceSec, strategy, factor);
-      document.getElementById("adjustedTime").textContent = secondsToHMS(Math.round(totalAdjustedSec));
-      document.getElementById("adjustedPace").textContent = secondsToPaceString(totalAdjustedSec / distNum);
+      const totalAdjustedSec=calcTotalSeconds(distNum, basePaceSec, strategy, factor);
+      document.getElementById("adjustedTime").textContent=secondsToHMS(Math.round(totalAdjustedSec));
+      document.getElementById("adjustedPace").textContent=secondsToPaceString(totalAdjustedSec/distNum);
 
-      // Splits
-      const baseSplits = buildKmSplits(distNum, basePaceSec, strategy, factor, true);
-      const adjSplits  = buildKmSplits(distNum, basePaceSec, strategy, factor, false);
+      // Construir tablas km a km (base y ajustado)
+      const baseSplits= buildKmSplits(distNum, basePaceSec, strategy, factor, true);
+      const adjSplits= buildKmSplits(distNum, basePaceSec, strategy, factor, false);
 
+      // Purgar tbody
       const tbody = document.getElementById("kmTable").querySelector("tbody");
-      tbody.innerHTML = "";
+      tbody.innerHTML="";
 
-      const maxLen = Math.max(baseSplits.length, adjSplits.length);
-      for (let i = 0; i < maxLen; i++) {
+      // Tomar la mayor longitud de splits (en caso leftover)
+      const maxLen=Math.max(baseSplits.length, adjSplits.length);
+
+      for (let i=0; i<maxLen; i++){
+        // base
         const b = baseSplits[i];
+        // ajustado
         const a = adjSplits[i];
-        const kmLabel    = b ? b.kmDisplay       : (a ? a.kmDisplay       : "");
-        const baseTimeAcc= b ? b.accumulated     : "";
-        const basePace   = b ? b.paceString      : "";
-        const adjTimeAcc = a ? a.accumulated     : "";
-        const adjPace    = a ? a.paceString      : "";
+        // Rellenar fila
+        // (Si i>=b.length => no data leftover, etc.)
+        const kmLabel = b? b.kmDisplay : a.kmDisplay;
+        const baseTimeAcc= b? b.accumulated: "";
+        const basePace= b? b.paceString: "";
+        const adjTimeAcc= a? a.accumulated: "";
+        const adjPace= a? a.paceString: "";
 
-        const row = document.createElement("tr");
-        row.innerHTML = `
+        const row=document.createElement("tr");
+        row.innerHTML=`
           <td>${kmLabel}</td>
           <td>${baseTimeAcc}</td>
           <td>${basePace}</td>
@@ -551,8 +517,7 @@
       }
     }
 
-    // Al cargar
-    window.onload = () => {
+    window.onload=()=>{
       updateAll();
     };
   </script>
