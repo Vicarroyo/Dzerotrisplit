@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
+    /* Estilos resumidos */
     * {
       box-sizing: border-box;
       font-family: 'Poppins', sans-serif;
@@ -23,7 +24,6 @@
       min-height: 100vh;
       text-align: center;
     }
-
     .logo {
       width: 200px;
       margin: 20px 0;
@@ -34,10 +34,10 @@
       box-shadow: 0 8px 15px rgba(255, 204, 0, 0.7);
     }
 
-    /* Contenedor principal más ancho */
+    /* Contenedor principal un poco más ancho */
     .container {
-      width: 95%;
-      max-width: 800px; /* Hasta 800px */
+      width: 95%;            /* Ocupar casi todo el ancho */
+      max-width: 800px;      /* Ahora hasta 800px */
       background: linear-gradient(145deg, #222, #111);
       text-align: center;
       padding: 30px;
@@ -53,7 +53,6 @@
       font-weight: 600;
       margin-bottom: 20px;
     }
-
     label {
       color: #bbb;
       font-weight: 600;
@@ -62,7 +61,6 @@
       margin-bottom: 5px;
       text-align: center;
     }
-
     select, input[type="text"] {
       width: 80%;
       padding: 8px;
@@ -70,7 +68,7 @@
       border: none;
       background: #1a1a1a;
       color: #fff;
-      box-shadow: inset 4px 4px 8px rgba(0,0,0,0.5),
+      box-shadow: inset 4px 4px 8px rgba(0,0,0,0.5), 
                   inset -4px -4px 8px rgba(255,255,255,0.1);
       text-align: center;
       outline: none;
@@ -88,7 +86,7 @@
       height: 10px;
       border-radius: 10px;
       background: #1a1a1a;
-      box-shadow: inset 4px 4px 8px rgba(0,0,0,0.5),
+      box-shadow: inset 4px 4px 8px rgba(0,0,0,0.5), 
                   inset -4px -4px 8px rgba(255,255,255,0.1);
       outline: none;
       margin: 10px 0;
@@ -218,14 +216,13 @@
       box-shadow: 0 8px 15px rgba(255,204,0,0.7);
     }
 
-    /* Contenedor con overflow para la tabla en móviles */
-    .km-table-container {
-      width: 100%;
-      overflow-x: auto;    /* Permite scroll horizontal en móvil */
-      -webkit-overflow-scrolling: touch;
-    }
     .km-table {
-      min-width: 560px; /* Un ancho mínimo para que no se encoja demasiado */
+      width: 100%;
+      border-collapse: collapse;
+      background: #1a1a1a;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(255,204,0,0.2);
     }
     .km-table thead {
       background-color: #ffcc00;
@@ -235,7 +232,6 @@
       text-align: center;
       padding: 10px;
       border-bottom: 1px solid #333;
-      white-space: nowrap; /* Evita que los textos se partan en varias líneas */
     }
     .km-table tbody tr:last-child td {
       border-bottom: none;
@@ -243,13 +239,6 @@
     .km-table tr:hover {
       background-color: #2a2a2a;
       transition: background-color 0.3s;
-    }
-
-    @media (max-width: 600px) {
-      /* Ajustes para móvil */
-      .km-table th, .km-table td {
-        padding: 8px;
-      }
     }
   </style>
 </head>
@@ -306,7 +295,6 @@
       <option value="neg3">3% Negativa</option>
     </select>
 
-    <!-- Slider ±10% -->
     <label for="timeSlider">Ajuste del tiempo (±10%):</label>
     <input
       type="range"
@@ -346,21 +334,19 @@
       <img src="/static/testimonios.png" alt="testimonios" class="highlight-image">
     </a>
 
-    <!-- Contenedor con scroll horizontal para la tabla -->
-    <div class="km-table-container">
-      <table class="km-table" id="kmTable">
-        <thead>
-          <tr>
-            <th>KM</th>
-            <th>Tiempo Base</th>
-            <th>Ritmo Base</th>
-            <th>Tiempo Ajustado</th>
-            <th>Ritmo Ajustado</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
+    <!-- Tabla km a km dentro del mismo contenedor -->
+    <table class="km-table" id="kmTable">
+      <thead>
+        <tr>
+          <th>KM</th>
+          <th>Tiempo Base</th>
+          <th>Ritmo Base</th>
+          <th>Tiempo Ajustado</th>
+          <th>Ritmo Ajustado</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
   </div>
 
   <div style="text-align:center;">
@@ -402,8 +388,8 @@
       );
     }
     function secondsToPaceString(sec) {
-      const minutes = Math.floor(sec / 60);
-      const secs = Math.floor(sec % 60);
+      const minutes = Math.floor(sec/60);
+      const secs = Math.floor(sec%60);
       return (
         String(minutes).padStart(2,"0")+":"+
         String(secs).padStart(2,"0")
@@ -425,7 +411,6 @@
       }
       const quarter = totalKm/4.0;
       let phaseAdjustments=[1,1,1,1];
-
       if (strategy.startsWith("pos")) {
         const absR=Math.abs(ratio);
         phaseAdjustments=[
@@ -563,12 +548,7 @@
       }
     }
 
-    // Evitar scroll al deslizar el slider en móvil
-    const slider = document.getElementById("timeSlider");
-    slider.addEventListener("touchmove", (event) => {
-      event.preventDefault();
-    }, { passive: false });
-
+    // Al cargar la página
     window.onload = () => {
       updateAll();
     };
