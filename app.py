@@ -109,7 +109,8 @@ def ajustes_running():
         'ajustes_running.html',
         estimated_times=estimated_times,
         original_pace=original_pace,
-        selected_distance=selected_distance
+        selected_distance=selected_distance,
+        estimated_times=estimated_times
     )
 
 
