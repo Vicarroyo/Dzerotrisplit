@@ -70,11 +70,16 @@ def running():
             # Convertir tiempo a formato hh:mm:ss
             time = f"{hours:02}:{minutes:02}:{seconds:02}"
 
-            # Validar el formato del tiempo
+            # Validar el formato del tiempo (según tu propia función)
             validate_time_format(time)
 
-            # Procesar los datos de carrera
+            # Procesar los datos de carrera (p.ej. con tu "process_running_data")
             results = process_running_data(distance, time, gender)
+
+            # EJEMPLO: Si quieres guardar "estimated_times" en la sesión, hazlo aquí:
+            session['estimated_times'] = results["estimated_times"]
+            session['original_pace'] = results["pace"]  # si quieres guardar el pace
+            session['selected_distance'] = distance      # si necesitas la distancia
 
             # Renderizar los resultados y pasar los cálculos al template
             return render_template(
@@ -91,27 +96,31 @@ def running():
 
     return render_template('running_input.html')
 
+
 @app.route('/ajustes_running', methods=['GET', 'POST'])
 def ajustes_running():
-    # Recuperamos de la sesión la info necesaria
+    # 1) Recuperamos la info de la sesión
     estimated_times = session.get('estimated_times', {})
     original_pace = session.get('original_pace', "00:00:00")
     selected_distance = session.get('selected_distance', None)
 
-    # Si necesitas hacer algo en POST, puedes hacerlo aquí
+    # 2) Opcional: Manejar POST si necesitas
     if request.method == 'POST':
-        # Por ejemplo, podrías capturar un “ritmo final” que el usuario
-        # haya confirmado y guardarlo/mostrarlo, etc.
+        # Ejemplo: capturar algún dato enviado desde la plantilla
+        # new_pace = request.form.get('new_pace')
+        # ... procesar ...
         pass
 
-    # Renderiza la plantilla con la info necesaria
+    # 3) Renderizamos 'ajustes_running.html', pasando estimated_times y otros datos
     return render_template(
         'ajustes_running.html',
-        estimated_times=estimated_times,
+        results_dict=estimated_times,  # O el nombre que prefieras
         original_pace=original_pace,
         selected_distance=selected_distance,
         estimated_times=estimated_times
     )
+
+
 
 
 @app.route('/swimming', methods=['GET', 'POST'])
@@ -473,4 +482,3 @@ def triatlon_input():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
