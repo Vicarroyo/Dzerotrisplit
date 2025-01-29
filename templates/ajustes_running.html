@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Ajustes de Ritmo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
-    /* Reset y estilo general */
+    /* Estilos resumidos */
     * {
       box-sizing: border-box;
       font-family: 'Poppins', sans-serif;
@@ -22,23 +23,19 @@
       min-height: 100vh;
       text-align: center;
     }
-
-    /* Logo */
     .logo {
       width: 200px;
       margin: 20px 0;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: transform 0.3s, box-shadow 0.3s;
     }
     .logo:hover {
       transform: scale(1.05);
       box-shadow: 0 8px 15px rgba(255, 204, 0, 0.7);
     }
-
-    /* Contenedor principal */
     .container {
       width: 90%;
-      max-width: 700px; 
-      background: linear-gradient(145deg, #222222, #111111);
+      max-width: 700px;
+      background: linear-gradient(145deg, #222, #111);
       text-align: center;
       padding: 30px;
       border-radius: 20px;
@@ -46,23 +43,20 @@
       border: 2px solid #ffcc00;
       margin-bottom: 20px;
     }
-
     h1 {
       color: #ffcc00;
       font-size: 1.8rem;
       font-weight: 600;
       margin-bottom: 20px;
     }
-
     label {
-      color: #bbbbbb;
+      color: #bbb;
       font-weight: 600;
       display: block;
       margin-top: 10px;
       margin-bottom: 5px;
       text-align: center;
     }
-
     select, input[type="text"] {
       width: 80%;
       padding: 8px;
@@ -70,26 +64,23 @@
       border: none;
       background: #1a1a1a;
       color: #fff;
-      box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.5),
-                  inset -4px -4px 8px rgba(255, 255, 255, 0.1);
+      box-shadow: inset 4px 4px 8px rgba(0,0,0,0.5), inset -4px -4px 8px rgba(255,255,255,0.1);
       text-align: center;
       outline: none;
       margin-bottom: 10px;
     }
     select:focus, input[type="text"]:focus {
       border: 1px solid #ffd966;
-      box-shadow: 0 0 8px rgba(255, 204, 0, 0.5);
+      box-shadow: 0 0 8px rgba(255,204,0,0.5);
     }
 
-    /* Slider ±10% */
     #timeSlider {
       -webkit-appearance: none;
       width: 80%;
       height: 10px;
       border-radius: 10px;
       background: #1a1a1a;
-      box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.5),
-                  inset -4px -4px 8px rgba(255, 255, 255, 0.1);
+      box-shadow: inset 4px 4px 8px rgba(0,0,0,0.5), inset -4px -4px 8px rgba(255,255,255,0.1);
       outline: none;
       margin: 10px 0;
       cursor: pointer;
@@ -99,31 +90,26 @@
       width: 20px; height: 20px;
       border-radius: 50%;
       background: #ffcc00;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4),
-                  inset 0 -4px 8px rgba(255, 255, 255, 0.4);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.4), inset 0 -4px 8px rgba(255,255,255,0.4);
       border: none;
-      transition: transform 0.2s ease, box-shadow 0.3s ease-in-out;
+      transition: transform 0.2s, box-shadow 0.3s;
     }
     #timeSlider::-webkit-slider-thumb:hover {
       transform: scale(1.2);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6),
-                  inset 0 -6px 12px rgba(255, 255, 255, 0.5);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.6), inset 0 -6px 12px rgba(255,255,255,0.5);
     }
     #timeSlider::-moz-range-thumb {
       width: 20px; height: 20px;
       border-radius: 50%;
       background: #ffcc00;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4),
-                  inset 0 -4px 8px rgba(255, 255, 255, 0.4);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.4), inset 0 -4px 8px rgba(255,255,255,0.4);
       border: none;
-      transition: transform 0.2s ease, box-shadow 0.3s ease-in-out;
+      transition: transform 0.2s, box-shadow 0.3s;
     }
     #timeSlider::-moz-range-thumb:hover {
       transform: scale(1.2);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6),
-                  inset 0 -6px 12px rgba(255, 255, 255, 0.5);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.6), inset 0 -6px 12px rgba(255,255,255,0.5);
     }
-
     #sliderValue {
       color: #ffcc00;
       font-weight: 600;
@@ -137,7 +123,7 @@
       align-items: center;
       justify-content: center;
       gap: 5px;
-      color: #bbbbbb;
+      color: #bbb;
       font-weight: 600;
       margin-bottom: 5px;
     }
@@ -159,13 +145,10 @@
       border: 1px solid #ffcc00;
       padding: 15px;
       border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(255, 204, 0, 0.3);
+      box-shadow: 0 2px 6px rgba(255,204,0,0.3);
       text-align: left;
       margin: 10px 0;
       font-size: 0.9rem;
-    }
-    .help-text p {
-      margin: 8px 0;
     }
 
     table {
@@ -175,7 +158,7 @@
       background: #1a1a1a;
       border-radius: 10px;
       overflow: hidden;
-      box-shadow: 0 4px 10px rgba(255, 204, 0, 0.2);
+      box-shadow: 0 4px 10px rgba(255,204,0,0.2);
       margin-bottom: 20px;
     }
     table td {
@@ -185,20 +168,18 @@
     table tr:last-child td {
       border-bottom: none;
     }
-
     .highlight-image {
       margin: 10px 0;
       max-width: 100%;
       border-radius: 10px;
       cursor: pointer;
-      box-shadow: 0 4px 10px rgba(255, 204, 0, 0.5);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 10px rgba(255,204,0,0.5);
+      transition: transform 0.3s, box-shadow 0.3s;
     }
     .highlight-image:hover {
       transform: scale(1.05);
-      box-shadow: 0 8px 15px rgba(255, 204, 0, 0.7);
+      box-shadow: 0 8px 15px rgba(255,204,0,0.7);
     }
-
     .button-primary {
       display: inline-block;
       margin: 10px 0;
@@ -209,22 +190,21 @@
       border: none;
       border-radius: 10px;
       text-decoration: none;
-      box-shadow: 0 4px 10px rgba(255, 204, 0, 0.5);
+      box-shadow: 0 4px 10px rgba(255,204,0,0.5);
       transition: all 0.3s ease-in-out;
       cursor: pointer;
     }
     .button-primary:hover {
       background: linear-gradient(135deg, #ffd966, #e6c300);
-      box-shadow: 0 8px 15px rgba(255, 204, 0, 0.7);
+      box-shadow: 0 8px 15px rgba(255,204,0,0.7);
     }
-
     .km-table {
       width: 100%;
       border-collapse: collapse;
       background: #1a1a1a;
       border-radius: 10px;
       overflow: hidden;
-      box-shadow: 0 4px 10px rgba(255, 204, 0, 0.2);
+      box-shadow: 0 4px 10px rgba(255,204,0,0.2);
     }
     .km-table thead {
       background-color: #ffcc00;
@@ -240,24 +220,23 @@
     }
     .km-table tr:hover {
       background-color: #2a2a2a;
-      transition: background-color 0.3s ease;
+      transition: background-color 0.3s;
     }
   </style>
 </head>
 <body>
-  <!-- Logo arriba -->
+  <!-- Logo -->
   <img src="/static/logo fondo negro.png" alt="Logo" class="logo">
 
   <div class="container">
     <h1>Ajusta Tiempo final, ritmo y estrategia</h1>
 
-    <!-- Inyectar los datos venidos de results.html: estimated_times -->
+    <!-- Inyectar datos -->
     <script>
       const estimatedTimes = {{ estimated_times|tojson }};
       console.log("Datos traídos de results:", estimatedTimes);
     </script>
 
-    <!-- 1) Seleccionar la distancia -->
     <label for="selectDistance">Distancia:</label>
     <select id="selectDistance" onchange="fillTime(); updateAll()">
       {% for dist, data in estimated_times.items() %}
@@ -265,32 +244,22 @@
       {% endfor %}
     </select>
 
-    <!-- 2) INPUT para tiempo final -->
     <label for="inputTime">Tiempo final (HH:MM:SS):</label>
     <input 
       type="text" 
-      id="inputTime"
+      id="inputTime" 
       placeholder="00:16:00"
       oninput="updateAll()"
     >
 
-    <!-- Estrategia + ayuda -->
     <div class="strategy-label">
       <label for="selectStrategy">Estrategias de Ritmo:</label>
       <div class="help-icon" onclick="toggleHelpText()">?</div>
     </div>
     <div id="helpText" class="help-text">
-      <p><strong>Estrategia Negativa (-1%, -2%, -3%):</strong><br>
-      Comenzar más lento que el ritmo objetivo y terminar más rápido.<br>
-      <em>Ventaja:</em> Ayuda a evitar la fatiga temprana.<br>
-      <em>Desventaja:</em> Requiere gran control al inicio.</p>
-      <p><strong>Estrategia Positiva (+1%, +2%, +3%):</strong><br>
-      Comenzar más rápido que el ritmo objetivo y disminuir el ritmo en los tramos finales.<br>
-      <em>Ventaja:</em> Puede aprovechar una mejor condición inicial.<br>
-      <em>Desventaja:</em> Puede llevar a un colapso por fatiga.</p>
-      <p><strong>Estrategia Neutra (constante):</strong><br>
-      Mantener un ritmo constante cercano al óptimo.<br>
-      Ideal para pruebas controladas o muy llanas.</p>
+      <p><strong>Estrategia Negativa (-1%, -2%, -3%):</strong><br>Comenzar más lento que el ritmo objetivo y terminar más rápido.</p>
+      <p><strong>Estrategia Positiva (+1%, +2%, +3%):</strong><br>Comenzar más rápido y terminar más lento.</p>
+      <p><strong>Estrategia Neutra:</strong><br>Ritmo constante.</p>
     </div>
     <select id="selectStrategy" onchange="updateAll()">
       <option value="estable">Ritmo Estable</option>
@@ -302,7 +271,6 @@
       <option value="neg3">3% Negativa</option>
     </select>
 
-    <!-- Slider ±10% -->
     <label for="timeSlider">Ajuste del tiempo (±10%):</label>
     <input
       type="range"
@@ -315,7 +283,6 @@
     >
     <span id="sliderValue">100%</span>
 
-    <!-- Tabla principal -->
     <table>
       <tbody>
         <tr>
@@ -337,10 +304,8 @@
       </tbody>
     </table>
 
-    <!-- Imagen opcional -->
     <img src="/static/testimonios.png" alt="¿Quién está detrás?" class="highlight-image">
 
-    <!-- Tabla km a km -->
     <table class="km-table" id="kmTable">
       <thead>
         <tr>
@@ -355,25 +320,20 @@
     </table>
   </div>
 
-  <!-- Botón CONTINUAR -->
-  <div style="text-align: center;">
+  <div style="text-align:center;">
     <a href="/" class="button-primary">CONTINUAR</a>
   </div>
 
   <script>
-    // Evitar scroll en moviles al deslizar el slider
+    // Evitar scroll al mover slider en móvil
     const slider = document.getElementById("timeSlider");
-    slider.addEventListener("touchmove", (event) => {
-      event.preventDefault();
-    }, { passive: false });
+    slider.addEventListener("touchmove", e => e.preventDefault(), { passive: false });
 
-    // Mostrar/ocultar texto ayuda
     function toggleHelpText() {
       const help = document.getElementById("helpText");
       help.style.display = (help.style.display === "block") ? "none" : "block";
     }
 
-    // Rellena inputTime desde estimatedTimes
     function fillTime() {
       const dist = document.getElementById("selectDistance").value;
       if (estimatedTimes[dist]) {
@@ -381,131 +341,185 @@
       }
     }
 
-    // Conversiones
     function timeToSeconds(hms) {
       const parts = hms.split(":").map(Number);
-      if (parts.length === 3) {
-        return parts[0]*3600 + parts[1]*60 + parts[2];
-      }
+      if (parts.length === 3) return parts[0]*3600 + parts[1]*60 + parts[2];
       return 0;
     }
     function secondsToHMS(sec) {
-      const h = Math.floor(sec / 3600),
-            m = Math.floor((sec % 3600)/60),
-            s = Math.floor(sec % 60);
-      return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+      const h = Math.floor(sec/3600),
+            m = Math.floor((sec%3600)/60),
+            s = Math.floor(sec%60);
+      return (
+        String(h).padStart(2,"0")+":"+
+        String(m).padStart(2,"0")+":"+
+        String(s).padStart(2,"0")
+      );
     }
     function secondsToPaceString(sec) {
-      const minutes = Math.floor(sec / 60);
-      const secs = Math.floor(sec % 60);
-      return String(minutes).padStart(2,"0")+":"+String(secs).padStart(2,"0");
+      const minutes = Math.floor(sec/60);
+      const secs = Math.floor(sec%60);
+      return (
+        String(minutes).padStart(2,"0")+":"+
+        String(secs).padStart(2,"0")
+      );
     }
 
-    // Estrategias pos/neg
+    // Estrategia pos/neg con 4 cuartos
     function getSplitFactor(km, totalKm, strategy) {
-      let ratio = 0;
-      if (strategy === "pos1") ratio = +0.01;
-      if (strategy === "pos2") ratio = +0.02;
-      if (strategy === "pos3") ratio = +0.03;
-      if (strategy === "neg1") ratio = -0.01;
-      if (strategy === "neg2") ratio = -0.02;
-      if (strategy === "neg3") ratio = -0.03;
+      let ratio=0;
+      if (strategy==="pos1") ratio =+0.01;
+      if (strategy==="pos2") ratio =+0.02;
+      if (strategy==="pos3") ratio =+0.03;
+      if (strategy==="neg1") ratio =-0.01;
+      if (strategy==="neg2") ratio =-0.02;
+      if (strategy==="neg3") ratio =-0.03;
+      if (strategy==="estable") return 1.0;
 
-      if (strategy === "estable") {
-        return 1.0;
-      }
-      const quarter = totalKm / 4.0;
-
-      let phaseAdjustments = [1,1,1,1];
+      const quarter = totalKm/4.0;
+      let phaseAdjustments=[1,1,1,1];
       if (strategy.startsWith("pos")) {
-        const absRatio = Math.abs(ratio);
-        phaseAdjustments = [
-          1.0 - absRatio*0.5,
-          1.0 - absRatio*0.2,
-          1.0 + absRatio*0.2,
-          1.0 + absRatio*0.5
+        const absR=Math.abs(ratio);
+        phaseAdjustments=[
+          1.0 - absR*0.5,
+          1.0 - absR*0.2,
+          1.0 + absR*0.2,
+          1.0 + absR*0.5
         ];
       } else if (strategy.startsWith("neg")) {
-        const absRatio = Math.abs(ratio);
-        phaseAdjustments = [
-          1.0 + absRatio*0.5,
-          1.0 + absRatio*0.2,
-          1.0 - absRatio*0.2,
-          1.0 - absRatio*0.5
+        const absR=Math.abs(ratio);
+        phaseAdjustments=[
+          1.0 + absR*0.5,
+          1.0 + absR*0.2,
+          1.0 - absR*0.2,
+          1.0 - absR*0.5
         ];
       }
-
-      if (km > 3*quarter) {
-        return phaseAdjustments[3];
-      } else if (km > 2*quarter) {
-        return phaseAdjustments[2];
-      } else if (km > quarter) {
-        return phaseAdjustments[1];
-      } else {
-        return phaseAdjustments[0];
-      }
+      if (km>3*quarter) return phaseAdjustments[3];
+      else if (km>2*quarter) return phaseAdjustments[2];
+      else if (km>quarter) return phaseAdjustments[1];
+      else return phaseAdjustments[0];
     }
 
+    // Incluir la parte decimal => parted approach
     function calcTotalSeconds(distance, basePaceSec, strategy, factor) {
-      let totalSec = 0;
-      for (let km = 1; km <= distance; km++) {
+      const fullKm = Math.floor(distance);
+      const leftover = distance - fullKm;
+      let totalSec=0;
+
+      // 1) kms enteros
+      for (let km=1; km<=fullKm; km++){
         const splitF = getSplitFactor(km, distance, strategy);
-        totalSec += (basePaceSec * factor) * splitF;
+        totalSec += (basePaceSec*factor)*splitF;
       }
+      // 2) fracción sobrante
+      if (leftover>0) {
+        const partialIndex = fullKm+leftover; // e.g. 21 + 0.1 => 21.1
+        const splitF = getSplitFactor(partialIndex, distance, strategy);
+        // Sumar sólo leftover (0.1) en km
+        totalSec += (basePaceSec*factor)*splitF*leftover;
+      }
+
       return totalSec;
     }
 
-    function updateAll() {
+    // Construir tabla km a km con parte decimal
+    function buildKmSplits(distance, basePaceSec, strategy, factor, isBase=false) {
+      // isBase===true => factor=1 y strategy="estable"
+      // isBase===false => factor y strategy reales
+      let results=[];
+      let accumulated=0;
+
+      const fullKm = Math.floor(distance);
+      const leftover = distance - fullKm;
+
+      for (let km=1; km<=fullKm; km++){
+        const sFactor = isBase ? getSplitFactor(km, distance, "estable") : getSplitFactor(km, distance, strategy);
+        const paceSecThisKm = (basePaceSec * (isBase?1:factor)) * sFactor;
+        accumulated += paceSecThisKm;
+
+        results.push({
+          kmDisplay: km.toString(),
+          accumulated: secondsToHMS(Math.round(accumulated)),
+          paceString: secondsToPaceString(paceSecThisKm)
+        });
+      }
+      if (leftover>0) {
+        const partialIndex = fullKm+leftover;
+        const sFactor = isBase? getSplitFactor(partialIndex, distance, "estable") : getSplitFactor(partialIndex, distance, strategy);
+        // Para leftover => multiplicar paceSecThisKm * leftover
+        const paceSecThisKm = (basePaceSec * (isBase?1:factor)) * sFactor * leftover;
+        accumulated += paceSecThisKm;
+
+        results.push({
+          kmDisplay: partialIndex.toFixed(3), // e.g "21.100"
+          accumulated: secondsToHMS(Math.round(accumulated)),
+          paceString: secondsToPaceString((basePaceSec*(isBase?1:factor))*sFactor)
+        });
+      }
+      return results;
+    }
+
+    function updateAll(){
       fillTime();
 
-      const distNum = parseFloat(document.getElementById("selectDistance").value) || 5;
-
-      const userTime = document.getElementById("inputTime").value || "00:16:00";
+      const distNum = parseFloat(document.getElementById("selectDistance").value)||5;
+      const userTime = document.getElementById("inputTime").value||"00:16:00";
       const userTimeSec = timeToSeconds(userTime);
 
-      const basePaceSec = userTimeSec / distNum;
+      const basePaceSec = userTimeSec/distNum;
 
-      document.getElementById("baseTime").textContent = userTime;
-      document.getElementById("basePace").textContent = secondsToPaceString(basePaceSec);
+      document.getElementById("baseTime").textContent=userTime;
+      document.getElementById("basePace").textContent=secondsToPaceString(basePaceSec);
 
-      const factor = parseFloat(document.getElementById("timeSlider").value);
-      document.getElementById("sliderValue").textContent = (factor*100).toFixed(0)+"%";
+      const factor=parseFloat(document.getElementById("timeSlider").value);
+      document.getElementById("sliderValue").textContent=(factor*100).toFixed(0)+"%";
 
-      const strategy = document.getElementById("selectStrategy").value;
+      const strategy=document.getElementById("selectStrategy").value;
 
-      const totalAdjustedSec = calcTotalSeconds(distNum, basePaceSec, strategy, factor);
-      document.getElementById("adjustedTime").textContent = secondsToHMS(Math.round(totalAdjustedSec));
-      document.getElementById("adjustedPace").textContent = secondsToPaceString(totalAdjustedSec / distNum);
+      const totalAdjustedSec=calcTotalSeconds(distNum, basePaceSec, strategy, factor);
+      document.getElementById("adjustedTime").textContent=secondsToHMS(Math.round(totalAdjustedSec));
+      document.getElementById("adjustedPace").textContent=secondsToPaceString(totalAdjustedSec/distNum);
 
+      // Construir tablas km a km (base y ajustado)
+      const baseSplits= buildKmSplits(distNum, basePaceSec, strategy, factor, true);
+      const adjSplits= buildKmSplits(distNum, basePaceSec, strategy, factor, false);
+
+      // Purgar tbody
       const tbody = document.getElementById("kmTable").querySelector("tbody");
-      tbody.innerHTML = "";
+      tbody.innerHTML="";
 
-      let accumulatedBase = 0, accumulatedAdjusted = 0;
-      for (let km = 1; km <= distNum; km++) {
-        const splitFBase = getSplitFactor(km, distNum, "estable");
-        const paceBaseSecKm = basePaceSec * splitFBase;
-        accumulatedBase += paceBaseSecKm;
+      // Tomar la mayor longitud de splits (en caso leftover)
+      const maxLen=Math.max(baseSplits.length, adjSplits.length);
 
-        const splitFAdj = getSplitFactor(km, distNum, strategy);
-        const paceAdjSecKm = basePaceSec * factor * splitFAdj;
-        accumulatedAdjusted += paceAdjSecKm;
+      for (let i=0; i<maxLen; i++){
+        // base
+        const b = baseSplits[i];
+        // ajustado
+        const a = adjSplits[i];
+        // Rellenar fila
+        // (Si i>=b.length => no data leftover, etc.)
+        const kmLabel = b? b.kmDisplay : a.kmDisplay;
+        const baseTimeAcc= b? b.accumulated: "";
+        const basePace= b? b.paceString: "";
+        const adjTimeAcc= a? a.accumulated: "";
+        const adjPace= a? a.paceString: "";
 
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${km}</td>
-          <td>${secondsToHMS(Math.round(accumulatedBase))}</td>
-          <td>${secondsToPaceString(paceBaseSecKm)}</td>
-          <td>${secondsToHMS(Math.round(accumulatedAdjusted))}</td>
-          <td>${secondsToPaceString(paceAdjSecKm)}</td>
+        const row=document.createElement("tr");
+        row.innerHTML=`
+          <td>${kmLabel}</td>
+          <td>${baseTimeAcc}</td>
+          <td>${basePace}</td>
+          <td>${adjTimeAcc}</td>
+          <td>${adjPace}</td>
         `;
         tbody.appendChild(row);
       }
     }
 
-    window.onload = () => {
+    window.onload=()=>{
       updateAll();
     };
   </script>
 </body>
 </html>
-
