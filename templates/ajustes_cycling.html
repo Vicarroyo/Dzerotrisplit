@@ -1,4 +1,4 @@
-<!DOCTYPE html>  
+<!DOCTYPE html>   
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -29,7 +29,7 @@
     }
     .logo:hover {
       transform: scale(1.05);
-      box-shadow: 0 8px 15px rgba(255, 204, 0, 0.7);
+      box-shadow: 0 8px 15px rgba(255, 219, 88, 0.7);
     }
     /* Contenedor principal */
     .container {
@@ -38,11 +38,11 @@
       background: #111;
       border-radius: 20px;
       padding: 20px;
-      box-shadow: 0 4px 20px rgba(255, 204, 0, 0.3);
-      border: 2px solid #ffcc00;
+      box-shadow: 0 4px 20px rgba(255, 219, 88, 0.3);
+      border: 2px solid #ffdb58;
     }
     h1 {
-      color: #ffcc00;
+      color: #ffdb58;
       margin-bottom: 20px;
       font-size: 2rem;
       font-weight: 600;
@@ -65,11 +65,11 @@
       outline: none;
     }
     select:focus, input[type="range"]:focus {
-      border: 1px solid #ffd966;
-      box-shadow: 0 0 6px rgba(255, 204, 0, 0.5);
+      border: 1px solid #ffe066;
+      box-shadow: 0 0 6px rgba(255, 219, 88, 0.5);
     }
     .slider-value {
-      color: #ffcc00;
+      color: #ffdb58;
       font-weight: 600;
       margin-bottom: 10px;
     }
@@ -80,11 +80,11 @@
       background: #1a1a1a;
       border-radius: 10px;
       overflow: hidden;
-      box-shadow: 0 4px 10px rgba(255, 204, 0, 0.2);
+      box-shadow: 0 4px 10px rgba(255, 219, 88, 0.2);
       margin-bottom: 20px;
     }
     table thead {
-      background-color: #ffcc00;
+      background-color: #ffdb58;
       color: #000;
     }
     th, td {
@@ -100,7 +100,7 @@
       background: #222;
       border-radius: 10px;
       padding: 15px;
-      box-shadow: 0 2px 8px rgba(255, 204, 0, 0.2);
+      box-shadow: 0 2px 8px rgba(255, 219, 88, 0.2);
     }
     .button-container {
       display: flex;
@@ -112,21 +112,21 @@
     .button-primary {
       width: 200px;
       padding: 10px 20px;
-      background: linear-gradient(135deg, #ffcc00, #e6b800);
+      background: linear-gradient(135deg, #ffdb58, #cca300);
       color: #000000;
       font-weight: bold;
       border: none;
       border-radius: 10px;
       text-decoration: none;
-      box-shadow: 0px 4px 10px rgba(255, 204, 0, 0.5);
+      box-shadow: 0px 4px 10px rgba(255, 219, 88, 0.5);
       transition: all 0.3s ease-in-out;
       cursor: pointer;
       text-align: center;
     }
 
     .button-primary:hover {
-      background: linear-gradient(135deg, #ffd966, #e6c300);
-      box-shadow: 0px 8px 15px rgba(255, 204, 0, 0.7);
+      background: linear-gradient(135deg, #ffe066, #ccb300);
+      box-shadow: 0px 8px 15px rgba(255, 219, 88, 0.7);
     }
 
     .highlight-image {
@@ -134,12 +134,12 @@
       max-width: 100%;
       border-radius: 10px;
       cursor: pointer;
-      box-shadow: 0 4px 10px rgba(255,204,0,0.5);
+      box-shadow: 0 4px 10px rgba(255,219,88,0.5);
       transition: transform 0.3s, box-shadow 0.3s;
     }
     .highlight-image:hover {
       transform: scale(1.05);
-      box-shadow: 0 8px 15px rgba(255,204,0,0.7);
+      box-shadow: 0 8px 15px rgba(255,219,88,0.7);
     }
 
     @media (max-width: 480px) {
@@ -164,10 +164,10 @@
   </a>
 
   <div class="container">
-    <h1>Ajustes de Ciclismo</h1>
+    <h1>Estrategia de Ciclismo</h1>
 
     <!-- 1) Selección de Distancia -->
-    <label for="selectDistance">Distancia:</label>
+    <label for="selectDistance">Distancia (Elige la Prueba para hacer la Estrategia):</label>
     <select id="selectDistance" onchange="updateInitialIntensity(); updateAll()">
       <option value="sprint">Sprint (20 km)</option>
       <option value="olimpico">Olímpico (40 km)</option>
@@ -244,12 +244,12 @@
 
     <!-- Sección de resultados (Velocidad estimada, tiempo, vatios medios, etc.) -->
     <div class="results" id="resultsSection">
-      <p><strong>Velocidad Estimada de la Prueba:</strong> <span id="speedValue">{{ velocidad_estimada if velocidad_estimada else '--' }}</span> km/h</p>
-      <p><strong>Tiempo Estimado de la Prueba:</strong> <span id="timeValue">{{ tiempo_estimada if tiempo_estimada else '--:--:--' }}</span></p>
+      <p><strong>Tiempo Final de la Prueba:</strong> <span id="timeValue">{{ tiempo_estimada if tiempo_estimada else '--:--:--' }}</span></p>
+      <p><strong>Velocidad Media de la Prueba:</strong> <span id="speedValue">{{ velocidad_estimada if velocidad_estimada else '--' }}</span> km/h</p>
       <p><strong>Vatios Medios:</strong> <span id="averageWatts">{{ potencia_objetivo if potencia_objetivo else '--' }}</span> W</p>
       <p><strong>Masa Total (Ciclista + Bici):</strong> <span id="displayMass">{{ mass_total }}</span> kg</p>
       <p><strong>Vatios/kg:</strong> <span id="wattsPerKg">{{ potencia_objetivo / mass_total if potencia_objetivo and mass_total else '--' }}</span> W/kg</p>
-      <p><small>RECUERDA: Estas ante un Cálculo aproximado</small></p>
+      <p><small>*RECUERDA: Estás ante un Cálculo aproximado</small></p>
     </div>
 
     <!-- Tabla de intensidades en función de la pendiente -->
@@ -630,3 +630,4 @@
 
 </body>
 </html>
+
