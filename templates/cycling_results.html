@@ -18,7 +18,7 @@
 
         .container {
             width: 100%;
-            max-width: 500px;
+            max-width: 550px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -173,8 +173,8 @@
                     {% for dist_name, info in tri_speeds.items() %}
                     <tr>
                         <td>{{ dist_name }}</td>
-                        <td>{{ info.v_min }}</td>
-                        <td>{{ info.v_max }}</td>
+                        <td>{{ info.v_min | round(2) }}</td>
+                        <td>{{ info.v_max | round(2) }}</td>
                         <td>{{ info.time_min_hhmmss }}</td>
                         <td>{{ info.time_max_hhmmss }}</td>
                     </tr>
@@ -206,6 +206,14 @@
                     {% endfor %}
                 </tbody>
             </table>
+
+            <!-- Botón ESTRATEGIA: pasamos ftp, cda_value y mass_total como query params -->
+            <a 
+              href="/ajustes_cycling?ftp={{ ftp|int }}&cda={{ cda_value }}&mass_total={{ mass_total|float }}"
+              class="button-primary"
+            >
+              ESTRATEGIA
+            </a>
 
             <!-- Botón Continuar -->
             <a href="/" class="button-primary">CONTINUAR</a>
