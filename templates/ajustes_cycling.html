@@ -248,7 +248,7 @@
       <p><strong>Velocidad Media de la Prueba:</strong> <span id="speedValue">{{ velocidad_estimada if velocidad_estimada else '--' }}</span> km/h</p>
       <p><strong>Vatios Medios:</strong> <span id="averageWatts">{{ potencia_objetivo if potencia_objetivo else '--' }}</span> W</p>
       <p><strong>Masa Total (Ciclista + Bici):</strong> <span id="displayMass">{{ mass_total }}</span> kg</p>
-      <p><strong>Vatios/kg:</strong> <span id="wattsPerKg">{{ potencia_objetivo / mass_total if potencia_objetivo and mass_total else '--' }}</span> W/kg</p>
+      <p><strong>Vatios/kg (Ciclista + Bici):</strong> <span id="wattsPerKg">{{ potencia_objetivo / mass_total if potencia_objetivo and mass_total else '--' }}</span> W/kg</p>
       <p><small>*RECUERDA: Estás ante un Cálculo aproximado</small></p>
     </div>
 
