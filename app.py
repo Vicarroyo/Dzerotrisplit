@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from utils.running import (
     calculate_pace,
     estimate_running_times,
@@ -8,7 +8,7 @@ from utils.running import (
     process_running_data
 )
 from utils.swimming import estimate_swim_times, calculate_zones
-from utils.cycling import calculate_ftp, classify_ftp, calculate_ftp_zones, calculate_corrected_speed, calculate_tri_speeds
+from utils.cycling import calculate_ftp, classify_ftp, calculate_ftp_zones, calculate_corrected_speed, calculate_tri_speeds, hours_to_hms_str
 from flask import Flask, render_template, request, session
 from datetime import timedelta
 
@@ -186,74 +186,195 @@ CDA_MAP = {
     0.3:   "sin posición aerodinámica"
 }
 
+def get_time_loss_percentage(desnivel):
+    """
+    Devuelve el porcentaje de pérdida de tiempo basado en el desnivel acumulado.
+    """
+    if desnivel <= 500:
+        return 0.031  # 3.1%
+    elif desnivel <= 1000:
+        return 0.064  # 6.4%
+    elif desnivel <= 1500:
+        return 0.099  # 9.9%
+    elif desnivel <= 2000:
+        return 0.137  # 13.7%
+    elif desnivel <= 2500:
+        return 0.177  # 17.7%
+    elif desnivel <= 3000:
+        return 0.22   # 22%
+    else:
+        return 0.22   # Máximo 22%
+
 @app.route('/cycling', methods=['GET', 'POST'])
 def cycling():
     if request.method == 'POST':
-        gender = request.form['gender']
-        weight = float(request.form['weight'])           # Peso del ciclista
-        bike_weight = float(request.form['bike_weight']) # Peso de la bici
-        power = float(request.form['power'])             # Vatios NP
-        test_time = int(request.form['test_time'])
-        cda_value = float(request.form['cda'])           # CdA numérico
+        # 1) Recogemos datos del formulario
+        gender = request.form.get('gender', 'male')  # Valor por defecto 'male' si no se proporciona
+        weight = float(request.form.get('weight', 70))  # Peso en kg
+        bike_weight = float(request.form.get('bike_weight', 10))  # Peso de la bicicleta en kg
+        power = float(request.form.get('power', 300))  # Potencia en W
+        test_time = int(request.form.get('test_time', 20))  # Tiempo del test en minutos
+        cda_value = float(request.form.get('cda', 0.25))  # CdA
 
         try:
-            # 1) Calcular FTP y FTP relativo
-            ftp, ftp_kg = calculate_ftp(gender, weight, power, test_time)
-            category = classify_ftp(ftp_kg, gender)
-            zones = calculate_ftp_zones(ftp)
+            # 2) Cálculos
+            ftp, ftp_kg = calculate_ftp(gender, weight, power, test_time)  # Función personalizada
+            category = classify_ftp(ftp_kg, gender)  # Función personalizada
+            zones = calculate_ftp_zones(ftp)  # Función personalizada
 
-            # Masa total
-            mass_total = weight + bike_weight
+            # Calcular masa total
+            mass_total = weight + bike_weight  # Masa total en kg
 
-            # 2) Factor de corrección (ejemplo: 0.95)
-            alpha = 0.95
-
-            # 3) Velocidad (al 100% de FTP)
+            # Calcular velocidad al 100% FTP utilizando la fórmula precisa
+            power_objetivo = ftp * 1.0  # Intensidad al 100%
             velocidad_kmh_100 = calculate_corrected_speed(
                 ftp=ftp,
-                mass_total=mass_total,
+                mass_total=mass_total,  # Pasamos mass_total aquí
                 cda=cda_value,
-                intensity=1.0,    # 100% FTP
+                intensity=1.0,  # 100%
                 rho=1.225,
-                alpha=alpha
+                alpha=0.95
             )
             velocidad_kmh_100 = round(velocidad_kmh_100, 2)
 
-            # 4) Velocidades para diferentes distancias (según %FTP)
+            # Calcular velocidades y tiempos para diferentes distancias
             tri_speeds = calculate_tri_speeds(
                 ftp=ftp,
-                mass_total=mass_total,
+                mass_total=mass_total,  # Pasamos mass_total aquí
                 cda=cda_value,
                 rho=1.225,
-                alpha=alpha
+                alpha=0.95
             )
 
-            # Redondeamos v_min, v_max, time_min, time_max
-            for dist_name, info in tri_speeds.items():
-                info["v_min"] = round(info["v_min"], 2)
-                info["v_max"] = round(info["v_max"], 2)
-                info["time_min"] = round(info["time_min"], 1)
-                info["time_max"] = round(info["time_max"], 1)
+            # Obtener etiqueta CdA
+            cda_label = CDA_MAP.get(cda_value, "Desconocido")
 
-            # 5) Obtener etiqueta CdA
-            cda_label = CDA_MAP.get(cda_value, "desconocido")
-
-            # 6) Renderizar la plantilla con todos los datos
+            # Renderizar la página de resultados incluyendo tri_speeds
             return render_template(
                 'cycling_results.html',
                 ftp=round(ftp, 2),
                 ftp_kg=round(ftp_kg, 2),
                 category=category,
                 zones=zones,
-                velocidad_kmh=velocidad_kmh_100,  # Vel. al 100% FTP
-                tri_speeds=tri_speeds,            # Info de distancias
-                cda_label=cda_label               # CdA descriptivo
+                velocidad_kmh=velocidad_kmh_100,
+                cda_label=cda_label,
+                cda_value=cda_value,
+                mass_total=mass_total,
+                tri_speeds=tri_speeds  # Agregamos tri_speeds aquí
             )
         except ValueError as e:
             return f"Error: {e}"
 
-    # Si GET, mostrar el formulario de entrada
+    # GET -> mostrar formulario
     return render_template('cycling_input.html')
+
+# -------------------------------------------------------------------------------------
+# RUTA 2: /ajustes_cycling
+# Página con sliders para distancia, FTP, desnivel, etc.
+# Recibe datos por GET (al hacer clic en "ESTRATEGIA") o por POST (form).
+# -------------------------------------------------------------------------------------
+@app.route('/ajustes_cycling', methods=['GET', 'POST'])
+def ajustes_cycling():
+    if request.method == 'POST':
+        # Procesar datos enviados por formulario POST
+        try:
+            ftp = float(request.form.get('ftp', 300))
+            desnivel_acumulado = float(request.form.get('desnivel_acumulado', 0))
+            distancia_km = float(request.form.get('distancia_km', 20))
+            intensidad_pct = float(request.form.get('intensidad_pct', 100))
+            cda_value = float(request.form.get('cda_value', 0.25))
+            mass_total = float(request.form.get('mass_total', 70))  # Valor por defecto de 70 kg
+        except ValueError:
+            return "Error: revisa campos numéricos."
+
+        # Cálculo
+        rho = 1.225  # Densidad del aire
+
+        # Calcular potencia objetivo
+        power_objetivo = ftp * (intensidad_pct / 100.0) 
+
+        # Calcular velocidad en terreno plano
+        speedFlat = calculate_corrected_speed(
+            ftp=ftp,
+            mass_total=mass_total,  # Asegurarse de pasar mass_total
+            cda=cda_value,
+            intensity=intensidad_pct / 100.0,
+            rho=rho,
+            alpha=0.95
+        )
+
+        # Calcular la pendiente media (%)
+        pendienteMedia = desnivel_acumulado / distancia_km  # m/km = % pendiente media
+
+        # Definir un coeficiente de reducción basado en la pendiente
+        coefReduccion = 0.005  # 0.5% de reducción por cada 1% de pendiente
+
+        # Ajustar la velocidad en función de la pendiente
+        speedAdjusted = speedFlat * (1 - (pendienteMedia * coefReduccion))
+
+        # Asegurar que la velocidad no sea negativa o demasiado baja
+        finalSpeed = max(speedAdjusted, 5)  # Mínimo de 5 km/h
+
+        # Calcular tiempo basado en la velocidad ajustada
+        tiempo_horas = distancia_km / finalSpeed if finalSpeed > 0 and distancia_km > 0 else 0
+
+        # Convertir tiempo a HH:MM:SS
+        tiempo_hhmmss = hours_to_hms_str(tiempo_horas)
+
+        # Calcular vatios por kg
+        if mass_total > 0:
+            vatios_kg = power_objetivo / mass_total
+        else:
+            vatios_kg = 0
+
+        # Calcular velocidades y tiempos para diferentes distancias
+        tri_speeds = calculate_tri_speeds(
+            ftp=ftp,
+            mass_total=mass_total,  # Pasamos mass_total aquí
+            cda=cda_value,
+            rho=rho,
+            alpha=0.95
+        )
+
+        # Obtener etiqueta CdA
+        cda_label = CDA_MAP.get(cda_value, "Desconocido")
+
+        # Renderizar la plantilla de ajustes con los datos calculados
+        return render_template(
+            'ajustes_cycling.html',
+            ftp=ftp,
+            desnivel_acumulado=desnivel_acumulado,
+            distancia_km=distancia_km,
+            intensidad_pct=intensidad_pct,
+            mass_total=mass_total,
+            potencia_objetivo=power_objetivo,
+            velocidad_estimada=round(finalSpeed, 2),
+            tiempo_estimada=tiempo_hhmmss,
+            tri_speeds=tri_speeds,
+            cda_label=cda_label,
+            cda_value=cda_value,
+            vatios_kg=round(vatios_kg, 2)  # Añadimos vatios_kg
+        )
+
+    else:
+        # Si GET, recoger parámetros de la URL
+        ftp = request.args.get('ftp', default=300, type=float)
+        cda = request.args.get('cda', default=0.25, type=float)
+        distancia_km = request.args.get('distancia_km', default=20, type=float)
+        desnivel_acumulado = request.args.get('desnivel_acumulado', default=0, type=float)
+        mass_total = request.args.get('mass_total', default=70, type=float)  # Valor por defecto de 70 kg
+
+        # Renderizar la plantilla con valores iniciales
+        return render_template(
+            'ajustes_cycling.html',
+            ftp=ftp,
+            cda_value=cda,
+            distancia_km=distancia_km,
+            desnivel_acumulado=desnivel_acumulado,
+            mass_total=mass_total
+        )
+
+
 
 @app.route('/triatlon_results', methods=['POST'])
 def triatlon_results():
@@ -482,3 +603,4 @@ def triatlon_input():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
