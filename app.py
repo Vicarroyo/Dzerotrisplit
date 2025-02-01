@@ -127,51 +127,65 @@ def ajustes_running():
 def swimming():
     if request.method == 'POST':
         try:
-            # Obtener los datos del formulario
-            distance = float(request.form['distance'])  # Distancia del test en metros
-            hours = int(request.form['hours'])  # Horas
-            minutes = int(request.form['minutes'])  # Minutos
-            seconds = int(request.form['seconds'])  # Segundos
-
+            # Obtener datos del formulario
+            distance = float(request.form['distance'])
+            hours = int(request.form['hours'])
+            minutes = int(request.form['minutes'])
+            seconds = int(request.form['seconds'])
+            
             # Convertir el tiempo total a segundos
             total_seconds = (hours * 3600) + (minutes * 60) + seconds
-
+            
             # Calcular el ritmo promedio en segundos por 100m
             pace_seconds_per_100m = (total_seconds / distance) * 100
-
-            # Convertir el ritmo promedio a formato MM:SS
+            
+            # Convertir el ritmo a formato MM:SS
             pace_minutes = int(pace_seconds_per_100m // 60)
             pace_remainder_seconds = int(pace_seconds_per_100m % 60)
-            pace = f"{pace_minutes:02}:{pace_remainder_seconds:02}"  # Formato MM:SS
-
-            # Formatear el tiempo total para usar en cálculos posteriores
+            pace = f"{pace_minutes:02}:{pace_remainder_seconds:02}"
+            
+            # Formatear el tiempo total en hh:mm:ss
             total_time = f"{hours:02}:{minutes:02}:{seconds:02}"
-
-            # Calcular las estimaciones, CSS y categoría
+            
+            # Calcular estimaciones, CSS y categoría usando la función correspondiente
             estimates, css, css_category = estimate_swim_times(distance, total_time)
-
-            # Convertir CSS a segundos para calcular zonas
-            css_seconds = sum(
-                x * int(t) for x, t in zip([3600, 60, 1], css.split(":"))
-            )
+            
+            # Calcular zonas de entrenamiento
+            css_seconds = sum(x * int(t) for x, t in zip([3600, 60, 1], css.split(":")))
             zones = calculate_zones(css_seconds)
-
-            # Renderizar los resultados
+            
+            # Renderizar la plantilla de resultados
             return render_template(
                 'swimming_results.html',
                 selected_distance=distance,
-                total_time=total_time,  # Tiempo total del test
-                pace=pace,  # Ritmo promedio en MM:SS
-                estimates=estimates,  # Tiempos estimados para diferentes distancias
-                css=css,  # Velocidad crítica de nado (CSS) en MM:SS
-                css_category=css_category,  # Categoría del nadador
-                zones=zones,  # Zonas de entrenamiento calculadas
+                total_time=total_time,
+                pace=pace,
+                estimates=estimates,
+                css=css,
+                css_category=css_category,
+                zones=zones,
             )
         except Exception as e:
             return f"Error inesperado: {e}"
-
-    # Renderizar el formulario si es un GET
+    
+    # Si es GET, se muestra el formulario
     return render_template('swimming_input.html')
+
+@app.route('/ajustes_swim', methods=['GET'])
+def ajustes_swim():
+    # Extraer los parámetros de la URL
+    distance = request.args.get('distance', type=float)
+    pace = request.args.get('pace', type=str)
+    css = request.args.get('css', type=str)
+    category = request.args.get('category', type=str)
+    
+    # Si faltan parámetros, redirige al test
+    if distance is None or pace is None or css is None or category is None:
+        return redirect(url_for('swimming'))
+    
+    # Renderiza la plantilla de ajustes pasando los valores iniciales
+    return render_template('ajustes_swim.html', distance=distance, pace=pace, css=css, category=category)
+
 
 
 
@@ -603,4 +617,3 @@ def triatlon_input():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
