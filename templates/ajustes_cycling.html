@@ -1,4 +1,4 @@
-<!DOCTYPE html>   
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -113,7 +113,7 @@
       width: 200px;
       padding: 10px 20px;
       background: linear-gradient(135deg, #ffdb58, #cca300);
-      color: #000000;
+      color: #000;
       font-weight: bold;
       border: none;
       border-radius: 10px;
@@ -123,12 +123,10 @@
       cursor: pointer;
       text-align: center;
     }
-
     .button-primary:hover {
       background: linear-gradient(135deg, #ffe066, #ccb300);
       box-shadow: 0px 8px 15px rgba(255, 219, 88, 0.7);
     }
-
     .highlight-image {
       margin: 10px 0;
       max-width: 100%;
@@ -141,7 +139,6 @@
       transform: scale(1.05);
       box-shadow: 0 8px 15px rgba(255,219,88,0.7);
     }
-
     @media (max-width: 480px) {
       h1 {
           font-size: 1.8rem;
@@ -153,6 +150,46 @@
       .button-primary {
         width: 100%;
       }
+    }
+
+    /* Nuevos estilos para el help-icon y help-text */
+    .help-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 30px;
+      height: 30px;
+      background-color: #ffcc00;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000000;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .help-text {
+      display: none;
+      background-color: #1a1a1a;
+      border: 1px solid #ffcc00;
+      padding: 10px;
+      border-radius: 5px;
+      position: absolute;
+      top: 45px;
+      right: 10px;
+      width: 250px;
+      text-align: left;
+      color: #ffffff;
+      z-index: 10;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Mostrar el help-text al pasar el cursor sobre el help-icon */
+    .form-group:hover .help-text {
+      display: block;
     }
   </style>
 </head>
@@ -262,9 +299,9 @@
       </thead>
       <tbody id="strategyTableBody">
         {% if tri_speeds %}
-          {% for dist_name, info in tri_speeds.items() %}
+          {% for dist, info in tri_speeds.items() %}
           <tr>
-              <td>{{ dist_name }}</td>
+              <td>{{ dist }}</td>
               <td>{{ info.v_min | round(2) }}</td>
               <td>{{ info.v_max | round(2) }}</td>
               <td>{{ info.time_min_hhmmss }}</td>
@@ -370,8 +407,43 @@
       full: 180
     };
 
-    // Factor de corrección empírico
+    // Factor de corrección empírico para la velocidad
     const alpha = 0.95;
+
+    // Función para calcular la velocidad corregida en ciclismo
+    function calculate_corrected_speed(power, mass_total, cda, crr, rho, slopePct, alpha) {
+        const g = 9.81; // Aceleración en m/s²
+        // Factor para reducir la penalización por desnivel acumulado (menor impacto en el tiempo)
+        const factor_desnivel = 0.8; 
+        // Función que representa la diferencia entre la potencia requerida y la potencia objetivo
+        function powerDifference(v) {
+            // v en m/s
+            const power_aero = 0.5 * rho * cda * Math.pow(v, 3);
+            const power_rr = crr * mass_total * g * v;
+            const power_grav = mass_total * g * ((slopePct / 100) * factor_desnivel) * v;
+            return power_aero + power_rr + power_grav - power;
+        }
+
+        // Búsqueda binaria para encontrar la velocidad
+        let lower = 0;
+        let upper = 50;
+        let v = 0;
+        const tolerance = 0.001;
+
+        while (upper - lower > tolerance) {
+            v = (lower + upper) / 2;
+            const diff = powerDifference(v);
+            if (diff > 0) {
+                upper = v;
+            } else {
+                lower = v;
+            }
+        }
+
+        // Convertir velocidad a km/h y aplicar factor alpha
+        const speed_kmh = v * 3.6 * alpha;
+        return speed_kmh;
+    }
 
     window.onload = () => {
       // Asignar los valores iniciales al slider de FTP, CdA y Masa
@@ -469,8 +541,6 @@
       document.getElementById("desnivelValue").textContent = desnivelValue.toFixed(0);
       document.getElementById("intensityValue").textContent = intensidadPct.toFixed(0);
       document.getElementById("massValue").textContent = massTotal.toFixed(0);
-
-      // Actualizar Masa Total en la sección de resultados
       document.getElementById("displayMass").textContent = massTotal.toFixed(0);
 
       // 2) Cálculo de potencia y vatios medios
@@ -495,7 +565,6 @@
       const mm = Math.floor((tiempo_segundos % 3600) / 60);
       const ss = Math.floor(tiempo_segundos % 60);
 
-      // Mostrar en pantalla
       document.getElementById("speedValue").textContent = finalSpeed.toFixed(2);
       document.getElementById("timeValue").textContent =
         String(hh).padStart(2, '0') + ":" +
@@ -520,14 +589,13 @@
       document.getElementById("formIntensidad").value = intensidadPct;
       document.getElementById("formCda").value = cdaValue;
       document.getElementById("formMass").value = massTotal;
-      document.getElementById("formSpeed").value = finalSpeed.toFixed(2); // Actualizar campo de velocidad
-      document.getElementById("formAverageWatts").value = averageWatts; // Actualizar nuevo campo
+      document.getElementById("formSpeed").value = finalSpeed.toFixed(2);
+      document.getElementById("formAverageWatts").value = averageWatts;
 
       // 7) Actualizar la tabla de estrategia
       const tableBody = document.getElementById("strategyTableBody");
       tableBody.innerHTML = "";  // Limpiamos
 
-      // Ajustar el <th> con la distancia elegida
       let distanceName = "";
       switch(distType) {
         case "sprint": distanceName = "Sprint (20 km)"; break;
@@ -539,23 +607,19 @@
       document.getElementById("distanceHeader").textContent = distanceName + ": Rango (W)";
 
       recommendedRanges.forEach(row => {
-        // row[distType] => ej. "92-97%", "115-120% FTP (corto)"
         const pctString = row[distType]; 
         let minPct = 0, maxPct = 0;
 
-        // Detectar un rango "xx-yy%" posiblemente seguido de texto adicional
         let rangeMatch = pctString.match(/(\d+)[-–](\d+)%/);
         if (rangeMatch) {
             minPct = parseFloat(rangeMatch[1]) / 100;
             maxPct = parseFloat(rangeMatch[2]) / 100;
         } else {
-            // O "Hasta xx%" posiblemente seguido de texto adicional
             let hastaMatch = pctString.match(/Hasta\s+(\d+)%/);
             if (hastaMatch) {
                 minPct = 1.0;
                 maxPct = parseFloat(hastaMatch[1]) / 100;
             } else {
-                // O simplemente "xx%" posiblemente seguido de texto adicional
                 let singleMatch = pctString.match(/(\d+)%$/);
                 if (singleMatch) {
                     minPct = parseFloat(singleMatch[1]) / 100;
@@ -564,7 +628,6 @@
             }
         }
 
-        // Calculamos vatios => ftpValue * [minPct, maxPct]
         const wMin = Math.round(ftpValue * minPct);
         const wMax = Math.round(ftpValue * maxPct);
 
@@ -588,22 +651,19 @@
 
     function calculate_corrected_speed(power, mass_total, cda, crr, rho, slopePct, alpha) {
         const g = 9.81; // Aceleración debida a la gravedad en m/s²
-
-        // Función que representa la diferencia entre potencia requerida y potencia objetivo
+        // Factor para reducir la penalización por desnivel acumulado (penaliza con menos tiempo)
+        const factor_desnivel = 0.8;  
         function powerDifference(v) {
             // v en m/s
             const power_aero = 0.5 * rho * cda * Math.pow(v, 3);
             const power_rr = crr * mass_total * g * v;
-            const power_grav = mass_total * g * (slopePct / 100) * v;
+            const power_grav = mass_total * g * ((slopePct / 100) * factor_desnivel) * v;
             return power_aero + power_rr + power_grav - power;
         }
-
-        // Búsqueda binaria para encontrar la velocidad que iguala la potencia requerida a la potencia objetivo
-        let lower = 0; // m/s
-        let upper = 50; // m/s (aprox. 180 km/h, un límite razonable)
+        let lower = 0;
+        let upper = 50;
         let v = 0;
-        const tolerance = 0.001; // Tolerancia en m/s
-
+        const tolerance = 0.001;
         while (upper - lower > tolerance) {
             v = (lower + upper) / 2;
             const diff = powerDifference(v);
@@ -613,8 +673,6 @@
                 lower = v;
             }
         }
-
-        // Convertimos la velocidad a km/h y aplicamos el factor de corrección
         const speed_kmh = v * 3.6 * alpha;
         return speed_kmh;
     }
@@ -624,7 +682,217 @@
       const hh = Math.floor(totalSeconds / 3600);
       const mm = Math.floor((totalSeconds % 3600) / 60);
       const ss = Math.floor(totalSeconds % 60);
-      return `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}:${String(ss).padStart(2, '0')}`;
+      return (
+        String(hh).padStart(2,"0")+":"+String(mm).padStart(2,"0")+":"+String(ss).padStart(2,"0")
+      );
+    }
+
+    window.onload = () => {
+      document.getElementById("ftpSlider").value = initialFTP;
+      document.getElementById("cdaSelect").value = initialCDA;
+      document.getElementById("massSlider").value = initialMass;
+      document.getElementById("selectDistance").value = getDistanceType(initialDistancia);
+      document.getElementById("desnivelSlider").value = initialDesnivel;
+      document.getElementById("desnivelValue").textContent = initialDesnivel;
+      document.getElementById("massValue").textContent = initialMass.toFixed(0);
+      document.getElementById("displayMass").textContent = initialMass.toFixed(0);
+      document.getElementById("intensitySlider").value = initialIntensidadMap[getDistanceType(initialDistancia)] || 100;
+      document.getElementById("intensityValue").textContent = initialIntensidadMap[getDistanceType(initialDistancia)] || 100;
+      
+      document.getElementById("formFtp").value = initialFTP;
+      document.getElementById("formDesnivel").value = initialDesnivel;
+      document.getElementById("formDistancia").value = initialDistancia;
+      document.getElementById("formIntensidad").value = initialIntensidadMap[getDistanceType(initialDistancia)] || 100;
+      document.getElementById("formCda").value = initialCDA;
+      document.getElementById("formMass").value = initialMass;
+      document.getElementById("formAverageWatts").value = 0;
+      
+      const velocidadEstimada = initialSpeed;
+      if (velocidadEstimada > 0) {
+        document.getElementById("speedValue").textContent = velocidadEstimada.toFixed(2);
+      }
+      
+      const tiempoEstimada = "{{ tiempo_estimada }}" !== "" ? "{{ tiempo_estimada }}" : "--:--:--";
+      document.getElementById("timeValue").textContent = tiempoEstimada;
+      
+      const potenciaObjetivo = "{{ potencia_objetivo }}" !== "" ? "{{ potencia_objetivo }}" : "--";
+      document.getElementById("averageWatts").textContent = potenciaObjetivo;
+      
+      const vatiosKg = "{{ potencia_objetivo / mass_total if potencia_objetivo and mass_total else '--' }}";
+      document.getElementById("wattsPerKg").textContent = vatiosKg;
+      
+      updateAll();
+    };
+
+    function getDistanceType(distKm) {
+      switch(distKm) {
+        case 20:
+          return "sprint";
+        case 40:
+          return "olimpico";
+        case 90:
+          return "half";
+        case 180:
+          return "full";
+        default:
+          return "sprint";
+      }
+    }
+
+    function updateInitialIntensity() {
+      const distType = document.getElementById("selectDistance").value;
+      const initialValues = {
+        "sprint": 95,
+        "olimpico": 90,
+        "half": 85,
+        "full": 75
+      };
+      const intensitySlider = document.getElementById("intensitySlider");
+      intensitySlider.value = initialValues[distType] || 100;
+      document.getElementById("intensityValue").textContent = intensitySlider.value;
+      document.getElementById("formIntensidad").value = intensitySlider.value;
+    }
+
+    function updateAll() {
+      const distType = document.getElementById("selectDistance").value;
+      const ftpValue = parseFloat(document.getElementById("ftpSlider").value);
+      const desnivelValue = parseFloat(document.getElementById("desnivelSlider").value);
+      const intensidadPct = parseFloat(document.getElementById("intensitySlider").value);
+      const cdaValue = parseFloat(document.getElementById("cdaSelect").value) || 0.25;
+      const massTotal = parseFloat(document.getElementById("massSlider").value) || 70;
+      
+      document.getElementById("ftpValue").textContent = ftpValue.toFixed(0);
+      document.getElementById("desnivelValue").textContent = desnivelValue.toFixed(0);
+      document.getElementById("intensityValue").textContent = intensidadPct.toFixed(0);
+      document.getElementById("massValue").textContent = massTotal.toFixed(0);
+      document.getElementById("displayMass").textContent = massTotal.toFixed(0);
+      
+      const power_objetivo = ftpValue * (intensidadPct / 100.0);
+      
+      const crr = 0.00005;
+      const slopePct = (desnivelValue / (distanceMap[distType] * 1000)) * 100;
+      
+      const speedFlat = calculate_corrected_speed(power_objetivo, massTotal, cdaValue, crr, 1.225, slopePct, alpha);
+      const finalSpeed = Math.max(speedFlat, 5);
+      
+      const distKm = distanceMap[distType];
+      let tiempo_horas = distKm / finalSpeed;
+      
+      const tiempo_segundos = tiempo_horas * 3600;
+      const hh = Math.floor(tiempo_segundos / 3600);
+      const mm = Math.floor((tiempo_segundos % 3600) / 60);
+      const ss = Math.floor(tiempo_segundos % 60);
+      
+      document.getElementById("speedValue").textContent = finalSpeed.toFixed(2);
+      document.getElementById("timeValue").textContent =
+        String(hh).padStart(2, '0') + ":" +
+        String(mm).padStart(2, '0') + ":" +
+        String(ss).padStart(2, '0');
+      
+      const averageWatts = power_objetivo.toFixed(0);
+      document.getElementById("averageWatts").textContent = averageWatts;
+      
+      let wattsPerKg = '--';
+      if (power_objetivo && massTotal) {
+          wattsPerKg = (power_objetivo / massTotal).toFixed(2);
+      }
+      document.getElementById("wattsPerKg").textContent = wattsPerKg;
+      
+      document.getElementById("formFtp").value = ftpValue;
+      document.getElementById("formDesnivel").value = desnivelValue;
+      document.getElementById("formDistancia").value = distKm;
+      document.getElementById("formIntensidad").value = intensidadPct;
+      document.getElementById("formCda").value = cdaValue;
+      document.getElementById("formMass").value = massTotal;
+      document.getElementById("formSpeed").value = finalSpeed.toFixed(2);
+      document.getElementById("formAverageWatts").value = averageWatts;
+      
+      const tableBody = document.getElementById("strategyTableBody");
+      tableBody.innerHTML = "";
+      
+      let distanceName = "";
+      switch(distType) {
+        case "sprint": distanceName = "Sprint (20 km)"; break;
+        case "olimpico": distanceName = "Olímpico (40 km)"; break;
+        case "half": distanceName = "Media Distancia (90 km)"; break;
+        case "full": distanceName = "Larga Distancia (180 km)"; break;
+        default: distanceName = "Sprint (20 km)"; break;
+      }
+      document.getElementById("distanceHeader").textContent = distanceName + ": Rango (W)";
+      
+      recommendedRanges.forEach(row => {
+        const pctString = row[distType]; 
+        let minPct = 0, maxPct = 0;
+        let rangeMatch = pctString.match(/(\d+)[-–](\d+)%/);
+        if (rangeMatch) {
+            minPct = parseFloat(rangeMatch[1]) / 100;
+            maxPct = parseFloat(rangeMatch[2]) / 100;
+        } else {
+            let hastaMatch = pctString.match(/Hasta\s+(\d+)%/);
+            if (hastaMatch) {
+                minPct = 1.0;
+                maxPct = parseFloat(hastaMatch[1]) / 100;
+            } else {
+                let singleMatch = pctString.match(/(\d+)%$/);
+                if (singleMatch) {
+                    minPct = parseFloat(singleMatch[1]) / 100;
+                    maxPct = parseFloat(singleMatch[1]) / 100;
+                }
+            }
+        }
+        const wMin = Math.round(ftpValue * minPct);
+        const wMax = Math.round(ftpValue * maxPct);
+        let wattsRange = "";
+        if (wMin && wMax && wMin !== wMax) {
+            wattsRange = `${wMin} - ${wMax} W`;
+        } else if (wMax && wMin === 0) {
+            wattsRange = `Hasta ${wMax} W`;
+        } else {
+            wattsRange = `${wMax} W`;
+        }
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${row.pendiente}</td>
+          <td>${wattsRange}</td>
+        `;
+        tableBody.appendChild(tr);
+      });
+    }
+
+    function calculate_corrected_speed(power, mass_total, cda, crr, rho, slopePct, alpha) {
+        const g = 9.81; // Aceleración debida a la gravedad en m/s²
+        const factor_desnivel = 0.6; // Menor penalización en el desnivel (ajusta este valor)
+        function powerDifference(v) {
+            const power_aero = 0.5 * rho * cda * Math.pow(v, 3);
+            const power_rr = crr * mass_total * g * v;
+            const power_grav = mass_total * g * ((slopePct / 100) * factor_desnivel) * v;
+            return power_aero + power_rr + power_grav - power;
+        }
+        let lower = 0;
+        let upper = 50;
+        let v = 0;
+        const tolerance = 0.001;
+        while (upper - lower > tolerance) {
+            v = (lower + upper) / 2;
+            const diff = powerDifference(v);
+            if (diff > 0) {
+                upper = v;
+            } else {
+                lower = v;
+            }
+        }
+        const speed_kmh = v * 3.6 * alpha;
+        return speed_kmh;
+    }
+
+    function hours_to_hms_str(hours) {
+      const totalSeconds = Math.floor(hours * 3600);
+      const hh = Math.floor(totalSeconds / 3600);
+      const mm = Math.floor((totalSeconds % 3600) / 60);
+      const ss = Math.floor(totalSeconds % 60);
+      return (
+        String(hh).padStart(2,"0")+":"+String(mm).padStart(2,"0")+":"+String(ss).padStart(2,"0")
+      );
     }
   </script>
 
