@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajustes de Natación</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Fuente Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* Estilos Generales */
+        * {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: #000000;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+        /* Logo */
+        .logo {
+            width: 200px;
+            margin: 20px 0;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .logo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px rgba(255, 204, 0, 0.7);
+        }
+        /* Contenedor principal */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #111;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(255, 219, 88, 0.3);
+            border: 2px solid #ffdb58;
+        }
+        h1 {
+            color: #ffcc00;
+            font-size: 2rem;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        /* Estilos de los Formularios */
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+            position: relative; /* Para posicionar el tooltip */
+        }
+        label {
+            color: #ffcc00;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        select, input[type="range"], input[type="text"] {
+            width: 100%;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: none;
+            background: #1a1a1a;
+            color: #fff;
+            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.5),
+                        inset -4px -4px 8px rgba(255,255,255,0.1);
+            text-align: center;
+            outline: none;
+            transition: box-shadow 0.3s, transform 0.3s;
+            font-size: 1em;
+        }
+        select:focus, input[type="text"]:focus, input[type="range"]:focus {
+            border: 1px solid #ffd966;
+            box-shadow: 0 0 8px rgba(255,204,0,0.5);
+            transform: scale(1.02);
+        }
+        /* Estilos para el Slider */
+        input[type="range"] {
+            -webkit-appearance: none;
+            height: 10px;
+            border-radius: 5px;
+            background: #444;
+            outline: none;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ffcc00;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.4),
+                        inset 0 -4px 8px rgba(255,255,255,0.4);
+            transition: transform 0.2s, box-shadow 0.3s;
+        }
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.6),
+                        inset 0 -6px 12px rgba(255,255,255,0.5);
+        }
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ffcc00;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.4),
+                        inset 0 -4px 8px rgba(255,255,255,0.4);
+            border: none;
+            transition: transform 0.2s, box-shadow 0.3s;
+        }
+        input[type="range"]::-moz-range-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.6),
+                        inset 0 -6px 12px rgba(255,255,255,0.5);
+        }
+        /* Valor del Slider */
+        .slider-value {
+            color: #ffcc00;
+            font-weight: 600;
+            margin-top: 5px;
+            display: block;
+            text-align: left;
+            font-size: 1em;
+        }
+        /* Botones */
+        .button-primary, .back-link {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #ffcc00, #e6b800);
+            color: #000;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(255,204,0,0.5);
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 15px;
+        }
+        .button-primary:hover, .back-link:hover {
+            background: linear-gradient(135deg, #ffd966, #e6c300);
+            box-shadow: 0 8px 15px rgba(255,204,0,0.7);
+            transform: translateY(-2px);
+        }
+        .back-link {
+            background: none;
+            color: #ffcc00;
+            box-shadow: none;
+            font-size: 1em;
+            padding: 10px 20px;
+        }
+        /* Resultados Ajustados */
+        .resultados {
+            background-color: #333;
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid #ffcc00;
+            margin-top: 30px;
+            box-shadow: 0 4px 10px rgba(255,204,0,0.3);
+            transition: transform 0.3s;
+            text-align: left;
+        }
+        .resultados:hover {
+            transform: scale(1.02);
+        }
+        .resultados h2 {
+            color: #ffcc00;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .resultados p {
+            font-size: 1em;
+            margin: 10px 0;
+            color: #ddd;
+        }
+        /* Imagen Destacada */
+        .highlight-image {
+            margin: 20px 0;
+            max-width: 100%;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(255,204,0,0.5);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .highlight-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px rgba(255,204,0,0.7);
+        }
+        /* Estilos para el Ícono de Ayuda */
+        .help-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            background-color: #ffcc00;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000000;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        .help-text {
+            display: none;
+            background-color: #1a1a1a;
+            border: 1px solid #ffcc00;
+            padding: 10px;
+            border-radius: 5px;
+            position: absolute;
+            top: 45px;
+            right: 10px;
+            width: 250px;
+            text-align: left;
+            color: #ffffff;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .form-group:hover .help-text {
+            display: block;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            .button-primary, .back-link {
+                width: 100%;
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            .resultados h2 {
+                font-size: 1.3rem;
+            }
+            table th, table td {
+                padding: 10px;
+                font-size: 0.9em;
+            }
+            .help-text {
+                width: 200px;
+                margin-left: -100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Logo -->
+    <img src="/static/logo fondo negro.png" alt="Logo" class="logo">
+
+    <div class="container">
+        <h1>Ajustes de Natación</h1>
+        <form id="ajustes-form" class="form-inline">
+            <!-- Campos ocultos para pasar datos iniciales -->
+            <input type="hidden" id="initial_distance" value="{{ distance }}">
+            <input type="hidden" id="initial_pace" value="{{ pace }}"> <!-- Este valor es el ritmo (mm:ss) POR 100m -->
+            <input type="hidden" id="initial_css" value="{{ css }}">
+            <input type="hidden" id="initial_category" value="{{ category }}">
+
+            <!-- Nivel de Nadador -->
+            <div class="form-group">
+                <label for="nivel">Nivel de Nadador:</label>
+                <span class="help-icon">?</span>
+                <div class="help-text">
+                    <strong>Nadador eficiente o de resistencia:</strong><br>
+                    - Mantiene un ritmo estable con poca caída en distancias largas.<br>
+                    - Ideal para triatletas y nadadores de fondo bien entrenados.<br><br>
+                    <strong>Nadador velocista:</strong><br>
+                    - Gran capacidad en distancias cortas, pero el ritmo cae en pruebas largas.<br>
+                    - Puede mantener 200m o 400m a buen ritmo, pero sufre en distancias mayores.<br><br>
+                    <strong>Nadador de baja eficiencia técnica:</strong><br>
+                    - Su rendimiento cae drásticamente con la distancia.<br>
+                    - No mantiene un ritmo constante y presenta mayor fatiga.
+                </div>
+                <select id="nivel" name="nivel" required>
+                    <option value="" disabled>Seleccione el nivel</option>
+                    <option value="eficiente">Nadador Eficiente o de Resistencia</option>
+                    <option value="velocista">Nadador Velocista</option>
+                    <option value="baja_eficiencia">Nadador de Baja Eficiencia Técnica</option>
+                </select>
+            </div>
+
+            <!-- Distancia -->
+            <div class="form-group">
+                <label for="distancia">DISTANCIA DEL TEST: <span id="distancia_valor">{{ distance }}</span> m</label>
+                <input type="range" id="distancia" name="distancia" min="50" max="5000" step="50" value="{{ distance }}">
+                <span class="slider-value">Distancia Actual: <strong id="distancia_valor_display">{{ distance }}</strong> m</span>
+            </div>
+
+            <!-- Uso de Neopreno -->
+            <div class="form-group">
+                <label for="neopreno">¿Usa Neopreno?</label>
+                <select id="neopreno" name="neopreno" required>
+                    <option value="" disabled selected>Seleccione una opción</option>
+                    <option value="si">Sí</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+        </form>
+
+        <!-- Sección para mostrar resultados ajustados -->
+        <div class="resultados" id="resultados">
+            <h2>Resultados Ajustados</h2>
+            <p><strong>Distancia:</strong> <span id="resultado_distancia">{{ distance }}</span> m</p>
+            <p><strong>Nivel de Nadador:</strong> <span id="resultado_nivel">Seleccione un nivel</span></p>
+            <p><strong>Uso de Neopreno:</strong> <span id="resultado_neopreno">Seleccione una opción</span></p>
+            <!-- "Tiempo del Test" muestra el tiempo original escalado para la nueva distancia (sin aplicar el factor de neopreno) -->
+            <p><strong>Tiempo del Test:</strong> <span id="tiempo_test">--:--:--</span></p>
+            <!-- "Tiempo Total Ajustado" es el tiempo del test con el factor de neopreno aplicado -->
+            <p><strong>Tiempo Total Ajustado:</strong> <span id="resultado_tiempo_total">--:--:--</span></p>
+            <!-- "Ritmo por 100m Ajustado" se calcula dividiendo el tiempo total ajustado por (distancia/100) -->
+            <p><strong>Ritmo por 100m Ajustado:</strong> <span id="resultado_ritmo_final">--:--</span> /100m</p>
+            <p><strong>Mejora por Neopreno:</strong> <span id="resultado_mejora">--:--</span></p>
+        </div>
+
+        <!-- Imagen Destacada -->
+        <a href="https://dzerotri.com/triatletas-dzero" target="_blank">
+            <img src="/static/testimonios.png" alt="testimonios" class="highlight-image">
+        </a>
+
+        <!-- Botón para volver a resultados -->
+        <a href="{{ url_for('swimming') }}" class="button-primary">Volver a Resultados</a>
+    </div>
+
+    <!-- Botón CONTINUAR centrado -->
+    <div style="text-align:center;">
+        <a href="/" class="button-primary">CONTINUAR</a>
+    </div>
+
+    <script>
+        // Función para convertir tiempo de mm:ss a segundos
+        function tiempoASegundos(tiempo) {
+            const partes = tiempo.split(":");
+            const minutos = parseInt(partes[0]);
+            const segundos = parseInt(partes[1]);
+            return minutos * 60 + segundos;
+        }
+
+        // Función para convertir segundos a mm:ss
+        function segundosATiempo(segundos) {
+            const minutos = Math.floor(segundos / 60);
+            const seg = Math.round(segundos % 60);
+            return `${minutos}:${seg < 10 ? '0' : ''}${seg}`;
+        }
+
+        // Función para convertir segundos a hh:mm:ss
+        function segundosAHorasMinSeg(segundos) {
+            const horas = Math.floor(segundos / 3600);
+            const minutos = Math.floor((segundos % 3600) / 60);
+            const seg = Math.floor(segundos % 60);
+            return `${String(horas).padStart(2, '0')}:${String(minutos).padStart(2, '0')}:${String(seg).padStart(2, '0')}`;
+        }
+
+        // Elementos del DOM
+        const nivelSelect = document.getElementById('nivel');
+        const neoprenoSelect = document.getElementById('neopreno');
+        const distanciaSlider = document.getElementById('distancia');
+        const distanciaValorDisplay = document.getElementById('distancia_valor_display');
+        const tiempoTestSpan = document.getElementById('tiempo_test');
+
+        const resultadoDistancia = document.getElementById('resultado_distancia');
+        const resultadoNivel = document.getElementById('resultado_nivel');
+        const resultadoNeopreno = document.getElementById('resultado_neopreno');
+        const resultadoTiempoTotal = document.getElementById('resultado_tiempo_total');
+        const resultadoRitmoFinal = document.getElementById('resultado_ritmo_final');
+        const resultadoMejora = document.getElementById('resultado_mejora');
+
+        // Obtener valores iniciales desde los campos ocultos
+        const initialDistance = parseFloat(document.getElementById('initial_distance').value);
+        const initialPace = document.getElementById('initial_pace').value; // Este valor es el ritmo (mm:ss) POR 100m
+        const initialCSS = document.getElementById('initial_css').value;
+        const initialCategory = document.getElementById('initial_category').value;
+
+        // Convertir el ritmo inicial a segundos por 100m
+        let ritmoInicialSegundos = tiempoASegundos(initialPace);
+        // Calcular el tiempo total del test original en segundos
+        const initialTotalTimeSeconds = ritmoInicialSegundos * (initialDistance / 100);
+
+        // Definir el factor de mejora por neopreno
+        const mejoraNeoprenoFactor = {
+            'si': 0.95,  // Mejora del 5%
+            'no': 1.0
+        };
+
+        // Diccionario de factores de corrección según el nivel de nadador
+        const factoresNivel = {
+            'eficiente': 1.06,
+            'velocista': 1.09,
+            'baja_eficiencia': 1.135
+        };
+
+        // Función para calcular el Tiempo del Test ORIGINAL para una nueva distancia
+        // Usando: nuevoTiempo = initialTotalTimeSeconds * (nuevaDistancia/initialDistance)^exponente
+        // El exponente se obtiene según el nivel seleccionado; si no hay selección, se usa 'eficiente' (1.06)
+        function calcularTiempoTestOriginal(distancia) {
+            const nivelSeleccionado = nivelSelect.value || 'eficiente';
+            const exponente = factoresNivel[nivelSeleccionado];
+            const factor = Math.pow(distancia / initialDistance, exponente);
+            return initialTotalTimeSeconds * factor;
+        }
+
+        // Función para actualizar los resultados al modificar los controles
+        function actualizarResultados() {
+            const nivel = nivelSelect.value;
+            const neopreno = neoprenoSelect.value || 'no';  // Si no se selecciona, asume 'no'
+            const distancia = parseFloat(distanciaSlider.value);
+
+            // Actualizar visualización de distancia
+            distanciaValorDisplay.innerText = distancia;
+            resultadoDistancia.innerText = distancia;
+
+            // Actualizar visualización del nivel y neopreno
+            resultadoNivel.innerText = nivel ? nivel.replace('_', ' ').toUpperCase() : '---';
+            resultadoNeopreno.innerText = (neopreno === 'si') ? 'Sí' : (neopreno === 'no' ? 'No' : '---');
+
+            // Calcular el tiempo del test ORIGINAL para la nueva distancia (sin aplicar el factor de neopreno)
+            const tiempoTestOriginalSec = calcularTiempoTestOriginal(distancia);
+            // Aplicar el factor de mejora por neopreno para obtener el Tiempo Total Ajustado
+            const tiempoTotalAjustadoSec = tiempoTestOriginalSec * mejoraNeoprenoFactor[neopreno];
+
+            // Calcular el ritmo ajustado por 100m a partir del Tiempo Total Ajustado
+            const ritmoAjustadoSegundos = tiempoTotalAjustadoSec / (distancia / 100);
+
+            // Actualizar las visualizaciones:
+            // "Tiempo del Test" muestra el tiempo original escalado para la nueva distancia
+            tiempoTestSpan.innerText = segundosAHorasMinSeg(tiempoTestOriginalSec);
+            // "Tiempo Total Ajustado" muestra el tiempo con mejora de neopreno (si aplica)
+            resultadoTiempoTotal.innerText = segundosAHorasMinSeg(tiempoTotalAjustadoSec);
+            // "Ritmo por 100m Ajustado" se calcula a partir del tiempo total ajustado
+            resultadoRitmoFinal.innerText = segundosATiempo(ritmoAjustadoSegundos);
+            // "Mejora por Neopreno" es la diferencia entre el tiempo original y el ajustado
+            const mejoraSegundos = tiempoTestOriginalSec - tiempoTotalAjustadoSec;
+            resultadoMejora.innerText = (mejoraSegundos > 0) ? segundosATiempo(mejoraSegundos) : "--:--";
+        }
+
+        // Función para preseleccionar el nivel basado en la categoría inicial (si aplica)
+        function preseleccionarNivel() {
+            const category = initialCategory.toLowerCase();
+            if (category.includes('eficiente') || category.includes('resistencia')) {
+                nivelSelect.value = 'eficiente';
+            } else if (category.includes('velocista')) {
+                nivelSelect.value = 'velocista';
+            } else if (category.includes('baja eficiencia')) {
+                nivelSelect.value = 'baja_eficiencia';
+            }
+        }
+
+        // Añadir event listeners para los controles
+        nivelSelect.addEventListener('change', actualizarResultados);
+        neoprenoSelect.addEventListener('change', actualizarResultados);
+        distanciaSlider.addEventListener('input', actualizarResultados);
+
+        // Inicializar resultados al cargar la página
+        window.addEventListener('DOMContentLoaded', () => {
+            preseleccionarNivel();
+            actualizarResultados();
+        });
+    </script>
+</body>
+</html>
