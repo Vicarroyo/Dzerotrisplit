@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Fuente Poppins -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
   <style>
     /* Estilos resumidos */
     * {
@@ -33,20 +32,19 @@
       transform: scale(1.05);
       box-shadow: 0 8px 15px rgba(255, 204, 0, 0.7);
     }
-
-    /* Contenedor principal un poco más ancho */
+    /* Contenedor principal (más ancho para móviles) */
     .container {
-      width: 95%;            /* Ocupar casi todo el ancho */
-      max-width: 800px;      /* Ahora hasta 800px */
+      position: relative; /* Para posicionar elementos absolutos dentro */
+      width: 95%;
+      max-width: 800px;
       background: linear-gradient(145deg, #222, #111);
       text-align: center;
       padding: 30px;
       border-radius: 20px;
-      box-shadow: 0 4px 20px rgba(255, 204, 0, 0.3);
+      box-shadow: 0px 4px 20px rgba(255, 204, 0, 0.3);
       border: 2px solid #ffcc00;
       margin-bottom: 20px;
     }
-
     h1 {
       color: #ffcc00;
       font-size: 1.8rem;
@@ -78,7 +76,6 @@
       border: 1px solid #ffd966;
       box-shadow: 0 0 8px rgba(255,204,0,0.5);
     }
-
     /* Slider ±10% */
     #timeSlider {
       -webkit-appearance: none;
@@ -123,7 +120,6 @@
       box-shadow: 0 6px 12px rgba(0,0,0,0.6),
                   inset 0 -6px 12px rgba(255,255,255,0.5);
     }
-
     #sliderValue {
       color: #ffcc00;
       font-weight: 600;
@@ -131,7 +127,6 @@
       display: block;
       text-align: center;
     }
-
     .strategy-label {
       display: flex;
       align-items: center;
@@ -165,7 +160,6 @@
       margin: 10px 0;
       font-size: 0.9rem;
     }
-
     table {
       width: 100%;
       margin-top: 20px;
@@ -183,7 +177,6 @@
     table tr:last-child td {
       border-bottom: none;
     }
-
     .highlight-image {
       margin: 10px 0;
       max-width: 100%;
@@ -196,7 +189,6 @@
       transform: scale(1.05);
       box-shadow: 0 8px 15px rgba(255,204,0,0.7);
     }
-
     .button-primary {
       display: inline-block;
       margin: 10px 0;
@@ -215,7 +207,6 @@
       background: linear-gradient(135deg, #ffd966, #e6c300);
       box-shadow: 0 8px 15px rgba(255,204,0,0.7);
     }
-
     .km-table {
       width: 100%;
       border-collapse: collapse;
@@ -245,7 +236,6 @@
 <body>
   <!-- Logo -->
   <img src="/static/logo fondo negro.png" alt="Logo" class="logo">
-
   <div class="container">
     <h1>Estrategia de carrera</h1>
 
@@ -263,14 +253,9 @@
       {% endfor %}
     </select>
 
-    <!-- Tiempo final base -->
-    <label for="inputTime">Tiempo final (HH:MM:SS):</label>
-    <input
-      type="text"
-      id="inputTime"
-      placeholder="00:16:00"
-      oninput="updateAll()"
-    >
+    <!-- Tiempo final base (mostrar como texto, no input) -->
+    <label>Tiempo final (HH:MM:SS):</label>
+    <p id="inputTime" style="font-size:1.2rem; margin-bottom: 10px;">00:16:00</p>
 
     <!-- Estrategia -->
     <div class="strategy-label">
@@ -353,6 +338,11 @@
     <a href="/" class="button-primary">CONTINUAR</a>
   </div>
 
+  <!-- Botón Volver a Resultados fuera del contenedor principal, debajo de CONTINUAR -->
+  <div style="text-align:center; margin-top: 15px;">
+    <a href="{{ url_for('running') }}" class="button-primary">Volver a Calcular</a>
+  </div>
+
   <script>
     // Evitar scroll al mover slider en móvil
     const slider = document.getElementById("timeSlider");
@@ -366,72 +356,65 @@
     function fillTime() {
       const dist = document.getElementById("selectDistance").value;
       if (estimatedTimes[dist]) {
-        document.getElementById("inputTime").value = estimatedTimes[dist].time;
+        document.getElementById("inputTime").textContent = estimatedTimes[dist].time;
       }
     }
 
     function timeToSeconds(hms) {
-      const parts = hms.split(":").map(Number);
-      if (parts.length === 3) {
-        return parts[0]*3600 + parts[1]*60 + parts[2];
-      }
-      return 0;
+      const parts = hms.split(":");
+      const hours = parseInt(parts[0]);
+      const minutes = parseInt(parts[1]);
+      const seconds = parseInt(parts[2]);
+      return hours * 3600 + minutes * 60 + seconds;
     }
     function secondsToHMS(sec) {
-      const h = Math.floor(sec/3600),
-            m = Math.floor((sec%3600)/60),
-            s = Math.floor(sec%60);
-      return (
-        String(h).padStart(2,"0")+":"+
-        String(m).padStart(2,"0")+":"+
-        String(s).padStart(2,"0")
-      );
+      const h = Math.floor(sec/3600);
+      const m = Math.floor((sec%3600)/60);
+      const s = Math.floor(sec%60);
+      return String(h).padStart(2, "0") + ":" + String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
     }
     function secondsToPaceString(sec) {
       const minutes = Math.floor(sec/60);
       const secs = Math.floor(sec%60);
-      return (
-        String(minutes).padStart(2,"0")+":"+
-        String(secs).padStart(2,"0")
-      );
+      return String(minutes).padStart(2, "0") + ":" + String(secs).padStart(2, "0");
     }
 
     // Estrategia pos/neg con 4 cuartos
     function getSplitFactor(km, totalKm, strategy) {
-      let ratio=0;
-      if (strategy==="pos1") ratio =+0.01;
-      if (strategy==="pos2") ratio =+0.02;
-      if (strategy==="pos3") ratio =+0.03;
-      if (strategy==="neg1") ratio =-0.01;
-      if (strategy==="neg2") ratio =-0.02;
-      if (strategy==="neg3") ratio =-0.03;
+      let ratio = 0;
+      if (strategy === "pos1") ratio = +0.01;
+      if (strategy === "pos2") ratio = +0.02;
+      if (strategy === "pos3") ratio = +0.03;
+      if (strategy === "neg1") ratio = -0.01;
+      if (strategy === "neg2") ratio = -0.02;
+      if (strategy === "neg3") ratio = -0.03;
 
-      if (strategy==="estable") {
+      if (strategy === "estable") {
         return 1.0;
       }
-      const quarter = totalKm/4.0;
-      let phaseAdjustments=[1,1,1,1];
+      const quarter = totalKm / 4.0;
+      let phaseAdjustments = [1,1,1,1];
       if (strategy.startsWith("pos")) {
-        const absR=Math.abs(ratio);
-        phaseAdjustments=[
-          1.0 - absR*0.5,
-          1.0 - absR*0.2,
-          1.0 + absR*0.2,
-          1.0 + absR*0.5
+        const absR = Math.abs(ratio);
+        phaseAdjustments = [
+          1.0 - absR * 0.5,
+          1.0 - absR * 0.2,
+          1.0 + absR * 0.2,
+          1.0 + absR * 0.5
         ];
       } else if (strategy.startsWith("neg")) {
-        const absR=Math.abs(ratio);
-        phaseAdjustments=[
-          1.0 + absR*0.5,
-          1.0 + absR*0.2,
-          1.0 - absR*0.2,
-          1.0 - absR*0.5
+        const absR = Math.abs(ratio);
+        phaseAdjustments = [
+          1.0 + absR * 0.5,
+          1.0 + absR * 0.2,
+          1.0 - absR * 0.2,
+          1.0 - absR * 0.5
         ];
       }
-      if (km>3*quarter) return phaseAdjustments[3];
-      else if (km>2*quarter) return phaseAdjustments[2];
-      else if (km>quarter)   return phaseAdjustments[1];
-      else                   return phaseAdjustments[0];
+      if (km > 3 * quarter) return phaseAdjustments[3];
+      else if (km > 2 * quarter) return phaseAdjustments[2];
+      else if (km > quarter) return phaseAdjustments[1];
+      else return phaseAdjustments[0];
     }
 
     // Suma total con parte decimal
@@ -439,13 +422,10 @@
       const fullKm = Math.floor(distance);
       const leftover = distance - fullKm;
       let totalSec = 0;
-
-      // 1) Kms enteros
       for (let km = 1; km <= fullKm; km++) {
         const splitF = getSplitFactor(km, distance, strategy);
         totalSec += (basePaceSec * factor) * splitF;
       }
-      // 2) Tramo decimal
       if (leftover > 0) {
         const partialIndex = fullKm + leftover;
         const splitF = getSplitFactor(partialIndex, distance, strategy);
@@ -455,42 +435,34 @@
     }
 
     // Construir splits (base/ajustado) con parte decimal
-    function buildKmSplits(distance, basePaceSec, strategy, factor, isBase=false) {
+    function buildKmSplits(distance, basePaceSec, strategy, factor, isBase = false) {
       let results = [];
       let accumulated = 0;
       const fullKm = Math.floor(distance);
       const leftover = distance - fullKm;
-
       for (let km = 1; km <= fullKm; km++) {
         const sFactor = isBase 
           ? getSplitFactor(km, distance, "estable") 
           : getSplitFactor(km, distance, strategy);
-
         const paceSec = (basePaceSec * (isBase ? 1 : factor)) * sFactor;
         accumulated += paceSec;
-
         results.push({
           kmDisplay: km.toString(),
           accumulated: secondsToHMS(Math.round(accumulated)),
           paceString: secondsToPaceString(paceSec)
         });
       }
-      // Parte decimal
       if (leftover > 0) {
         const partialIndex = fullKm + leftover;
         const sFactor = isBase
           ? getSplitFactor(partialIndex, distance, "estable")
           : getSplitFactor(partialIndex, distance, strategy);
-
         const paceSec = (basePaceSec * (isBase ? 1 : factor)) * sFactor * leftover;
         accumulated += paceSec;
-
         results.push({
           kmDisplay: partialIndex.toFixed(3),
           accumulated: secondsToHMS(Math.round(accumulated)),
-          paceString: secondsToPaceString(
-            (basePaceSec * (isBase ? 1 : factor)) * sFactor
-          )
+          paceString: secondsToPaceString((basePaceSec * (isBase ? 1 : factor)) * sFactor)
         });
       }
       return results;
@@ -499,43 +471,31 @@
     function updateAll() {
       // Rellenar tiempo base si procede
       fillTime();
-
       const distNum = parseFloat(document.getElementById("selectDistance").value) || 5;
-      const userTime = document.getElementById("inputTime").value || "00:16:00";
+      const userTime = document.getElementById("inputTime").textContent || "00:16:00";
       const userTimeSec = timeToSeconds(userTime);
-
       const basePaceSec = userTimeSec / distNum;
-
       document.getElementById("baseTime").textContent = userTime;
       document.getElementById("basePace").textContent = secondsToPaceString(basePaceSec);
-
       const factor = parseFloat(document.getElementById("timeSlider").value);
-      document.getElementById("sliderValue").textContent = (factor*100).toFixed(0) + "%";
-
+      document.getElementById("sliderValue").textContent = (factor * 100).toFixed(0) + "%";
       const strategy = document.getElementById("selectStrategy").value;
-
-      // Tiempo final Ajustado
       const totalAdjustedSec = calcTotalSeconds(distNum, basePaceSec, strategy, factor);
       document.getElementById("adjustedTime").textContent = secondsToHMS(Math.round(totalAdjustedSec));
       document.getElementById("adjustedPace").textContent = secondsToPaceString(totalAdjustedSec / distNum);
-
-      // Splits base y ajustado
       const baseSplits = buildKmSplits(distNum, basePaceSec, strategy, factor, true);
-      const adjSplits  = buildKmSplits(distNum, basePaceSec, strategy, factor, false);
-
+      const adjSplits = buildKmSplits(distNum, basePaceSec, strategy, factor, false);
       const tbody = document.getElementById("kmTable").querySelector("tbody");
       tbody.innerHTML = "";
-
       const maxLen = Math.max(baseSplits.length, adjSplits.length);
-      for (let i=0; i<maxLen; i++) {
+      for (let i = 0; i < maxLen; i++) {
         const b = baseSplits[i];
         const a = adjSplits[i];
         const kmLabel = b ? b.kmDisplay : (a ? a.kmDisplay : "");
         const baseTimeAcc = b ? b.accumulated : "";
-        const basePace    = b ? b.paceString  : "";
-        const adjTimeAcc  = a ? a.accumulated : "";
-        const adjPace     = a ? a.paceString  : "";
-
+        const basePace = b ? b.paceString : "";
+        const adjTimeAcc = a ? a.accumulated : "";
+        const adjPace = a ? a.paceString : "";
         const row = document.createElement("tr");
         row.innerHTML = `
           <td>${kmLabel}</td>
@@ -546,6 +506,14 @@
         `;
         tbody.appendChild(row);
       }
+    }
+
+    function timeToSeconds(hms) {
+      const parts = hms.split(":").map(Number);
+      if (parts.length === 3) {
+        return parts[0] * 3600 + parts[1] * 60 + parts[2];
+      }
+      return 0;
     }
 
     // Al cargar la página
