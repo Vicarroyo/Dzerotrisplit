@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Fuente Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
     <style>
         /* Estilos Generales */
         * {
@@ -263,7 +262,6 @@
 <body>
     <!-- Logo -->
     <img src="/static/logo fondo negro.png" alt="Logo" class="logo">
-
     <div class="container">
         <!-- Botón de Ayuda en la esquina superior derecha -->
         <span class="help-icon" onclick="toggleHelp()">?</span>
@@ -286,7 +284,6 @@
             <input type="hidden" id="initial_pace" value="{{ pace }}"> <!-- Este valor es el ritmo (mm:ss) POR 100m -->
             <input type="hidden" id="initial_css" value="{{ css }}">
             <input type="hidden" id="initial_category" value="{{ category }}">
-
             <!-- Nivel de Nadador -->
             <div class="form-group">
                 <label for="nivel">Nivel de Nadador:</label>
@@ -297,14 +294,12 @@
                     <option value="baja_eficiencia">Nadador de Baja Eficiencia Técnica</option>
                 </select>
             </div>
-
             <!-- Distancia -->
             <div class="form-group">
                 <label for="distancia">DISTANCIA DEL TEST: <span id="distancia_valor">{{ distance }}</span> m</label>
                 <input type="range" id="distancia" name="distancia" min="50" max="5000" step="50" value="{{ distance }}">
                 <span class="slider-value">Distancia Actual: <strong id="distancia_valor_display">{{ distance }}</strong> m</span>
             </div>
-
             <!-- Uso de Neopreno -->
             <div class="form-group">
                 <label for="neopreno">¿Usa Neopreno?</label>
@@ -315,36 +310,33 @@
                 </select>
             </div>
         </form>
-
         <!-- Sección para mostrar resultados ajustados -->
         <div class="resultados" id="resultados">
             <h2>Resultados Ajustados</h2>
             <p><strong>Distancia:</strong> <span id="resultado_distancia">{{ distance }}</span> m</p>
             <p><strong>Nivel de Nadador:</strong> <span id="resultado_nivel">Seleccione un nivel</span></p>
             <p><strong>Uso de Neopreno:</strong> <span id="resultado_neopreno">Seleccione una opción</span></p>
-            <!-- "Tiempo del Test" muestra el tiempo original escalado para la nueva distancia (sin aplicar el factor de neopreno) -->
-            <p><strong>Tiempo del Test:</strong> <span id="tiempo_test">--:--:--</span></p>
-            <!-- "Tiempo Total Ajustado" es el tiempo del test con el factor de neopreno aplicado -->
-            <p><strong>Tiempo Total Ajustado:</strong> <span id="resultado_tiempo_total">--:--:--</span></p>
-            <!-- "Ritmo por 100m Ajustado" se calcula dividiendo el tiempo total ajustado por (distancia/100) -->
-            <p><strong>Ritmo por 100m Ajustado:</strong> <span id="resultado_ritmo_final">--:--</span> /100m</p>
-            <p><strong>Mejora por Neopreno:</strong> <span id="resultado_mejora">--:--</span></p>
+            <!-- "Tiempo Estimado (Test)" muestra el tiempo original escalado para la nueva distancia (sin aplicar el factor de neopreno) -->
+            <p><strong>Tiempo Estimado (Test):</strong> <span id="tiempo_test">--:--:--</span></p>
+            <!-- "Tiempo Total (Ajustado)" es el tiempo del test con el factor de neopreno aplicado -->
+            <p><strong>Tiempo Total (Ajustado):</strong> <span id="resultado_tiempo_total">--:--:--</span></p>
+            <!-- "Ritmo por 100m (Ajustado)" se calcula dividiendo el tiempo total ajustado por (distancia/100) -->
+            <p><strong>Ritmo por 100m (Ajustado):</strong> <span id="resultado_ritmo_final">--:--</span> /100m</p>
+            <p><strong>Mejora por Neopreno (min:seg):</strong> <span id="resultado_mejora">--:--</span></p>
         </div>
-
         <!-- Imagen Destacada -->
         <a href="https://dzerotri.com/triatletas-dzero" target="_blank">
             <img src="/static/testimonios.png" alt="testimonios" class="highlight-image">
         </a>
-
-        <!-- Botón para volver a resultados -->
-        <a href="{{ url_for('swimming') }}" class="button-primary">Volver a Resultados</a>
     </div>
-
     <!-- Botón CONTINUAR centrado -->
     <div style="text-align:center;">
         <a href="/" class="button-primary">CONTINUAR</a>
     </div>
-
+    <!-- Botón Volver a Resultados fuera del contenedor principal, debajo de CONTINUAR -->
+    <div style="text-align:center; margin-top: 15px;">
+        <a href="{{ url_for('swimming') }}" class="button-primary">Volver a Resultados</a>
+    </div>
     <script>
         // Función para convertir tiempo de mm:ss a segundos
         function tiempoASegundos(tiempo) {
@@ -372,38 +364,32 @@
         const distanciaSlider = document.getElementById('distancia');
         const distanciaValorDisplay = document.getElementById('distancia_valor_display');
         const tiempoTestSpan = document.getElementById('tiempo_test');
-
         const resultadoDistancia = document.getElementById('resultado_distancia');
         const resultadoNivel = document.getElementById('resultado_nivel');
         const resultadoNeopreno = document.getElementById('resultado_neopreno');
         const resultadoTiempoTotal = document.getElementById('resultado_tiempo_total');
         const resultadoRitmoFinal = document.getElementById('resultado_ritmo_final');
         const resultadoMejora = document.getElementById('resultado_mejora');
-
         // Obtener valores iniciales desde los campos ocultos
         const initialDistance = parseFloat(document.getElementById('initial_distance').value);
         const initialPace = document.getElementById('initial_pace').value; // Este valor es el ritmo (mm:ss) POR 100m
         const initialCSS = document.getElementById('initial_css').value;
         const initialCategory = document.getElementById('initial_category').value;
-
         // Convertir el ritmo inicial a segundos por 100m
         let ritmoInicialSegundos = tiempoASegundos(initialPace);
         // Calcular el tiempo total del test original en segundos
         const initialTotalTimeSeconds = ritmoInicialSegundos * (initialDistance / 100);
-
         // Definir el factor de mejora por neopreno
         const mejoraNeoprenoFactor = {
             'si': 0.95,
             'no': 1.0
         };
-
         // Diccionario de factores de corrección según el nivel de nadador
         const factoresNivel = {
             'eficiente': 1.06,
             'velocista': 1.09,
             'baja_eficiencia': 1.135
         };
-
         // Función para calcular el Tiempo del Test ORIGINAL para una nueva distancia
         // Usando: nuevoTiempo = initialTotalTimeSeconds * (nuevaDistancia/initialDistance)^exponente
         // El exponente se obtiene según el nivel seleccionado; si no hay selección, se usa 'eficiente'
@@ -413,29 +399,23 @@
             const factor = Math.pow(distancia / initialDistance, exponente);
             return initialTotalTimeSeconds * factor;
         }
-
         // Función para actualizar los resultados al modificar los controles
         function actualizarResultados() {
             const nivel = nivelSelect.value;
             const neopreno = neoprenoSelect.value || 'no';
             const distancia = parseFloat(distanciaSlider.value);
-
             // Actualizar visualización de distancia
             distanciaValorDisplay.innerText = distancia;
             resultadoDistancia.innerText = distancia;
-
             // Actualizar visualización del nivel y neopreno
             resultadoNivel.innerText = nivel ? nivel.replace('_', ' ').toUpperCase() : '---';
             resultadoNeopreno.innerText = (neopreno === 'si') ? 'Sí' : (neopreno === 'no' ? 'No' : '---');
-
             // Calcular el tiempo del test ORIGINAL para la nueva distancia (sin aplicar el factor de neopreno)
             const tiempoTestOriginalSec = calcularTiempoTestOriginal(distancia);
             // Aplicar el factor de mejora por neopreno para obtener el Tiempo Total Ajustado
             const tiempoTotalAjustadoSec = tiempoTestOriginalSec * mejoraNeoprenoFactor[neopreno];
-
             // Calcular el ritmo ajustado por 100m a partir del Tiempo Total Ajustado
             const ritmoAjustadoSegundos = tiempoTotalAjustadoSec / (distancia / 100);
-
             // Actualizar las visualizaciones:
             tiempoTestSpan.innerText = segundosAHorasMinSeg(tiempoTestOriginalSec);
             resultadoTiempoTotal.innerText = segundosAHorasMinSeg(tiempoTotalAjustadoSec);
@@ -443,7 +423,6 @@
             const mejoraSegundos = tiempoTestOriginalSec - tiempoTotalAjustadoSec;
             resultadoMejora.innerText = (mejoraSegundos > 0) ? segundosATiempo(mejoraSegundos) : "--:--";
         }
-
         // Función para preseleccionar el nivel basado en la categoría inicial (si aplica)
         function preseleccionarNivel() {
             const category = initialCategory.toLowerCase();
@@ -455,18 +434,15 @@
                 nivelSelect.value = 'baja_eficiencia';
             }
         }
-
         // Función para alternar la visualización del texto de ayuda
         function toggleHelp() {
             const helpText = document.getElementById("help-text");
             helpText.style.display = (helpText.style.display === "block") ? "none" : "block";
         }
-
         // Añadir event listeners para los controles
         nivelSelect.addEventListener('change', actualizarResultados);
         neoprenoSelect.addEventListener('change', actualizarResultados);
         distanciaSlider.addEventListener('input', actualizarResultados);
-
         // Inicializar resultados al cargar la página
         window.addEventListener('DOMContentLoaded', () => {
             preseleccionarNivel();
