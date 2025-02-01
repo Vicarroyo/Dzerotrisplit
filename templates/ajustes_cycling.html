@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -35,14 +35,14 @@
     .container {
       max-width: 800px;
       margin: 0 auto;
-      background: #111;
+      background: linear-gradient(145deg, #222, #111);
       border-radius: 20px;
       padding: 20px;
       box-shadow: 0 4px 20px rgba(255, 219, 88, 0.3);
       border: 2px solid #ffdb58;
     }
     h1 {
-      color: #ffdb58;
+      color: #ffcc00;
       margin-bottom: 20px;
       font-size: 2rem;
       font-weight: 600;
@@ -62,14 +62,16 @@
       text-align: center;
       background: #1a1a1a;
       color: #fff;
+      box-shadow: inset 4px 4px 8px rgba(0,0,0,0.5), 
+                  inset -4px -4px 8px rgba(255,255,255,0.1);
       outline: none;
     }
     select:focus, input[type="range"]:focus {
-      border: 1px solid #ffe066;
+      border: 1px solid #ffcc00;
       box-shadow: 0 0 6px rgba(255, 219, 88, 0.5);
     }
     .slider-value {
-      color: #ffdb58;
+      color: #ffcc00;
       font-weight: 600;
       margin-bottom: 10px;
     }
@@ -84,7 +86,7 @@
       margin-bottom: 20px;
     }
     table thead {
-      background-color: #ffdb58;
+      background-color: #ffcc00;
       color: #000;
     }
     th, td {
@@ -112,7 +114,7 @@
     .button-primary {
       width: 200px;
       padding: 10px 20px;
-      background: linear-gradient(135deg, #ffdb58, #cca300);
+      background: linear-gradient(135deg, #ffcc00, #cca300);
       color: #000;
       font-weight: bold;
       border: none;
@@ -124,7 +126,7 @@
       text-align: center;
     }
     .button-primary:hover {
-      background: linear-gradient(135deg, #ffe066, #ccb300);
+      background: linear-gradient(135deg, #ffcc00, #ccb300);
       box-shadow: 0px 8px 15px rgba(255, 219, 88, 0.7);
     }
     .highlight-image {
@@ -151,7 +153,6 @@
         width: 100%;
       }
     }
-
     /* Nuevos estilos para el help-icon y help-text */
     .help-icon {
       position: absolute;
@@ -170,7 +171,6 @@
       cursor: pointer;
       box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
     }
-
     .help-text {
       display: none;
       background-color: #1a1a1a;
@@ -186,10 +186,81 @@
       z-index: 10;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     }
-
     /* Mostrar el help-text al pasar el cursor sobre el help-icon */
     .form-group:hover .help-text {
       display: block;
+    }
+
+    /* Estilos personalizados para el slider (input[type="range"]) */
+    /* Eliminamos la apariencia por defecto */
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 80%;
+      background: transparent;
+      margin-bottom: 10px;
+    }
+    /* Track para WebKit (Chrome, Safari, Opera) */
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 8px;
+      background: #ffcc00; /* Color mostaza */
+      border-radius: 5px;
+    }
+    /* Thumb para WebKit */
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 20px;
+      width: 20px;
+      background: #4f4108; /* Color mostaza */
+      border: 2px solid #ffe066;
+      border-radius: 50%;
+      margin-top: -6px; /* Centrado vertical */
+      cursor: pointer;
+    }
+    /* Track para Firefox */
+    input[type="range"]::-moz-range-track {
+      height: 8px;
+      background: #ffcc00;
+      border-radius: 5px;
+    }
+    /* Thumb para Firefox */
+    input[type="range"]::-moz-range-thumb {
+      height: 20px;
+      width: 20px;
+      background: #ffcc00;
+      border: 2px solid #ffe066;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    /* Estilos para Internet Explorer y Edge */
+    input[type="range"]::-ms-track {
+      height: 8px;
+      background: transparent;
+      border-color: transparent;
+      color: transparent;
+    }
+    input[type="range"]::-ms-fill-lower {
+      background: #ffcc00;
+      border-radius: 5px;
+    }
+    input[type="range"]::-ms-fill-upper {
+      background: #ffcc00;
+      border-radius: 5px;
+    }
+    input[type="range"]::-ms-thumb {
+      height: 20px;
+      width: 20px;
+      background: #ffcc00;
+      border: 2px solid #ffe066;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    /* Aseguramos que en dispositivos móviles se muestre el slider con los mismos colores (evitando el azul por defecto) */
+    @media (max-width: 480px) {
+      input[type="range"]::-webkit-slider-thumb,
+      input[type="range"]::-moz-range-thumb,
+      input[type="range"]::-ms-thumb {
+        background: #ffcc00;
+      }
     }
   </style>
 </head>
@@ -226,7 +297,6 @@
       oninput="updateAll()"
     >
     
-
     <!-- 3) Slider Desnivel Acumulado Medio (0 a 3000 m) -->
     <label for="desnivelSlider">Desnivel Acumulado Medio de TODA la prueba (m):</label>
     <div class="slider-value"><span id="desnivelValue">{{ desnivel_acumulado }}</span> m</div>
@@ -240,7 +310,6 @@
       oninput="updateAll()"
     >
     
-
     <!-- 4) Slider de % FTP (50% a 120% del FTP) -->
     <label for="intensitySlider">% de FTP:</label>
     <div class="slider-value"><span id="intensityValue">{{ intensidad_pct }}</span>%</div>
@@ -254,7 +323,6 @@
       oninput="updateAll()"
     >
     
-
     <!-- 5) Slider de Masa Total (kg) -->
     <label for="massSlider">Masa Total Ciclista + Bici (kg):</label>
     <div class="slider-value"><span id="massValue">{{ mass_total }}</span> kg</div>
@@ -268,7 +336,6 @@
       oninput="updateAll()"
     >
     
-
     <!-- 6) CdA Opcional -->
     <label for="cdaSelect">CdA:</label>
     <select id="cdaSelect" onchange="updateAll()">
@@ -413,248 +480,8 @@
     // Función para calcular la velocidad corregida en ciclismo
     function calculate_corrected_speed(power, mass_total, cda, crr, rho, slopePct, alpha) {
         const g = 9.81; // Aceleración en m/s²
-        // Factor para reducir la penalización por desnivel acumulado (menor impacto en el tiempo)
         const factor_desnivel = 0.8; 
-        // Función que representa la diferencia entre la potencia requerida y la potencia objetivo
         function powerDifference(v) {
-            // v en m/s
-            const power_aero = 0.5 * rho * cda * Math.pow(v, 3);
-            const power_rr = crr * mass_total * g * v;
-            const power_grav = mass_total * g * ((slopePct / 100) * factor_desnivel) * v;
-            return power_aero + power_rr + power_grav - power;
-        }
-
-        // Búsqueda binaria para encontrar la velocidad
-        let lower = 0;
-        let upper = 50;
-        let v = 0;
-        const tolerance = 0.001;
-
-        while (upper - lower > tolerance) {
-            v = (lower + upper) / 2;
-            const diff = powerDifference(v);
-            if (diff > 0) {
-                upper = v;
-            } else {
-                lower = v;
-            }
-        }
-
-        // Convertir velocidad a km/h y aplicar factor alpha
-        const speed_kmh = v * 3.6 * alpha;
-        return speed_kmh;
-    }
-
-    window.onload = () => {
-      // Asignar los valores iniciales al slider de FTP, CdA y Masa
-      document.getElementById("ftpSlider").value = initialFTP;
-      document.getElementById("cdaSelect").value = initialCDA;
-      document.getElementById("massSlider").value = initialMass;
-
-      // Asignar la distancia seleccionada inicialmente
-      document.getElementById("selectDistance").value = getDistanceType(initialDistancia);
-
-      // Asignar el desnivel acumulado inicialmente
-      document.getElementById("desnivelSlider").value = initialDesnivel;
-      document.getElementById("desnivelValue").textContent = initialDesnivel;
-
-      // Asignar la masa total inicialmente
-      document.getElementById("massValue").textContent = initialMass.toFixed(0);
-      document.getElementById("displayMass").textContent = initialMass.toFixed(0);
-
-      // Asignar la intensidad inicial basada en la distancia
-      document.getElementById("intensitySlider").value = initialIntensidadMap[getDistanceType(initialDistancia)] || 100;
-      document.getElementById("intensityValue").textContent = initialIntensidadMap[getDistanceType(initialDistancia)] || 100;
-
-      // Actualizar los campos ocultos del formulario
-      document.getElementById("formFtp").value = initialFTP;
-      document.getElementById("formDesnivel").value = initialDesnivel;
-      document.getElementById("formDistancia").value = initialDistancia;
-      document.getElementById("formIntensidad").value = initialIntensidadMap[getDistanceType(initialDistancia)] || 100;
-      document.getElementById("formCda").value = initialCDA;
-      document.getElementById("formMass").value = initialMass;
-      document.getElementById("formAverageWatts").value = 0; // Inicializar en 0
-
-      // Asignar la velocidad inicial si está disponible
-      const velocidadEstimada = initialSpeed;
-      if (velocidadEstimada > 0) {
-        document.getElementById("speedValue").textContent = velocidadEstimada.toFixed(2);
-      }
-
-      // Si hay tiempo_estimada, actualizar el campo timeValue
-      const tiempoEstimada = "{{ tiempo_estimada }}" !== "" ? "{{ tiempo_estimada }}" : "--:--:--";
-      document.getElementById("timeValue").textContent = tiempoEstimada;
-
-      // Si hay potencia_objetivo, actualizar averageWatts
-      const potenciaObjetivo = "{{ potencia_objetivo }}" !== "" ? "{{ potencia_objetivo }}" : "--";
-      document.getElementById("averageWatts").textContent = potenciaObjetivo;
-
-      // Asignar el valor de vatios por kg si está disponible
-      const vatiosKg = "{{ potencia_objetivo / mass_total if potencia_objetivo and mass_total else '--' }}";
-      document.getElementById("wattsPerKg").textContent = vatiosKg;
-
-      updateAll();
-    };
-
-    function getDistanceType(distKm) {
-      switch(distKm) {
-        case 20:
-          return "sprint";
-        case 40:
-          return "olimpico";
-        case 90:
-          return "half";
-        case 180:
-          return "full";
-        default:
-          return "sprint"; // Por defecto
-      }
-    }
-
-    function updateInitialIntensity() {
-      const distType = document.getElementById("selectDistance").value;
-      const initialValues = {
-        "sprint": 95,
-        "olimpico": 90,
-        "half": 85,
-        "full": 75
-      };
-      const intensitySlider = document.getElementById("intensitySlider");
-      intensitySlider.value = initialValues[distType] || 100;
-      document.getElementById("intensityValue").textContent = intensitySlider.value;
-      
-      // Actualizar el formulario oculto
-      document.getElementById("formIntensidad").value = intensitySlider.value;
-    }
-
-    function updateAll() {
-      // 1) Recogemos los valores de los sliders y selects
-      const distType = document.getElementById("selectDistance").value;  // "sprint", "olimpico", "half", "full"
-      const ftpValue = parseFloat(document.getElementById("ftpSlider").value);      // FTP base
-      const desnivelValue = parseFloat(document.getElementById("desnivelSlider").value);
-      const intensidadPct = parseFloat(document.getElementById("intensitySlider").value); // 50..120
-      const cdaValue = parseFloat(document.getElementById("cdaSelect").value) || 0.25;
-      const massTotal = parseFloat(document.getElementById("massSlider").value) || 70;
-
-      // Mostrar en pantalla
-      document.getElementById("ftpValue").textContent = ftpValue.toFixed(0);
-      document.getElementById("desnivelValue").textContent = desnivelValue.toFixed(0);
-      document.getElementById("intensityValue").textContent = intensidadPct.toFixed(0);
-      document.getElementById("massValue").textContent = massTotal.toFixed(0);
-      document.getElementById("displayMass").textContent = massTotal.toFixed(0);
-
-      // 2) Cálculo de potencia y vatios medios
-      const power_objetivo = ftpValue * (intensidadPct / 100.0); // Potencia objetivo en W
-
-      // 3) Cálculo de velocidad considerando masa y pendiente
-      const crr = 0.00005; // Coeficiente de resistencia a la rodadura incrementado
-      const slopePct = (desnivelValue / (distanceMap[distType] * 1000)) * 100; // % pendiente media
-
-      const speedFlat = calculate_corrected_speed(power_objetivo, massTotal, cdaValue, crr, 1.225, slopePct, alpha);
-
-      // 4) Asegurar que la velocidad no sea negativa
-      const finalSpeed = Math.max(speedFlat, 5); // Mínimo de 5 km/h
-
-      // 5) Calcular tiempo basado en la velocidad ajustada
-      const distKm = distanceMap[distType];
-      let tiempo_horas = distKm / finalSpeed;
-
-      // Convertir tiempo a HH:MM:SS
-      const tiempo_segundos = tiempo_horas * 3600;
-      const hh = Math.floor(tiempo_segundos / 3600);
-      const mm = Math.floor((tiempo_segundos % 3600) / 60);
-      const ss = Math.floor(tiempo_segundos % 60);
-
-      document.getElementById("speedValue").textContent = finalSpeed.toFixed(2);
-      document.getElementById("timeValue").textContent =
-        String(hh).padStart(2, '0') + ":" +
-        String(mm).padStart(2, '0') + ":" +
-        String(ss).padStart(2, '0');
-
-      // Calcular y mostrar Vatios Medios
-      const averageWatts = power_objetivo.toFixed(0);
-      document.getElementById("averageWatts").textContent = averageWatts;
-
-      // 6) Calcular y mostrar Vatios por kg
-      let wattsPerKg = '--';
-      if (power_objetivo && massTotal) {
-          wattsPerKg = (power_objetivo / massTotal).toFixed(2);
-      }
-      document.getElementById("wattsPerKg").textContent = wattsPerKg;
-
-      // Actualizar los campos ocultos del formulario
-      document.getElementById("formFtp").value = ftpValue;
-      document.getElementById("formDesnivel").value = desnivelValue;
-      document.getElementById("formDistancia").value = distKm;
-      document.getElementById("formIntensidad").value = intensidadPct;
-      document.getElementById("formCda").value = cdaValue;
-      document.getElementById("formMass").value = massTotal;
-      document.getElementById("formSpeed").value = finalSpeed.toFixed(2);
-      document.getElementById("formAverageWatts").value = averageWatts;
-
-      // 7) Actualizar la tabla de estrategia
-      const tableBody = document.getElementById("strategyTableBody");
-      tableBody.innerHTML = "";  // Limpiamos
-
-      let distanceName = "";
-      switch(distType) {
-        case "sprint": distanceName = "Sprint (20 km)"; break;
-        case "olimpico": distanceName = "Olímpico (40 km)"; break;
-        case "half": distanceName = "Media Distancia (90 km)"; break;
-        case "full": distanceName = "Larga Distancia (180 km)"; break;
-        default: distanceName = "Sprint (20 km)"; break;
-      }
-      document.getElementById("distanceHeader").textContent = distanceName + ": Rango (W)";
-
-      recommendedRanges.forEach(row => {
-        const pctString = row[distType]; 
-        let minPct = 0, maxPct = 0;
-
-        let rangeMatch = pctString.match(/(\d+)[-–](\d+)%/);
-        if (rangeMatch) {
-            minPct = parseFloat(rangeMatch[1]) / 100;
-            maxPct = parseFloat(rangeMatch[2]) / 100;
-        } else {
-            let hastaMatch = pctString.match(/Hasta\s+(\d+)%/);
-            if (hastaMatch) {
-                minPct = 1.0;
-                maxPct = parseFloat(hastaMatch[1]) / 100;
-            } else {
-                let singleMatch = pctString.match(/(\d+)%$/);
-                if (singleMatch) {
-                    minPct = parseFloat(singleMatch[1]) / 100;
-                    maxPct = parseFloat(singleMatch[1]) / 100;
-                }
-            }
-        }
-
-        const wMin = Math.round(ftpValue * minPct);
-        const wMax = Math.round(ftpValue * maxPct);
-
-        let wattsRange = "";
-        if (wMin && wMax && wMin !== wMax) {
-            wattsRange = `${wMin} - ${wMax} W`;
-        } else if (wMax && wMin === 0) {
-            wattsRange = `Hasta ${wMax} W`;
-        } else {
-            wattsRange = `${wMax} W`;
-        }
-
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${row.pendiente}</td>
-          <td>${wattsRange}</td>
-        `;
-        tableBody.appendChild(tr);
-      });
-    }
-
-    function calculate_corrected_speed(power, mass_total, cda, crr, rho, slopePct, alpha) {
-        const g = 9.81; // Aceleración debida a la gravedad en m/s²
-        // Factor para reducir la penalización por desnivel acumulado (penaliza con menos tiempo)
-        const factor_desnivel = 0.8;  
-        function powerDifference(v) {
-            // v en m/s
             const power_aero = 0.5 * rho * cda * Math.pow(v, 3);
             const power_rr = crr * mass_total * g * v;
             const power_grav = mass_total * g * ((slopePct / 100) * factor_desnivel) * v;
@@ -675,16 +502,6 @@
         }
         const speed_kmh = v * 3.6 * alpha;
         return speed_kmh;
-    }
-
-    function hours_to_hms_str(hours) {
-      const totalSeconds = Math.floor(hours * 3600);
-      const hh = Math.floor(totalSeconds / 3600);
-      const mm = Math.floor((totalSeconds % 3600) / 60);
-      const ss = Math.floor(totalSeconds % 60);
-      return (
-        String(hh).padStart(2,"0")+":"+String(mm).padStart(2,"0")+":"+String(ss).padStart(2,"0")
-      );
     }
 
     window.onload = () => {
@@ -857,32 +674,6 @@
         `;
         tableBody.appendChild(tr);
       });
-    }
-
-    function calculate_corrected_speed(power, mass_total, cda, crr, rho, slopePct, alpha) {
-        const g = 9.81; // Aceleración debida a la gravedad en m/s²
-        const factor_desnivel = 0.6; // Menor penalización en el desnivel (ajusta este valor)
-        function powerDifference(v) {
-            const power_aero = 0.5 * rho * cda * Math.pow(v, 3);
-            const power_rr = crr * mass_total * g * v;
-            const power_grav = mass_total * g * ((slopePct / 100) * factor_desnivel) * v;
-            return power_aero + power_rr + power_grav - power;
-        }
-        let lower = 0;
-        let upper = 50;
-        let v = 0;
-        const tolerance = 0.001;
-        while (upper - lower > tolerance) {
-            v = (lower + upper) / 2;
-            const diff = powerDifference(v);
-            if (diff > 0) {
-                upper = v;
-            } else {
-                lower = v;
-            }
-        }
-        const speed_kmh = v * 3.6 * alpha;
-        return speed_kmh;
     }
 
     function hours_to_hms_str(hours) {
