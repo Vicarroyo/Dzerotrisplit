@@ -36,6 +36,7 @@
         }
         /* Contenedor principal */
         .container {
+            position: relative; /* Para posicionar elementos absolutos dentro */
             max-width: 800px;
             margin: 0 auto;
             background: #111;
@@ -55,7 +56,7 @@
         .form-group {
             margin-bottom: 25px;
             text-align: left;
-            position: relative; /* Para posicionar el tooltip */
+            position: relative; /* Para posicionar el tooltip dentro del grupo si fuera necesario */
         }
         label {
             color: #ffcc00;
@@ -200,7 +201,7 @@
             transform: scale(1.05);
             box-shadow: 0 8px 15px rgba(255,204,0,0.7);
         }
-        /* Estilos para el Ícono de Ayuda */
+        /* Estilos para el Botón de Ayuda */
         .help-icon {
             position: absolute;
             top: 10px;
@@ -233,9 +234,6 @@
             z-index: 10;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
-        .form-group:hover .help-text {
-            display: block;
-        }
         @media (max-width: 600px) {
             .container {
                 padding: 20px;
@@ -267,6 +265,20 @@
     <img src="/static/logo fondo negro.png" alt="Logo" class="logo">
 
     <div class="container">
+        <!-- Botón de Ayuda en la esquina superior derecha -->
+        <span class="help-icon" onclick="toggleHelp()">?</span>
+        <div id="help-text" class="help-text">
+            <strong>Nadador eficiente o de resistencia:</strong><br>
+            - Mantiene un ritmo estable con poca caída en distancias largas.<br>
+            - Ideal para triatletas y nadadores de fondo bien entrenados.<br><br>
+            <strong>Nadador velocista:</strong><br>
+            - Gran capacidad en distancias cortas, pero el ritmo cae en pruebas largas.<br>
+            - Puede mantener 200m o 400m a buen ritmo, pero sufre en distancias mayores.<br><br>
+            <strong>Nadador de baja eficiencia técnica:</strong><br>
+            - Su rendimiento cae drásticamente con la distancia.<br>
+            - No mantiene un ritmo constante y presenta mayor fatiga.
+        </div>
+
         <h1>Ajustes de Natación</h1>
         <form id="ajustes-form" class="form-inline">
             <!-- Campos ocultos para pasar datos iniciales -->
@@ -278,20 +290,8 @@
             <!-- Nivel de Nadador -->
             <div class="form-group">
                 <label for="nivel">Nivel de Nadador:</label>
-                <span class="help-icon">?</span>
-                <div class="help-text">
-                    <strong>Nadador eficiente o de resistencia:</strong><br>
-                    - Mantiene un ritmo estable con poca caída en distancias largas.<br>
-                    - Ideal para triatletas y nadadores de fondo bien entrenados.<br><br>
-                    <strong>Nadador velocista:</strong><br>
-                    - Gran capacidad en distancias cortas, pero el ritmo cae en pruebas largas.<br>
-                    - Puede mantener 200m o 400m a buen ritmo, pero sufre en distancias mayores.<br><br>
-                    <strong>Nadador de baja eficiencia técnica:</strong><br>
-                    - Su rendimiento cae drásticamente con la distancia.<br>
-                    - No mantiene un ritmo constante y presenta mayor fatiga.
-                </div>
                 <select id="nivel" name="nivel" required>
-                    <option value="" disabled>Seleccione el nivel</option>
+                    <option value="" disabled>Seleccione un nivel</option>
                     <option value="eficiente">Nadador Eficiente o de Resistencia</option>
                     <option value="velocista">Nadador Velocista</option>
                     <option value="baja_eficiencia">Nadador de Baja Eficiencia Técnica</option>
@@ -353,14 +353,12 @@
             const segundos = parseInt(partes[1]);
             return minutos * 60 + segundos;
         }
-
         // Función para convertir segundos a mm:ss
         function segundosATiempo(segundos) {
             const minutos = Math.floor(segundos / 60);
             const seg = Math.round(segundos % 60);
             return `${minutos}:${seg < 10 ? '0' : ''}${seg}`;
         }
-
         // Función para convertir segundos a hh:mm:ss
         function segundosAHorasMinSeg(segundos) {
             const horas = Math.floor(segundos / 3600);
@@ -368,7 +366,6 @@
             const seg = Math.floor(segundos % 60);
             return `${String(horas).padStart(2, '0')}:${String(minutos).padStart(2, '0')}:${String(seg).padStart(2, '0')}`;
         }
-
         // Elementos del DOM
         const nivelSelect = document.getElementById('nivel');
         const neoprenoSelect = document.getElementById('neopreno');
@@ -396,7 +393,7 @@
 
         // Definir el factor de mejora por neopreno
         const mejoraNeoprenoFactor = {
-            'si': 0.95,  // Mejora del 5%
+            'si': 0.95,
             'no': 1.0
         };
 
@@ -409,7 +406,7 @@
 
         // Función para calcular el Tiempo del Test ORIGINAL para una nueva distancia
         // Usando: nuevoTiempo = initialTotalTimeSeconds * (nuevaDistancia/initialDistance)^exponente
-        // El exponente se obtiene según el nivel seleccionado; si no hay selección, se usa 'eficiente' (1.06)
+        // El exponente se obtiene según el nivel seleccionado; si no hay selección, se usa 'eficiente'
         function calcularTiempoTestOriginal(distancia) {
             const nivelSeleccionado = nivelSelect.value || 'eficiente';
             const exponente = factoresNivel[nivelSeleccionado];
@@ -420,7 +417,7 @@
         // Función para actualizar los resultados al modificar los controles
         function actualizarResultados() {
             const nivel = nivelSelect.value;
-            const neopreno = neoprenoSelect.value || 'no';  // Si no se selecciona, asume 'no'
+            const neopreno = neoprenoSelect.value || 'no';
             const distancia = parseFloat(distanciaSlider.value);
 
             // Actualizar visualización de distancia
@@ -440,13 +437,9 @@
             const ritmoAjustadoSegundos = tiempoTotalAjustadoSec / (distancia / 100);
 
             // Actualizar las visualizaciones:
-            // "Tiempo del Test" muestra el tiempo original escalado para la nueva distancia
             tiempoTestSpan.innerText = segundosAHorasMinSeg(tiempoTestOriginalSec);
-            // "Tiempo Total Ajustado" muestra el tiempo con mejora de neopreno (si aplica)
             resultadoTiempoTotal.innerText = segundosAHorasMinSeg(tiempoTotalAjustadoSec);
-            // "Ritmo por 100m Ajustado" se calcula a partir del tiempo total ajustado
             resultadoRitmoFinal.innerText = segundosATiempo(ritmoAjustadoSegundos);
-            // "Mejora por Neopreno" es la diferencia entre el tiempo original y el ajustado
             const mejoraSegundos = tiempoTestOriginalSec - tiempoTotalAjustadoSec;
             resultadoMejora.innerText = (mejoraSegundos > 0) ? segundosATiempo(mejoraSegundos) : "--:--";
         }
@@ -463,6 +456,12 @@
             }
         }
 
+        // Función para alternar la visualización del texto de ayuda
+        function toggleHelp() {
+            const helpText = document.getElementById("help-text");
+            helpText.style.display = (helpText.style.display === "block") ? "none" : "block";
+        }
+
         // Añadir event listeners para los controles
         nivelSelect.addEventListener('change', actualizarResultados);
         neoprenoSelect.addEventListener('change', actualizarResultados);
@@ -476,3 +475,4 @@
     </script>
 </body>
 </html>
+
