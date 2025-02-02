@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -32,10 +32,10 @@
       transform: scale(1.05);
       box-shadow: 0 8px 15px rgba(255, 204, 0, 0.7);
     }
-    /* Contenedor principal (más ancho para móviles) */
+    /* Contenedor principal: ahora con max-width: 800px */
     .container {
       position: relative; /* Para posicionar elementos absolutos dentro */
-      width: 95%;
+      width: 90%;
       max-width: 800px;
       background: linear-gradient(145deg, #222, #111);
       text-align: center;
@@ -66,7 +66,7 @@
       border: none;
       background: #1a1a1a;
       color: #fff;
-      box-shadow: inset 4px 4px 8px rgba(0,0,0,0.5), 
+      box-shadow: inset 4px 4px 8px rgba(0,0,0,0.5),
                   inset -4px -4px 8px rgba(255,255,255,0.1);
       text-align: center;
       outline: none;
@@ -76,28 +76,42 @@
       border: 1px solid #ffd966;
       box-shadow: 0 0 8px rgba(255,204,0,0.5);
     }
-    /* Slider ±10% */
+    /* ============================
+       Estilos del Slider (actualizados)
+       Se han adaptado los estilos de la versión de ciclismo:
+    ============================ */
+    /* Mostramos el porcentaje encima del slider */
+    #sliderValue {
+      color: #ffcc00;
+      font-weight: 600;
+      margin-bottom: 5px;
+      display: block;
+      text-align: center;
+      font-size: 1em;
+    }
     #timeSlider {
       -webkit-appearance: none;
       width: 80%;
-      height: 10px;
-      border-radius: 10px;
-      background: #1a1a1a;
-      box-shadow: inset 4px 4px 8px rgba(0,0,0,0.5), 
-                  inset -4px -4px 8px rgba(255,255,255,0.1);
-      outline: none;
+      background: transparent;
       margin: 10px 0;
       cursor: pointer;
     }
+    /* Track para WebKit (Chrome, Safari, Opera) */
+    #timeSlider::-webkit-slider-runnable-track {
+      height: 8px;
+      background: #ffcc00; /* Color mostaza */
+      border-radius: 5px;
+    }
+    /* Thumb para WebKit */
     #timeSlider::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 20px; 
       height: 20px;
+      width: 20px;
+      background: #4f4108;
+      border: 2px solid #ffe066;
       border-radius: 50%;
-      background: #ffcc00;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.4),
-                  inset 0 -4px 8px rgba(255,255,255,0.4);
-      border: none;
+      margin-top: -6px;
+      cursor: pointer;
       transition: transform 0.2s, box-shadow 0.3s;
     }
     #timeSlider::-webkit-slider-thumb:hover {
@@ -105,14 +119,20 @@
       box-shadow: 0 6px 12px rgba(0,0,0,0.6),
                   inset 0 -6px 12px rgba(255,255,255,0.5);
     }
-    #timeSlider::-moz-range-thumb {
-      width: 20px; 
-      height: 20px;
-      border-radius: 50%;
+    /* Track para Firefox */
+    #timeSlider::-moz-range-track {
+      height: 8px;
       background: #ffcc00;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.4),
-                  inset 0 -4px 8px rgba(255,255,255,0.4);
-      border: none;
+      border-radius: 5px;
+    }
+    /* Thumb para Firefox */
+    #timeSlider::-moz-range-thumb {
+      height: 20px;
+      width: 20px;
+      background: #ffcc00;
+      border: 2px solid #ffe066;
+      border-radius: 50%;
+      cursor: pointer;
       transition: transform 0.2s, box-shadow 0.3s;
     }
     #timeSlider::-moz-range-thumb:hover {
@@ -120,13 +140,91 @@
       box-shadow: 0 6px 12px rgba(0,0,0,0.6),
                   inset 0 -6px 12px rgba(255,255,255,0.5);
     }
-    #sliderValue {
-      color: #ffcc00;
-      font-weight: 600;
-      margin-bottom: 10px;
-      display: block;
-      text-align: center;
+    /* Estilos para IE y Edge */
+    #timeSlider::-ms-track {
+      height: 8px;
+      background: transparent;
+      border-color: transparent;
+      color: transparent;
     }
+    #timeSlider::-ms-fill-lower {
+      background: #ffcc00;
+      border-radius: 5px;
+    }
+    #timeSlider::-ms-fill-upper {
+      background: #ffcc00;
+      border-radius: 5px;
+    }
+    #timeSlider::-ms-thumb {
+      height: 20px;
+      width: 20px;
+      background: #ffcc00;
+      border: 2px solid #ffe066;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    /* ============================
+       Estilos de Botones
+    ============================ */
+    .button-primary, .back-link {
+      display: inline-block;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #ffcc00, #e6b800);
+      color: #000;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      text-decoration: none;
+      box-shadow: 0 4px 10px rgba(255,204,0,0.5);
+      transition: all 0.3s ease-in-out;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 15px;
+    }
+    .button-primary:hover, .back-link:hover {
+      background: linear-gradient(135deg, #ffd966, #e6c300);
+      box-shadow: 0 8px 15px rgba(255,204,0,0.7);
+      transform: translateY(-2px);
+    }
+    .back-link {
+      background: none;
+      color: #ffcc00;
+      box-shadow: none;
+      font-size: 1em;
+      padding: 10px 20px;
+    }
+    /* ============================
+       Estilos para la Tabla de Resultados (estilo móvil)
+    ============================ */
+    table {
+      width: 100%;
+      margin: 20px 0;
+      border-collapse: collapse;
+      background: #1a1a1a;
+      box-shadow: 0px 4px 10px rgba(255,204,0,0.2);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    table th, table td {
+      padding: 15px;
+      text-align: center;
+      border-bottom: 1px solid #333;
+    }
+    table th {
+      background-color: #ffcc00;
+      color: #000;
+      font-weight: 600;
+    }
+    table tr:hover {
+      background-color: #2a2a2a;
+      transition: background-color 0.3s ease;
+    }
+    table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    /* ============================
+       Otros estilos (ayuda, imagen, etc.)
+    ============================ */
     .strategy-label {
       display: flex;
       align-items: center;
@@ -160,53 +258,9 @@
       margin: 10px 0;
       font-size: 0.9rem;
     }
-    table {
-      width: 100%;
-      margin-top: 20px;
-      border-collapse: collapse;
-      background: #1a1a1a;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 4px 10px rgba(255,204,0,0.2);
-      margin-bottom: 20px;
-    }
-    table td {
-      padding: 12px 10px;
-      border-bottom: 1px solid #333;
-    }
-    table tr:last-child td {
-      border-bottom: none;
-    }
-    .highlight-image {
-      margin: 10px 0;
-      max-width: 100%;
-      border-radius: 10px;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(255,204,0,0.5);
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .highlight-image:hover {
-      transform: scale(1.05);
-      box-shadow: 0 8px 15px rgba(255,204,0,0.7);
-    }
-    .button-primary {
-      display: inline-block;
-      margin: 10px 0;
-      padding: 12px 24px;
-      background: linear-gradient(135deg, #ffcc00, #e6b800);
-      color: #000;
-      font-weight: bold;
-      border: none;
-      border-radius: 10px;
-      text-decoration: none;
-      box-shadow: 0 4px 10px rgba(255,204,0,0.5);
-      transition: all 0.3s ease-in-out;
-      cursor: pointer;
-    }
-    .button-primary:hover {
-      background: linear-gradient(135deg, #ffd966, #e6c300);
-      box-shadow: 0 8px 15px rgba(255,204,0,0.7);
-    }
+    /* ============================
+       Estilos para la Tabla km a km (estilo móvil)
+    ============================ */
     .km-table {
       width: 100%;
       border-collapse: collapse;
@@ -231,13 +285,45 @@
       background-color: #2a2a2a;
       transition: background-color 0.3s;
     }
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+      .button-primary, .back-link {
+        width: 100%;
+        padding: 10px 20px;
+        font-size: 0.9rem;
+      }
+      .help-text {
+        width: 200px;
+        margin-left: -100px;
+      }
+    }
+    /* Ajustes para la imagen dentro del contenedor */
+    .highlight-image {
+      margin: 20px 0;
+      max-width: 100%;
+      width: auto;
+      height: auto;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(255,204,0,0.5);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .highlight-image:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 15px rgba(255,204,0,0.7);
+    }
   </style>
 </head>
 <body>
   <!-- Logo -->
   <img src="/static/logo fondo negro.png" alt="Logo" class="logo">
   <div class="container">
-    <h1>Estrategia de carrera</h1>
+    <h1>Estrategia de Ritmo</h1>
 
     <!-- Inyectar datos -->
     <script>
@@ -280,7 +366,10 @@
       <option value="neg3">3% Negativa</option>
     </select>
 
+    <!-- Porcentaje del slider (ahora encima del control) -->
     <label for="timeSlider">Ajuste del tiempo (±10%):</label>
+    <span id="sliderValue">0%</span>
+    
     <input
       type="range"
       id="timeSlider"
@@ -290,7 +379,6 @@
       value="1.0"
       oninput="updateAll()"
     >
-    <span id="sliderValue">100%</span>
 
     <!-- Tabla principal (Base/Ajustado) -->
     <table>
@@ -314,7 +402,7 @@
       </tbody>
     </table>
 
-    <!-- Imagen -->
+    <!-- Imagen dentro del contenedor (se ajusta al tamaño del contenedor) -->
     <a href="https://dzerotri.com/triatletas-dzero" target="_blank">
       <img src="/static/testimonios.png" alt="testimonios" class="highlight-image">
     </a>
@@ -369,17 +457,71 @@
     }
     function secondsToHMS(sec) {
       const h = Math.floor(sec/3600);
-      const m = Math.floor((sec%3600)/60);
-      const s = Math.floor(sec%60);
+      const m = Math.floor((sec % 3600) / 60);
+      const s = Math.floor(sec % 60);
       return String(h).padStart(2, "0") + ":" + String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
     }
     function secondsToPaceString(sec) {
       const minutes = Math.floor(sec/60);
-      const secs = Math.floor(sec%60);
+      const secs = Math.floor(sec % 60);
       return String(minutes).padStart(2, "0") + ":" + String(secs).padStart(2, "0");
     }
 
-    // Estrategia pos/neg con 4 cuartos
+    // Actualizar el valor mostrado del slider mostrando la diferencia respecto a 1.0
+    function updateSliderValue() {
+      const factor = parseFloat(document.getElementById("timeSlider").value);
+      const diff = Math.round((factor - 1) * 100);
+      let display = "";
+      if(diff > 0) {
+        display = "+" + diff + "%";
+      } else if(diff < 0) {
+        display = diff + "%";
+      } else {
+        display = "0%";
+      }
+      document.getElementById("sliderValue").textContent = display;
+    }
+
+    function updateAll() {
+      fillTime();
+      updateSliderValue();
+      const distNum = parseFloat(document.getElementById("selectDistance").value) || 5;
+      const userTime = document.getElementById("inputTime").textContent || "00:16:00";
+      const userTimeSec = timeToSeconds(userTime);
+      const basePaceSec = userTimeSec / distNum;
+      document.getElementById("baseTime").textContent = userTime;
+      document.getElementById("basePace").textContent = secondsToPaceString(basePaceSec);
+      const factor = parseFloat(document.getElementById("timeSlider").value);
+      const strategy = document.getElementById("selectStrategy").value;
+      const totalAdjustedSec = calcTotalSeconds(distNum, basePaceSec, strategy, factor);
+      document.getElementById("adjustedTime").textContent = secondsToHMS(Math.round(totalAdjustedSec));
+      document.getElementById("adjustedPace").textContent = secondsToPaceString(totalAdjustedSec / distNum);
+      const baseSplits = buildKmSplits(distNum, basePaceSec, strategy, factor, true);
+      const adjSplits = buildKmSplits(distNum, basePaceSec, strategy, factor, false);
+      const tbody = document.getElementById("kmTable").querySelector("tbody");
+      tbody.innerHTML = "";
+      const maxLen = Math.max(baseSplits.length, adjSplits.length);
+      for (let i = 0; i < maxLen; i++) {
+        const b = baseSplits[i];
+        const a = adjSplits[i];
+        const kmLabel = b ? b.kmDisplay : (a ? a.kmDisplay : "");
+        const baseTimeAcc = b ? b.accumulated : "";
+        const basePace = b ? b.paceString : "";
+        const adjTimeAcc = a ? a.accumulated : "";
+        const adjPace = a ? a.paceString : "";
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${kmLabel}</td>
+          <td>${baseTimeAcc}</td>
+          <td>${basePace}</td>
+          <td>${adjTimeAcc}</td>
+          <td>${adjPace}</td>
+        `;
+        tbody.appendChild(row);
+      }
+    }
+
+    // Funciones de splits y cálculo (sin cambios)
     function getSplitFactor(km, totalKm, strategy) {
       let ratio = 0;
       if (strategy === "pos1") ratio = +0.01;
@@ -388,12 +530,11 @@
       if (strategy === "neg1") ratio = -0.01;
       if (strategy === "neg2") ratio = -0.02;
       if (strategy === "neg3") ratio = -0.03;
-
       if (strategy === "estable") {
         return 1.0;
       }
       const quarter = totalKm / 4.0;
-      let phaseAdjustments = [1,1,1,1];
+      let phaseAdjustments = [1, 1, 1, 1];
       if (strategy.startsWith("pos")) {
         const absR = Math.abs(ratio);
         phaseAdjustments = [
@@ -417,7 +558,6 @@
       else return phaseAdjustments[0];
     }
 
-    // Suma total con parte decimal
     function calcTotalSeconds(distance, basePaceSec, strategy, factor) {
       const fullKm = Math.floor(distance);
       const leftover = distance - fullKm;
@@ -434,7 +574,6 @@
       return totalSec;
     }
 
-    // Construir splits (base/ajustado) con parte decimal
     function buildKmSplits(distance, basePaceSec, strategy, factor, isBase = false) {
       let results = [];
       let accumulated = 0;
@@ -468,55 +607,6 @@
       return results;
     }
 
-    function updateAll() {
-      // Rellenar tiempo base si procede
-      fillTime();
-      const distNum = parseFloat(document.getElementById("selectDistance").value) || 5;
-      const userTime = document.getElementById("inputTime").textContent || "00:16:00";
-      const userTimeSec = timeToSeconds(userTime);
-      const basePaceSec = userTimeSec / distNum;
-      document.getElementById("baseTime").textContent = userTime;
-      document.getElementById("basePace").textContent = secondsToPaceString(basePaceSec);
-      const factor = parseFloat(document.getElementById("timeSlider").value);
-      document.getElementById("sliderValue").textContent = (factor * 100).toFixed(0) + "%";
-      const strategy = document.getElementById("selectStrategy").value;
-      const totalAdjustedSec = calcTotalSeconds(distNum, basePaceSec, strategy, factor);
-      document.getElementById("adjustedTime").textContent = secondsToHMS(Math.round(totalAdjustedSec));
-      document.getElementById("adjustedPace").textContent = secondsToPaceString(totalAdjustedSec / distNum);
-      const baseSplits = buildKmSplits(distNum, basePaceSec, strategy, factor, true);
-      const adjSplits = buildKmSplits(distNum, basePaceSec, strategy, factor, false);
-      const tbody = document.getElementById("kmTable").querySelector("tbody");
-      tbody.innerHTML = "";
-      const maxLen = Math.max(baseSplits.length, adjSplits.length);
-      for (let i = 0; i < maxLen; i++) {
-        const b = baseSplits[i];
-        const a = adjSplits[i];
-        const kmLabel = b ? b.kmDisplay : (a ? a.kmDisplay : "");
-        const baseTimeAcc = b ? b.accumulated : "";
-        const basePace = b ? b.paceString : "";
-        const adjTimeAcc = a ? a.accumulated : "";
-        const adjPace = a ? a.paceString : "";
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${kmLabel}</td>
-          <td>${baseTimeAcc}</td>
-          <td>${basePace}</td>
-          <td>${adjTimeAcc}</td>
-          <td>${adjPace}</td>
-        `;
-        tbody.appendChild(row);
-      }
-    }
-
-    function timeToSeconds(hms) {
-      const parts = hms.split(":").map(Number);
-      if (parts.length === 3) {
-        return parts[0] * 3600 + parts[1] * 60 + parts[2];
-      }
-      return 0;
-    }
-
-    // Al cargar la página
     window.onload = () => {
       updateAll();
     };
