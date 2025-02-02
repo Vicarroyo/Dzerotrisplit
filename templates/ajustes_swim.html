@@ -7,7 +7,9 @@
     <!-- Fuente Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        /* Estilos Generales */
+        /* ============================
+           Estilos Generales
+        ============================ */
         * {
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
@@ -33,7 +35,9 @@
             transform: scale(1.05);
             box-shadow: 0 8px 15px rgba(255, 204, 0, 0.7);
         }
-        /* Contenedor principal */
+        /* ============================
+           Contenedor Principal
+        ============================ */
         .container {
             position: relative;
             max-width: 800px;
@@ -51,10 +55,12 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-        /* Estilos de los Formularios */
+        /* ============================
+           Estilos de los Formularios
+        ============================ */
         .form-group {
             margin-bottom: 25px;
-            text-align: center;  /* Centramos etiquetas y controles */
+            text-align: center;
             position: relative;
         }
         label {
@@ -83,28 +89,35 @@
             box-shadow: 0 0 8px rgba(255,204,0,0.5);
             transform: scale(1.02);
         }
-        /* Estilos para el Slider (actualizado al estilo neumórfico) */
+        /* ============================
+           Estilos del Slider
+           (Adaptado del estilo neumórfico de la versión de Ritmo)
+        ============================ */
         input[type="range"] {
             -webkit-appearance: none;
             width: 100%;
             height: 10px;
             border-radius: 10px;
-            background: #1a1a1a;
-            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.5),
-                        inset -4px -4px 8px rgba(255,255,255,0.1);
-            outline: none;
+            background: transparent;
             margin: 10px 0;
             cursor: pointer;
         }
+        /* Track para WebKit */
+        input[type="range"]::-webkit-slider-runnable-track {
+            height: 8px;
+            background: #ffcc00; /* Color mostaza */
+            border-radius: 5px;
+        }
+        /* Thumb para WebKit */
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             width: 20px;
             height: 20px;
+            background: #4f4108;
+            border: 2px solid #ffe066;
             border-radius: 50%;
-            background: #ffcc00;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.4),
-                        inset 0 -4px 8px rgba(255,255,255,0.4);
-            border: none;
+            margin-top: -6px;
+            cursor: pointer;
             transition: transform 0.2s, box-shadow 0.3s;
         }
         input[type="range"]::-webkit-slider-thumb:hover {
@@ -112,20 +125,49 @@
             box-shadow: 0 6px 12px rgba(0,0,0,0.6),
                         inset 0 -6px 12px rgba(255,255,255,0.5);
         }
+        /* Track para Firefox */
+        input[type="range"]::-moz-range-track {
+            height: 8px;
+            background: #ffcc00;
+            border-radius: 5px;
+        }
+        /* Thumb para Firefox */
         input[type="range"]::-moz-range-thumb {
             width: 20px;
             height: 20px;
-            border-radius: 50%;
             background: #ffcc00;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.4),
-                        inset 0 -4px 8px rgba(255,255,255,0.4);
-            border: none;
+            border: 2px solid #ffe066;
+            border-radius: 50%;
+            cursor: pointer;
             transition: transform 0.2s, box-shadow 0.3s;
         }
         input[type="range"]::-moz-range-thumb:hover {
             transform: scale(1.2);
             box-shadow: 0 6px 12px rgba(0,0,0,0.6),
                         inset 0 -6px 12px rgba(255,255,255,0.5);
+        }
+        /* Estilos para IE/Edge */
+        input[type="range"]::-ms-track {
+            height: 8px;
+            background: transparent;
+            border-color: transparent;
+            color: transparent;
+        }
+        input[type="range"]::-ms-fill-lower {
+            background: #ffcc00;
+            border-radius: 5px;
+        }
+        input[type="range"]::-ms-fill-upper {
+            background: #ffcc00;
+            border-radius: 5px;
+        }
+        input[type="range"]::-ms-thumb {
+            width: 20px;
+            height: 20px;
+            background: #ffcc00;
+            border: 2px solid #ffe066;
+            border-radius: 50%;
+            cursor: pointer;
         }
         /* Valor del Slider */
         .slider-value {
@@ -134,9 +176,11 @@
             margin-top: 5px;
             display: block;
             text-align: center;
-            font-size: 1em;
+            font-size: 1.5em; /* Tamaño más grande para "Distancia Actual" */
         }
-        /* Botones */
+        /* ============================
+           Estilos de Botones
+        ============================ */
         .button-primary, .back-link {
             display: inline-block;
             padding: 12px 24px;
@@ -164,7 +208,9 @@
             font-size: 1em;
             padding: 10px 20px;
         }
-        /* Imagen Destacada */
+        /* ============================
+           Imagen Destacada
+        ============================ */
         .highlight-image {
             margin: 20px 0;
             max-width: 100%;
@@ -177,7 +223,9 @@
             transform: scale(1.05);
             box-shadow: 0 8px 15px rgba(255,204,0,0.7);
         }
-        /* Estilos para el Botón de Ayuda */
+        /* ============================
+           Botón de Ayuda (arriba a la derecha)
+        ============================ */
         .help-icon {
             position: absolute;
             top: 10px;
@@ -210,10 +258,12 @@
             z-index: 10;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
-        /* Estilos para la Tabla de Resultados (nueva versión) */
+        /* ============================
+           Estilos para la Tabla de Resultados
+        ============================ */
         .resultados-table {
             width: 100%;
-            margin: 0 auto;  /* Centra la tabla */
+            margin: 0 auto;
             border-collapse: collapse;
             background: #1a1a1a;
             border-radius: 10px;
@@ -221,10 +271,7 @@
             box-shadow: 0 4px 10px rgba(255,204,0,0.2);
             margin-top: 30px;
         }
-        .resultados-table thead {
-            background-color: #ffcc00;
-            color: #000;
-        }
+        /* Se ha eliminado el THEAD para quitar "Concepto" y "Valor" */
         .resultados-table th,
         .resultados-table td {
             padding: 12px 10px;
@@ -294,9 +341,16 @@
             </div>
             <!-- Distancia -->
             <div class="form-group">
-                <label for="distancia">DISTANCIA DEL TEST: <span id="distancia_valor">{{ distance }}</span> m</label>
-                <input type="range" id="distancia" name="distancia" min="50" max="5000" step="50" value="{{ distance }}">
-                <span class="slider-value">Distancia Actual: <strong id="distancia_valor_display">{{ distance }}</strong> m</span>
+                <!-- Texto encima del slider: Distancia Actual (más grande) -->
+                <span class="slider-value">
+                    Distancia Actual: <strong id="distancia_valor_display">{{ distance|int }}</strong> m
+                </span>
+                <!-- Slider -->
+                <input type="range" id="distancia" name="distancia" min="50" max="5000" step="50" value="{{ distance|int }}">
+                <!-- Texto debajo del slider: DISTANCIA DEL TEST (tamaño de fuente menor) -->
+                <label for="distancia" style="font-size:1.1em;">
+                    DISTANCIA DEL TEST: <span id="distancia_valor">{{ distance|int }}</span> m
+                </label>
             </div>
             <!-- Uso de Neopreno -->
             <div class="form-group">
@@ -311,16 +365,10 @@
 
         <!-- Sección para mostrar resultados ajustados en formato de tabla -->
         <table class="resultados-table" id="resultados">
-            <thead>
-                <tr>
-                    <th>Concepto</th>
-                    <th>Valor</th>
-                </tr>
-            </thead>
             <tbody>
                 <tr>
                     <td>Distancia</td>
-                    <td id="resultado_distancia">{{ distance }} m</td>
+                    <td id="resultado_distancia">{{ distance|int }} m</td>
                 </tr>
                 <tr>
                     <td>Nivel de Nadador</td>
@@ -355,11 +403,10 @@
         </a>
     </div>
 
-    <!-- Botón CONTINUAR centrado -->
+    <!-- Botones -->
     <div style="text-align:center;">
         <a href="/" class="button-primary">CONTINUAR</a>
     </div>
-    <!-- Botón Volver a Resultados fuera del contenedor principal -->
     <div style="text-align:center; margin-top: 15px;">
         <a href="{{ url_for('swimming') }}" class="button-primary">Volver a Resultados</a>
     </div>
@@ -383,43 +430,45 @@
             const horas = Math.floor(segundos / 3600);
             const minutos = Math.floor((segundos % 3600) / 60);
             const seg = Math.floor(segundos % 60);
-            return `${String(horas).padStart(2, '0')}:${String(minutos).padStart(2, '0')}:${String(seg).padStart(2, '0')}`;
+            return (
+                String(horas).padStart(2,"0")+":"+String(minutos).padStart(2,"0")+":"+String(seg).padStart(2,"0")
+            );
         }
         // Elementos del DOM
-        const nivelSelect = document.getElementById('nivel');
-        const neoprenoSelect = document.getElementById('neopreno');
-        const distanciaSlider = document.getElementById('distancia');
-        const distanciaValorDisplay = document.getElementById('distancia_valor_display');
-        const tiempoTestSpan = document.getElementById('tiempo_test');
-        const resultadoDistancia = document.getElementById('resultado_distancia');
-        const resultadoNivel = document.getElementById('resultado_nivel');
-        const resultadoNeopreno = document.getElementById('resultado_neopreno');
-        const resultadoTiempoTotal = document.getElementById('resultado_tiempo_total');
-        const resultadoRitmoFinal = document.getElementById('resultado_ritmo_final');
-        const resultadoMejora = document.getElementById('resultado_mejora');
+        const nivelSelect = document.getElementById("nivel");
+        const neoprenoSelect = document.getElementById("neopreno");
+        const distanciaSlider = document.getElementById("distancia");
+        const distanciaValorDisplay = document.getElementById("distancia_valor_display");
+        const tiempoTestSpan = document.getElementById("tiempo_test");
+        const resultadoDistancia = document.getElementById("resultado_distancia");
+        const resultadoNivel = document.getElementById("resultado_nivel");
+        const resultadoNeopreno = document.getElementById("resultado_neopreno");
+        const resultadoTiempoTotal = document.getElementById("resultado_tiempo_total");
+        const resultadoRitmoFinal = document.getElementById("resultado_ritmo_final");
+        const resultadoMejora = document.getElementById("resultado_mejora");
         // Obtener valores iniciales desde los campos ocultos
-        const initialDistance = parseFloat(document.getElementById('initial_distance').value);
-        const initialPace = document.getElementById('initial_pace').value; // Ritmo (mm:ss) POR 100m
-        const initialCSS = document.getElementById('initial_css').value;
-        const initialCategory = document.getElementById('initial_category').value;
+        const initialDistance = parseFloat(document.getElementById("initial_distance").value);
+        const initialPace = document.getElementById("initial_pace").value; // Ritmo (mm:ss) POR 100m
+        const initialCSS = document.getElementById("initial_css").value;
+        const initialCategory = document.getElementById("initial_category").value;
         // Convertir el ritmo inicial a segundos por 100m
         let ritmoInicialSegundos = tiempoASegundos(initialPace);
         // Calcular el tiempo total del test original en segundos
         const initialTotalTimeSeconds = ritmoInicialSegundos * (initialDistance / 100);
         // Factor de mejora por neopreno
         const mejoraNeoprenoFactor = {
-            'si': 0.95,
-            'no': 1.0
+            "si": 0.95,
+            "no": 1.0
         };
         // Factores de corrección según el nivel de nadador
         const factoresNivel = {
-            'eficiente': 1.06,
-            'velocista': 1.09,
-            'baja_eficiencia': 1.135
+            "eficiente": 1.06,
+            "velocista": 1.09,
+            "baja_eficiencia": 1.135
         };
         // Calcular el Tiempo del Test ORIGINAL para una nueva distancia
         function calcularTiempoTestOriginal(distancia) {
-            const nivelSeleccionado = nivelSelect.value || 'eficiente';
+            const nivelSeleccionado = nivelSelect.value || "eficiente";
             const exponente = factoresNivel[nivelSeleccionado];
             const factor = Math.pow(distancia / initialDistance, exponente);
             return initialTotalTimeSeconds * factor;
@@ -427,14 +476,15 @@
         // Actualizar los resultados al modificar los controles
         function actualizarResultados() {
             const nivel = nivelSelect.value;
-            const neopreno = neoprenoSelect.value || 'no';
+            const neopreno = neoprenoSelect.value || "no";
             const distancia = parseFloat(distanciaSlider.value);
+            const distanciaInt = parseInt(distancia);
             // Actualizar visualización de distancia
-            distanciaValorDisplay.innerText = distancia;
-            resultadoDistancia.innerText = distancia + " m";
+            distanciaValorDisplay.innerText = distanciaInt;
+            resultadoDistancia.innerText = distanciaInt + " m";
             // Actualizar visualización del nivel y neopreno
-            resultadoNivel.innerText = nivel ? nivel.replace('_', ' ').toUpperCase() : '---';
-            resultadoNeopreno.innerText = (neopreno === 'si') ? 'Sí' : (neopreno === 'no' ? 'No' : '---');
+            resultadoNivel.innerText = nivel ? nivel.replace("_", " ").toUpperCase() : "---";
+            resultadoNeopreno.innerText = (neopreno === "si") ? "Sí" : (neopreno === "no" ? "No" : "---");
             // Calcular el tiempo del test ORIGINAL para la nueva distancia
             const tiempoTestOriginalSec = calcularTiempoTestOriginal(distancia);
             // Aplicar el factor de mejora por neopreno para obtener el Tiempo Total Ajustado
@@ -451,12 +501,12 @@
         // Preseleccionar el nivel basado en la categoría inicial (si aplica)
         function preseleccionarNivel() {
             const category = initialCategory.toLowerCase();
-            if (category.includes('eficiente') || category.includes('resistencia')) {
-                nivelSelect.value = 'eficiente';
-            } else if (category.includes('velocista')) {
-                nivelSelect.value = 'velocista';
-            } else if (category.includes('baja eficiencia')) {
-                nivelSelect.value = 'baja_eficiencia';
+            if (category.includes("eficiente") || category.includes("resistencia")) {
+                nivelSelect.value = "eficiente";
+            } else if (category.includes("velocista")) {
+                nivelSelect.value = "velocista";
+            } else if (category.includes("baja eficiencia")) {
+                nivelSelect.value = "baja_eficiencia";
             }
         }
         // Alternar la visualización del texto de ayuda
@@ -465,11 +515,11 @@
             helpText.style.display = (helpText.style.display === "block") ? "none" : "block";
         }
         // Añadir event listeners para los controles
-        nivelSelect.addEventListener('change', actualizarResultados);
-        neoprenoSelect.addEventListener('change', actualizarResultados);
-        distanciaSlider.addEventListener('input', actualizarResultados);
+        nivelSelect.addEventListener("change", actualizarResultados);
+        neoprenoSelect.addEventListener("change", actualizarResultados);
+        distanciaSlider.addEventListener("input", actualizarResultados);
         // Inicializar resultados al cargar la página
-        window.addEventListener('DOMContentLoaded', () => {
+        window.addEventListener("DOMContentLoaded", () => {
             preseleccionarNivel();
             actualizarResultados();
         });
