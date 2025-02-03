@@ -169,7 +169,7 @@
             </tbody>
         </table>
 
-        <!-- Imagen con enlace -->
+        <!-- Imagen con enlace (dentro del contenedor) -->
         <a href="https://dzerotri.com/victor-arroyo-dzero" target="_blank">
             <img src="/static/quien esta detras.png" alt="¿Quién está detrás?" class="highlight-image">
         </a>
@@ -198,11 +198,7 @@
         <!-- Botón para ajustar tiempos -->
         <a href="{{ url_for('ajustes_swim') }}?distance={{ selected_distance }}&pace={{ pace }}&css={{ css }}&category={{ css_category }}" class="button-primary">Ajustar Tiempos</a>
 
-
-        <!-- Botón CONTINUAR centrado -->
-        <a href="/" class="button-primary">CONTINUAR</a>
-
-        <!-- Volver a calcular -->
+        <!-- Botón Volver a calcular -->
         <a href="/swimming" class="back-link">Volver a calcular</a>
     </div>
 </body>
