@@ -271,7 +271,6 @@
             box-shadow: 0 4px 10px rgba(255,204,0,0.2);
             margin-top: 30px;
         }
-        /* Se ha eliminado el THEAD para quitar "Concepto" y "Valor" */
         .resultados-table th,
         .resultados-table td {
             padding: 12px 10px;
@@ -315,11 +314,9 @@
             - Mantiene un ritmo estable con poca caída en distancias largas.<br>
             - Ideal para triatletas y nadadores de fondo bien entrenados.<br><br>
             <strong>Nadador velocista:</strong><br>
-            - Gran capacidad en distancias cortas, pero el ritmo cae en pruebas largas.<br>
-            - Puede mantener 200m o 400m a buen ritmo, pero sufre en distancias mayores.<br><br>
+            - Gran capacidad en distancias cortas; en distancias inferiores al test obtiene mejores tiempos que el nadador de resistencia.<br><br>
             <strong>Nadador de baja eficiencia técnica:</strong><br>
-            - Su rendimiento cae drásticamente con la distancia.<br>
-            - No mantiene un ritmo constante y presenta mayor fatiga.
+            - Su rendimiento cae drásticamente, de modo que en distancias cortas sus tiempos son ligeramente más lentos que los de resistencia.
         </div>
 
         <h1>Ajustes de Natación</h1>
@@ -431,7 +428,7 @@
             const minutos = Math.floor((segundos % 3600) / 60);
             const seg = Math.floor(segundos % 60);
             return (
-                String(horas).padStart(2,"0")+":"+String(minutos).padStart(2,"0")+":"+String(seg).padStart(2,"0")
+                String(horas).padStart(2, "0") + ":" + String(minutos).padStart(2, "0") + ":" + String(seg).padStart(2, "0")
             );
         }
         // Elementos del DOM
@@ -460,16 +457,32 @@
             "si": 0.95,
             "no": 1.0
         };
-        // Factores de corrección según el nivel de nadador
-        const factoresNivel = {
+        // Factores para distancias iguales o mayores al test (lógica de fatiga progresiva)
+        const factoresNivelLargo = {
             "eficiente": 1.06,
             "velocista": 1.09,
             "baja_eficiencia": 1.135
         };
-        // Calcular el Tiempo del Test ORIGINAL para una nueva distancia
+        // Factores para distancias menores al test
+        // Se asignan de forma que:
+        // - El nadador velocista (exponente mayor) obtiene tiempos más rápidos.
+        // - El nadador de baja eficiencia (exponente menor) obtiene tiempos más lentos.
+        // - El nadador eficiente se mantiene como referencia.
+        const factoresNivelCorto = {
+            "velocista": 1.10,
+            "eficiente": 1.06,
+            "baja_eficiencia": 1.02
+        };
+        // Calcular el Tiempo del Test ORIGINAL para una nueva distancia,
+        // usando distintos exponentes según si la distancia es menor o mayor (o igual) que la del test.
         function calcularTiempoTestOriginal(distancia) {
             const nivelSeleccionado = nivelSelect.value || "eficiente";
-            const exponente = factoresNivel[nivelSeleccionado];
+            let exponente;
+            if (distancia >= initialDistance) {
+                exponente = factoresNivelLargo[nivelSeleccionado];
+            } else {
+                exponente = factoresNivelCorto[nivelSeleccionado];
+            }
             const factor = Math.pow(distancia / initialDistance, exponente);
             return initialTotalTimeSeconds * factor;
         }
