@@ -346,15 +346,35 @@
       <option value="0.3">Sin aero (0.30)</option>
     </select>
 
-    <!-- Sección de resultados (Velocidad estimada, tiempo, vatios medios, etc.) -->
-    <div class="results" id="resultsSection">
-      <p><strong>Tiempo Final de la Prueba:</strong> <span id="timeValue">{{ tiempo_estimada if tiempo_estimada else '--:--:--' }}</span></p>
-      <p><strong>Velocidad Media de la Prueba:</strong> <span id="speedValue">{{ velocidad_estimada if velocidad_estimada else '--' }}</span> km/h</p>
-      <p><strong>Vatios Medios:</strong> <span id="averageWatts">{{ potencia_objetivo if potencia_objetivo else '--' }}</span> W</p>
-      <p><strong>Masa Total (Ciclista + Bici):</strong> <span id="displayMass">{{ mass_total }}</span> kg</p>
-      <p><strong>Vatios/kg (Ciclista + Bici):</strong> <span id="wattsPerKg">{{ potencia_objetivo / mass_total if potencia_objetivo and mass_total else '--' }}</span> W/kg</p>
-      <p><small>*RECUERDA: Estás ante un Cálculo aproximado</small></p>
-    </div>
+   <!-- Sección de resultados (nueva versión en formato de tabla) -->
+<table class="resultados-table" id="resultados">
+  <tbody>
+      <tr>
+          <td>Tiempo Final de la Prueba</td>
+          <td id="timeValue">{{ tiempo_estimada if tiempo_estimada else '--:--:--' }}</td>
+      </tr>
+      <tr>
+          <td>Velocidad Media de la Prueba</td>
+          <td id="speedValue">{{ velocidad_estimada if velocidad_estimada else '--' }} km/h</td>
+      </tr>
+      <tr>
+          <td>Vatios Medios</td>
+          <td id="averageWatts">{{ potencia_objetivo if potencia_objetivo else '--' }} W</td>
+      </tr>
+      <tr>
+          <td>Masa Total (Ciclista + Bici)</td>
+          <td id="displayMass">{{ mass_total }}</td>
+      </tr>
+      <tr>
+          <td>Vatios/kg (Ciclista + Bici)</td>
+          <td id="wattsPerKg">{{ potencia_objetivo / mass_total if potencia_objetivo and mass_total else '--' }} W/kg</td>
+      </tr>
+      <tr>
+          <td colspan="2"><small>*RECUERDA: Estás ante un Cálculo aproximado</small></td>
+      </tr>
+  </tbody>
+</table>
+
 
     <!-- Tabla de intensidades en función de la pendiente -->
     <table>
