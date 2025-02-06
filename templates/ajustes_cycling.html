@@ -210,6 +210,7 @@
     <!-- Controles de entrada -->
     <label for="distanceSlider">Distancia (km):</label>
     <div class="slider-value">Distancia: <span id="distanceValue">20</span> km</div>
+    <!-- El slider de distancia permite editar el valor manualmente -->
     <input type="range" id="distanceSlider" min="0" max="200" step="1" value="20" oninput="updateAll()">
 
     <label for="ftpSlider">FTP del Test (W):</label>
@@ -400,9 +401,9 @@
     // 3) FUNCIÓN PRINCIPAL updateAll()
     // ================================
     function updateAll() {
-      let distKm = (routeLoaded)
-        ? routeDistance
-        : parseFloat(document.getElementById('distanceSlider').value);
+      // Se obtiene el valor de distancia directamente del slider,
+      // permitiendo que el usuario lo edite manualmente.
+      let distKm = parseFloat(document.getElementById('distanceSlider').value);
 
       let ftpValue      = parseFloat(document.getElementById('ftpSlider').value);
       let desnivelValue = parseFloat(document.getElementById('desnivelSlider').value);
@@ -422,7 +423,7 @@
       const powerObj = ftpValue * (intensidadPct / 100);
       // Pendiente media
       const slopePct = (desnivelValue / (distKm * 1000)) * 100;
-      // Resist. rodadura
+      // Resistencia a la rodadura
       const crr = 0.00005;
 
       // Velocidad estimada
@@ -458,7 +459,7 @@
       document.getElementById('formSpeed').value          = vKmh.toFixed(2);
       document.getElementById('formAverageWatts').value   = powerObj.toFixed(0);
 
-      // Determinar tipo de prueba
+      // Determinar tipo de prueba según la distancia
       let distType = '';
       if (distKm <= 30) distType = 'sprint';
       else if (distKm <= 65) distType = 'olimpico';
@@ -516,11 +517,11 @@
     }
 
     // ================================
-    // 5) CÁLCULO DE VELOCIDAD (bisección)
+    // 5) CÁLCULO DE VELOCIDAD (método de bisección)
     // ================================
     function calculate_corrected_speed(power, mass_total, cda, crr, rho, slopePct, alpha) {
       const g = 9.81;
-      const factor_desnivel = 0.8; // para no penalizar 100% la pendiente
+      const factor_desnivel = 0.8; // Para no penalizar al 100% la pendiente
       function powerDiff(v) {
         const power_aero = 0.5 * rho * cda * Math.pow(v, 3);
         const power_rr   = crr * mass_total * g * v;
