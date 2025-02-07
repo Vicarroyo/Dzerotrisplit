@@ -498,8 +498,7 @@
     }
 
     // Función que devuelve el factor de ajuste interpolado según la distancia.
-    // Los valores predefinidos son:
-    //   5 km: 1.07, 10 km: 1.07, 15 km: 1.06, 21.095 km: 1.06, 42.195 km: 1.06.
+    // Valores predefinidos: 5 km: 1.07, 10 km: 1.07, 15 km: 1.06, 21.095 km: 1.06, 42.195 km: 1.06.
     function getAdjustmentFactor(distance) {
       const thresholds = [
         { dist: 5, factor: 1.07 },
@@ -523,15 +522,15 @@
     }
 
     // La función fillTime() comprueba si la distancia seleccionada con el slider
-    // está (dentro de una tolerancia de 0.5 km) cerca de un valor predefinido.
-    // Si es así, se usa el tiempo de estimatedTimes para ese valor; de lo contrario,
+    // está cerca (dentro de una tolerancia de 0.5 km) de uno de los valores predefinidos.
+    // Si es así, usa el tiempo definido en estimatedTimes; de lo contrario,
     // se calcula el tiempo estimado a partir de la referencia para 5 km, escalado por la distancia y el factor de ajuste.
     function fillTime() {
       if (document.getElementById("toggleCustomDistance").checked) {
         const distance = parseFloat(document.getElementById("distanceSlider").value);
         const predefined = [5, 10, 15, 21.095, 42.195];
         let found = false;
-        // Usamos una tolerancia de 0.5 km para coincidir con los valores predefinidos
+        // Tolerancia de 0.5 km para coincidir con valores predefinidos
         for (let i = 0; i < predefined.length; i++) {
           if (Math.abs(distance - predefined[i]) < 0.5) {
             if (estimatedTimes[predefined[i].toString()]) {
@@ -542,10 +541,9 @@
           }
         }
         if (!found) {
-          // Si no coincide, se calcula el tiempo estimado.
           const refTime = estimatedTimes["5"] ? estimatedTimes["5"].time : "00:16:00";
           const refSec = timeToSeconds(refTime);
-          const basePaceSec = refSec / 5; // ritmo base en segundos/km (referencia para 5 km)
+          const basePaceSec = refSec / 5; // referencia para 5 km
           const adjustment = getAdjustmentFactor(distance);
           const customTimeSec = basePaceSec * distance * adjustment;
           document.getElementById("inputTime").textContent = secondsToHMS(customTimeSec);
@@ -592,6 +590,14 @@
       document.getElementById("sliderValue").textContent = display;
     }
 
+    // Función updateElevation(): actualiza el valor mostrado del slider de desnivel acumulado
+    // y llama a updateAll() para recalcular los tiempos ajustados usando el factor de corrección por desnivel.
+    function updateElevation() {
+      const elev = document.getElementById("elevationSlider").value;
+      document.getElementById("elevationValue").textContent = elev;
+      updateAll();
+    }
+
     // Actualiza todos los cálculos y la tabla (tiempo final, ritmo base, etc.)
     function updateAll() {
       fillTime();
@@ -610,7 +616,16 @@
       document.getElementById("basePace").textContent = secondsToPaceString(basePaceSec);
       const factor = parseFloat(document.getElementById("timeSlider").value);
       const strategy = document.getElementById("selectStrategy").value;
-      const totalAdjustedSec = calcTotalSeconds(distance, basePaceSec, strategy, factor);
+      let totalAdjustedSec = calcTotalSeconds(distance, basePaceSec, strategy, factor);
+      
+      // Aplicar corrección por desnivel acumulado:
+      // Se calcula el "grado" (porcentaje de inclinación) = desnivel (m) / (distancia (km) * 1000)
+      const elev = parseFloat(document.getElementById("elevationSlider").value);
+      const elevCoeff = 5;  // Ajusta este coeficiente según la penalización deseada
+      const grade = distance > 0 ? (elev / (distance * 1000)) : 0;
+      const elevFactor = 1 + (grade * elevCoeff);
+      totalAdjustedSec *= elevFactor;
+      
       document.getElementById("adjustedTime").textContent = secondsToHMS(Math.round(totalAdjustedSec));
       document.getElementById("adjustedPace").textContent = secondsToPaceString(totalAdjustedSec / distance);
       
@@ -741,15 +756,10 @@
       document.getElementById("distanceValue").textContent = preset;
     }
 
-    // Función para actualizar el slider de desnivel
-    function updateElevation() {
-      const elev = document.getElementById("elevationSlider").value;
-      document.getElementById("elevationValue").textContent = elev;
-    }
-
     window.onload = () => {
       updateAll();
     };
   </script>
 </body>
 </html>
+
