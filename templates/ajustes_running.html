@@ -1,4 +1,4 @@
-<!DOCTYPE html>   
+<!DOCTYPE html>       
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -30,9 +30,9 @@
     }
     .logo:hover {
       transform: scale(1.05);
-      box-shadow: 0 8px 15px rgba(255, 204, 0, 0.7);
+      box-shadow: 0 8px 15px rgba(255,204,0,0.7);
     }
-    /* Contenedor principal: ahora con max-width: 800px */
+    /* Contenedor principal */
     .container {
       position: relative;
       width: 90%;
@@ -41,7 +41,7 @@
       text-align: center;
       padding: 30px;
       border-radius: 20px;
-      box-shadow: 0px 4px 20px rgba(255, 204, 0, 0.3);
+      box-shadow: 0px 4px 20px rgba(255,204,0,0.3);
       border: 2px solid #ffcc00;
       margin-bottom: 20px;
     }
@@ -77,7 +77,7 @@
       box-shadow: 0 0 8px rgba(255,204,0,0.5);
     }
     /* ============================
-       Estilos del Slider (actualizados)
+       Estilos del Slider
     ============================ */
     #sliderValue {
       color: #ffcc00;
@@ -88,7 +88,6 @@
       font-size: 1em;
     }
     #timeSlider,
-    #distanceSlider,
     #elevationSlider {
       -webkit-appearance: none;
       width: 80%;
@@ -98,7 +97,6 @@
     }
     /* Track para WebKit */
     #timeSlider::-webkit-slider-runnable-track,
-    #distanceSlider::-webkit-slider-runnable-track,
     #elevationSlider::-webkit-slider-runnable-track {
       height: 8px;
       background: #ffcc00;
@@ -106,7 +104,6 @@
     }
     /* Thumb para WebKit */
     #timeSlider::-webkit-slider-thumb,
-    #distanceSlider::-webkit-slider-thumb,
     #elevationSlider::-webkit-slider-thumb {
       -webkit-appearance: none;
       height: 20px;
@@ -119,7 +116,6 @@
       transition: transform 0.2s, box-shadow 0.3s;
     }
     #timeSlider::-webkit-slider-thumb:hover,
-    #distanceSlider::-webkit-slider-thumb:hover,
     #elevationSlider::-webkit-slider-thumb:hover {
       transform: scale(1.2);
       box-shadow: 0 6px 12px rgba(0,0,0,0.6),
@@ -127,7 +123,6 @@
     }
     /* Track para Firefox */
     #timeSlider::-moz-range-track,
-    #distanceSlider::-moz-range-track,
     #elevationSlider::-moz-range-track {
       height: 8px;
       background: #ffcc00;
@@ -135,7 +130,6 @@
     }
     /* Thumb para Firefox */
     #timeSlider::-moz-range-thumb,
-    #distanceSlider::-moz-range-thumb,
     #elevationSlider::-moz-range-thumb {
       height: 20px;
       width: 20px;
@@ -146,7 +140,6 @@
       transition: transform 0.2s, box-shadow 0.3s;
     }
     #timeSlider::-moz-range-thumb:hover,
-    #distanceSlider::-moz-range-thumb:hover,
     #elevationSlider::-moz-range-thumb:hover {
       transform: scale(1.2);
       box-shadow: 0 6px 12px rgba(0,0,0,0.6),
@@ -154,7 +147,6 @@
     }
     /* Estilos para IE y Edge */
     #timeSlider::-ms-track,
-    #distanceSlider::-ms-track,
     #elevationSlider::-ms-track {
       height: 8px;
       background: transparent;
@@ -162,19 +154,16 @@
       color: transparent;
     }
     #timeSlider::-ms-fill-lower,
-    #distanceSlider::-ms-fill-lower,
     #elevationSlider::-ms-fill-lower {
       background: #ffcc00;
       border-radius: 5px;
     }
     #timeSlider::-ms-fill-upper,
-    #distanceSlider::-ms-fill-upper,
     #elevationSlider::-ms-fill-upper {
       background: #ffcc00;
       border-radius: 5px;
     }
     #timeSlider::-ms-thumb,
-    #distanceSlider::-ms-thumb,
     #elevationSlider::-ms-thumb {
       height: 20px;
       width: 20px;
@@ -255,7 +244,7 @@
       margin-bottom: 5px;
     }
     .help-icon {
-      width: 24px; 
+      width: 24px;
       height: 24px;
       background: #ffcc00;
       color: #000;
@@ -277,6 +266,32 @@
       text-align: left;
       margin: 10px 0;
       font-size: 0.9rem;
+    }
+    /* ============================
+       Tabla de recomendaciones de ritmo por pendiente (rangos)
+    ============================ */
+    #recommendationTable {
+      width: 100%;
+      margin: 20px 0;
+      border-collapse: collapse;
+      background: #1a1a1a;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(255,204,0,0.2);
+    }
+    #recommendationTable th, #recommendationTable td {
+      padding: 10px;
+      border-bottom: 1px solid #333;
+      text-align: center;
+    }
+    #recommendationTable th {
+      background-color: #ffcc00;
+      color: #000;
+      font-weight: 600;
+    }
+    #recommendationTable tr:hover {
+      background-color: #2a2a2a;
+      transition: background-color 0.3s;
     }
     /* ============================
        Estilos para la Tabla km a km (estilo móvil)
@@ -322,7 +337,7 @@
         margin-left: -100px;
       }
     }
-    /* Ajustes para la imagen dentro del contenedor */
+    /* Ajustes para la imagen */
     .highlight-image {
       margin: 20px 0;
       max-width: 100%;
@@ -347,44 +362,27 @@
 
     <!-- Inyectar datos -->
     <script>
+      // Tiempos estimados (vienen de results) con factores 5:1.07,10:1.07,15:1.06,21.1:1.06,42.195:1.06
       const estimatedTimes = {{ estimated_times|tojson }};
       console.log("Datos traídos de results:", estimatedTimes);
+
+      // Coeficiente para corrección de desnivel (para aplicar en otros cálculos)
+      const ELEV_COEFF = 2.5;
     </script>
 
-    <!-- SELECCIÓN DE DISTANCIA: PRESET y/O PERSONALIZADA -->
+    <!-- SELECCIÓN DE DISTANCIA: PRESET -->
     <div id="distanceSelection">
-      <!-- Contenedor del desplegable (predefinido) -->
       <div id="presetDistanceContainer">
-        <label for="selectDistance">Distancia (Preset):</label>
-        <select id="selectDistance" onchange="syncDistanceSlider(); fillTime(); updateAll()">
+        <label for="selectDistance">Distancia:</label>
+        <select id="selectDistance" onchange="fillTime(); updateAll()">
           {% for dist, data in estimated_times.items() %}
           <option value="{{ dist }}">{{ dist }} km</option>
           {% endfor %}
         </select>
       </div>
-      <!-- Opción para usar distancia personalizada -->
-      <div>
-        <label>
-          <input type="checkbox" id="toggleCustomDistance" onchange="toggleDistanceInput(); updateAll()">
-          Usar distancia personalizada
-        </label>
-      </div>
-      <!-- Contenedor del slider de distancia personalizada -->
-      <div id="customDistanceContainer" style="display:none;">
-        <label for="distanceSlider">Distancia (km): <span id="distanceValue">5</span> km</label>
-        <input
-          type="range"
-          id="distanceSlider"
-          min="0"
-          max="50"
-          step="1"
-          value="5"
-          oninput="updateDistanceSlider(); updateAll()"
-        >
-      </div>
     </div>
 
-    <!-- Tiempo final base (mostrar como texto, no input) -->
+    <!-- Tiempo final base -->
     <label>Tiempo final (HH:MM:SS):</label>
     <p id="inputTime" style="font-size:1.2rem; margin-bottom: 10px;">00:16:00</p>
 
@@ -411,32 +409,16 @@
       <option value="neg3">3% Negativa</option>
     </select>
 
-    <!-- Porcentaje del slider de ajuste de tiempo (±10%) -->
+    <!-- Slider de ajuste de tiempo -->
     <label for="timeSlider">Ajuste del tiempo (±10%):</label>
     <span id="sliderValue">0%</span>
-    <input
-      type="range"
-      id="timeSlider"
-      min="0.9"
-      max="1.1"
-      step="0.01"
-      value="1.0"
-      oninput="updateAll()"
-    >
+    <input type="range" id="timeSlider" min="0.9" max="1.1" step="0.01" value="1.0" oninput="updateAll()">
 
-    <!-- Slider para Desnivel Acumulado (0 a 1000 m) -->
+    <!-- Slider de desnivel acumulado -->
     <label for="elevationSlider">Desnivel Acumulado (m): <span id="elevationValue">0</span> m</label>
-    <input
-      type="range"
-      id="elevationSlider"
-      min="0"
-      max="1000"
-      step="1"
-      value="0"
-      oninput="updateElevation()"
-    >
+    <input type="range" id="elevationSlider" min="0" max="1000" step="1" value="0" oninput="updateElevation()">
 
-    <!-- Tabla principal (Base/Ajustado) -->
+    <!-- Tabla principal -->
     <table>
       <tbody>
         <tr>
@@ -458,12 +440,18 @@
       </tbody>
     </table>
 
-    <!-- Imagen dentro del contenedor -->
-    <a href="https://dzerotri.com/triatletas-dzero" target="_blank">
-      <img src="/static/testimonios.png" alt="testimonios" class="highlight-image">
-    </a>
+    <!-- Tabla de recomendaciones de ritmo por rango de pendiente -->
+    <table id="recommendationTable">
+      <thead>
+        <tr>
+          <th>Pendiente</th>
+          <th>Ritmo Recomendado (mm:ss/km)</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
 
-    <!-- Tabla km a km -->
+    <!-- Tabla de splits (km a km) -->
     <table class="km-table" id="kmTable">
       <thead>
         <tr>
@@ -488,7 +476,7 @@
   </div>
 
   <script>
-    // Evitar scroll al mover slider en móvil
+    // Evitar scroll en móvil al usar el slider
     const timeSlider = document.getElementById("timeSlider");
     timeSlider.addEventListener("touchmove", e => e.preventDefault(), { passive: false });
 
@@ -497,22 +485,30 @@
       help.style.display = (help.style.display === "block") ? "none" : "block";
     }
 
-    // Función que devuelve el factor de ajuste interpolado según la distancia.
-    // Valores predefinidos: 5 km: 1.07, 10 km: 1.07, 15 km: 1.06, 21.095 km: 1.06, 42.195 km: 1.06.
+    /* 
+      getAdjustmentFactor(distance):
+      - Para distancias menores a 5 km se interpola linealmente desde factor 0.85 en 0 km (más rápido) hasta 1.07 en 5 km.
+      - Entre 5 y 10 km se mantiene 1.07.
+      - Entre 10 y 15 km se interpola de 1.07 a 1.06.
+      - De 15 hasta 50 km se mantiene 1.06.
+    */
     function getAdjustmentFactor(distance) {
       const thresholds = [
+        { dist: 0, factor: 0.85 },
         { dist: 5, factor: 1.07 },
         { dist: 10, factor: 1.07 },
         { dist: 15, factor: 1.06 },
-        { dist: 21.095, factor: 1.06 },
-        { dist: 42.195, factor: 1.06 }
+        { dist: 21.1, factor: 1.06 },
+        { dist: 42.195, factor: 1.06 },
+        { dist: 50, factor: 1.06 }
       ];
-      
       if (distance <= thresholds[0].dist) return thresholds[0].factor;
       for (let i = 1; i < thresholds.length; i++) {
         if (distance <= thresholds[i].dist) {
-          const d0 = thresholds[i - 1].dist, f0 = thresholds[i - 1].factor;
-          const d1 = thresholds[i].dist, f1 = thresholds[i].factor;
+          const d0 = thresholds[i - 1].dist;
+          const f0 = thresholds[i - 1].factor;
+          const d1 = thresholds[i].dist;
+          const f1 = thresholds[i].factor;
           if (d1 === d0) return f0;
           const t = (distance - d0) / (d1 - d0);
           return f0 + t * (f1 - f0);
@@ -521,46 +517,19 @@
       return thresholds[thresholds.length - 1].factor;
     }
 
-    // La función fillTime() comprueba si la distancia seleccionada con el slider
-    // está cerca (dentro de una tolerancia de 0.5 km) de uno de los valores predefinidos.
-    // Si es así, usa el tiempo definido en estimatedTimes; de lo contrario,
-    // se calcula el tiempo estimado a partir de la referencia para 5 km, escalado por la distancia y el factor de ajuste.
+    // fillTime(): se usa la distancia preset
     function fillTime() {
-      if (document.getElementById("toggleCustomDistance").checked) {
-        const distance = parseFloat(document.getElementById("distanceSlider").value);
-        const predefined = [5, 10, 15, 21.095, 42.195];
-        let found = false;
-        // Tolerancia de 0.5 km para coincidir con valores predefinidos
-        for (let i = 0; i < predefined.length; i++) {
-          if (Math.abs(distance - predefined[i]) < 0.5) {
-            if (estimatedTimes[predefined[i].toString()]) {
-              document.getElementById("inputTime").textContent = estimatedTimes[predefined[i].toString()].time;
-            }
-            found = true;
-            break;
-          }
-        }
-        if (!found) {
-          const refTime = estimatedTimes["5"] ? estimatedTimes["5"].time : "00:16:00";
-          const refSec = timeToSeconds(refTime);
-          const basePaceSec = refSec / 5; // referencia para 5 km
-          const adjustment = getAdjustmentFactor(distance);
-          const customTimeSec = basePaceSec * distance * adjustment;
-          document.getElementById("inputTime").textContent = secondsToHMS(customTimeSec);
-        }
-      } else {
-        const dist = document.getElementById("selectDistance").value;
-        if (estimatedTimes[dist]) {
-          document.getElementById("inputTime").textContent = estimatedTimes[dist].time;
-        }
+      const dist = document.getElementById("selectDistance").value;
+      if (estimatedTimes[dist]) {
+        document.getElementById("inputTime").textContent = estimatedTimes[dist].time;
       }
     }
 
     function timeToSeconds(hms) {
       const parts = hms.split(":");
-      const hours = parseInt(parts[0]);
-      const minutes = parseInt(parts[1]);
-      const seconds = parseInt(parts[2]);
+      const hours = parseInt(parts[0]) || 0;
+      const minutes = parseInt(parts[1]) || 0;
+      const seconds = parseInt(parts[2]) || 0;
       return hours * 3600 + minutes * 60 + seconds;
     }
     function secondsToHMS(sec) {
@@ -575,64 +544,84 @@
       return String(minutes).padStart(2, "0") + ":" + String(secs).padStart(2, "0");
     }
 
-    // Actualiza el valor mostrado del slider de ajuste de tiempo (±10%)
+    // updateSliderValue(): actualiza el valor del slider de ±10%
     function updateSliderValue() {
       const factor = parseFloat(document.getElementById("timeSlider").value);
       const diff = Math.round((factor - 1) * 100);
-      let display = "";
-      if (diff > 0) {
-        display = "+" + diff + "%";
-      } else if (diff < 0) {
-        display = diff + "%";
-      } else {
-        display = "0%";
-      }
+      let display = diff > 0 ? "+" + diff + "%" : diff + "%";
+      if (diff === 0) display = "0%";
       document.getElementById("sliderValue").textContent = display;
     }
 
-    // Función updateElevation(): actualiza el valor mostrado del slider de desnivel acumulado
-    // y llama a updateAll() para recalcular los tiempos ajustados usando el factor de corrección por desnivel.
+    // updateElevation(): actualiza el desnivel y recalcula
     function updateElevation() {
       const elev = document.getElementById("elevationSlider").value;
       document.getElementById("elevationValue").textContent = elev;
       updateAll();
     }
 
-    // Actualiza todos los cálculos y la tabla (tiempo final, ritmo base, etc.)
+    // updateRecommendations(): tabla de recomendaciones de ritmo para rangos de pendiente
+    function updateRecommendations(basePaceSec) {
+      const ranges = [
+        { min: 0, max: 2, label: "0 - 2%" },
+        { min: 2, max: 4, label: "2 - 4%" },
+        { min: 4, max: 6, label: "4 - 6%" },
+        { min: 6, max: 8, label: "6 - 8%" },
+        { min: 8, max: 10, label: "8 - 10%" },
+        { min: 10, max: 11, label: "+ de 10%" }
+      ];
+      const tbody = document.getElementById("recommendationTable").querySelector("tbody");
+      tbody.innerHTML = "";
+      for (let range of ranges) {
+        const minPaceSec = basePaceSec * (1 + ((range.min) / 100 * ELEV_COEFF));
+        const maxPaceSec = basePaceSec * (1 + ((range.max) / 100 * ELEV_COEFF));
+        const minPaceStr = secondsToPaceString(minPaceSec);
+        const maxPaceStr = secondsToPaceString(maxPaceSec);
+        const row = document.createElement("tr");
+        row.innerHTML = `<td>${range.label}</td><td>${minPaceStr} - ${maxPaceStr}</td>`;
+        tbody.appendChild(row);
+      }
+    }
+
+    // updateAll(): se encarga de actualizar todos los cálculos y tablas
     function updateAll() {
       fillTime();
       updateSliderValue();
-      let distance;
-      if (document.getElementById("toggleCustomDistance").checked) {
-        distance = parseFloat(document.getElementById("distanceSlider").value);
-      } else {
-        distance = parseFloat(document.getElementById("selectDistance").value);
-      }
-      // Se utiliza la distancia seleccionada para calcular ritmos
-      const userTime = document.getElementById("inputTime").textContent || "00:16:00";
-      const userTimeSec = timeToSeconds(userTime);
+
+      // Obtener la distancia (siempre preset)
+      let distance = parseFloat(document.getElementById("selectDistance").value);
+
+      // Tomar el tiempo mostrado (inputTime) como tiempo base
+      const userTimeStr = document.getElementById("inputTime").textContent || estimatedTimes["5"].time;
+      const userTimeSec = timeToSeconds(userTimeStr);
+
+      // Ritmo base en s/km
       const basePaceSec = userTimeSec / distance;
-      document.getElementById("baseTime").textContent = userTime;
+      document.getElementById("baseTime").textContent = userTimeStr;
       document.getElementById("basePace").textContent = secondsToPaceString(basePaceSec);
+
+      // Factores de ajuste (±10%, estrategia, etc.)
       const factor = parseFloat(document.getElementById("timeSlider").value);
       const strategy = document.getElementById("selectStrategy").value;
+
+      // Calcular tiempo final ajustado sin desnivel
       let totalAdjustedSec = calcTotalSeconds(distance, basePaceSec, strategy, factor);
-      
-      // Aplicar corrección por desnivel acumulado:
-      // Se calcula el "grado" (porcentaje de inclinación) = desnivel (m) / (distancia (km) * 1000)
+
+      // Añadir corrección por desnivel
       const elev = parseFloat(document.getElementById("elevationSlider").value);
-      const elevCoeff = 5;  // Ajusta este coeficiente según la penalización deseada
       const grade = distance > 0 ? (elev / (distance * 1000)) : 0;
-      const elevFactor = 1 + (grade * elevCoeff);
+      const elevFactor = 1 + (grade * ELEV_COEFF);
       totalAdjustedSec *= elevFactor;
-      
+
+      // Mostrar tiempo/ritmo final ajustado
       document.getElementById("adjustedTime").textContent = secondsToHMS(Math.round(totalAdjustedSec));
       document.getElementById("adjustedPace").textContent = secondsToPaceString(totalAdjustedSec / distance);
-      
+
+      // Actualizar la tabla de splits (base / ajustado)
       const baseSplits = buildKmSplits(distance, basePaceSec, strategy, factor, true);
-      const adjSplits = buildKmSplits(distance, basePaceSec, strategy, factor, false);
-      const tbody = document.getElementById("kmTable").querySelector("tbody");
-      tbody.innerHTML = "";
+      const adjSplits = buildKmSplits(distance, basePaceSec, strategy, factor * elevFactor, false);
+      const tbodySplits = document.getElementById("kmTable").querySelector("tbody");
+      tbodySplits.innerHTML = "";
       const maxLen = Math.max(baseSplits.length, adjSplits.length);
       for (let i = 0; i < maxLen; i++) {
         const b = baseSplits[i];
@@ -643,18 +632,15 @@
         const adjTimeAcc = a ? a.accumulated : "";
         const adjPace = a ? a.paceString : "";
         const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${kmLabel}</td>
-          <td>${baseTimeAcc}</td>
-          <td>${basePace}</td>
-          <td>${adjTimeAcc}</td>
-          <td>${adjPace}</td>
-        `;
-        tbody.appendChild(row);
+        row.innerHTML = `<td>${kmLabel}</td><td>${baseTimeAcc}</td><td>${basePace}</td><td>${adjTimeAcc}</td><td>${adjPace}</td>`;
+        tbodySplits.appendChild(row);
       }
+
+      // Actualizar recomendaciones de ritmo (pendientes)
+      updateRecommendations(basePaceSec);
     }
 
-    // Funciones de splits y cálculo (sin cambios)
+    // Funciones de splits y cálculo
     function getSplitFactor(km, totalKm, strategy) {
       let ratio = 0;
       if (strategy === "pos1") ratio = +0.01;
@@ -663,11 +649,11 @@
       if (strategy === "neg1") ratio = -0.01;
       if (strategy === "neg2") ratio = -0.02;
       if (strategy === "neg3") ratio = -0.03;
-      if (strategy === "estable") {
-        return 1.0;
-      }
+      if (strategy === "estable") return 1.0;
+
       const quarter = totalKm / 4.0;
       let phaseAdjustments = [1, 1, 1, 1];
+
       if (strategy.startsWith("pos")) {
         const absR = Math.abs(ratio);
         phaseAdjustments = [
@@ -685,10 +671,11 @@
           1.0 - absR * 0.5
         ];
       }
+
       if (km > 3 * quarter) return phaseAdjustments[3];
       else if (km > 2 * quarter) return phaseAdjustments[2];
-      else if (km > quarter) return phaseAdjustments[1];
-      else return phaseAdjustments[0];
+      else if (km > quarter)   return phaseAdjustments[1];
+      else                     return phaseAdjustments[0];
     }
 
     function calcTotalSeconds(distance, basePaceSec, strategy, factor) {
@@ -713,9 +700,7 @@
       const fullKm = Math.floor(distance);
       const leftover = distance - fullKm;
       for (let km = 1; km <= fullKm; km++) {
-        const sFactor = isBase 
-          ? getSplitFactor(km, distance, "estable") 
-          : getSplitFactor(km, distance, strategy);
+        const sFactor = isBase ? getSplitFactor(km, distance, "estable") : getSplitFactor(km, distance, strategy);
         const paceSec = (basePaceSec * (isBase ? 1 : factor)) * sFactor;
         accumulated += paceSec;
         results.push({
@@ -726,9 +711,7 @@
       }
       if (leftover > 0) {
         const partialIndex = fullKm + leftover;
-        const sFactor = isBase
-          ? getSplitFactor(partialIndex, distance, "estable")
-          : getSplitFactor(partialIndex, distance, strategy);
+        const sFactor = isBase ? getSplitFactor(partialIndex, distance, "estable") : getSplitFactor(partialIndex, distance, strategy);
         const paceSec = (basePaceSec * (isBase ? 1 : factor)) * sFactor * leftover;
         accumulated += paceSec;
         results.push({
@@ -740,26 +723,13 @@
       return results;
     }
 
-    // Funciones para el slider de distancia personalizada
-    function toggleDistanceInput() {
-      const custom = document.getElementById("toggleCustomDistance").checked;
-      document.getElementById("customDistanceContainer").style.display = custom ? "block" : "none";
-      document.getElementById("presetDistanceContainer").style.display = custom ? "none" : "block";
-    }
-    function updateDistanceSlider() {
-      const val = document.getElementById("distanceSlider").value;
-      document.getElementById("distanceValue").textContent = val;
-    }
-    function syncDistanceSlider() {
-      const preset = document.getElementById("selectDistance").value;
-      document.getElementById("distanceSlider").value = preset;
-      document.getElementById("distanceValue").textContent = preset;
-    }
-
+    // Al cargar la página
     window.onload = () => {
       updateAll();
     };
   </script>
 </body>
 </html>
+
+
 
